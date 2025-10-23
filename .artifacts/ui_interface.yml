@@ -1,0 +1,90 @@
+- type: Frontend
+  id: UI-LoginForm
+  description: 用户登录表单组件，包含手机号输入、验证码输入和登录功能。
+  properties:
+    - name: onLoginSuccess
+      type: function
+      description: "登录成功后的回调函数。"
+    - name: onNavigateToRegister
+      type: function
+      description: "导航到注册页面的回调函数。"
+  state:
+    - phoneNumber
+    - verificationCode
+    - error
+    - isLoading
+    - countdown
+    - canSendCode
+  dependencies:
+    - API-POST-SendVerificationCode
+    - API-POST-Login
+  acceptanceCriteria:
+    - 组件应渲染手机号输入框、验证码输入框、获取验证码按钮和登录按钮。
+    - 点击获取验证码按钮时，应调用API-POST-SendVerificationCode接口。
+    - 获取验证码后，按钮应进入60秒倒计时且不可点击。
+    - 点击登录按钮时，应调用API-POST-Login接口。
+    - 当isLoading状态为true时，登录按钮应被禁用。
+    - 应显示相应的错误提示信息。
+    - 登录成功后应调用onLoginSuccess回调。
+  changeLog:
+    - date: "2025-01-25"
+      description: "初始创建。"
+
+- type: Frontend
+  id: UI-RegisterForm
+  description: 用户注册表单组件，包含手机号输入、验证码输入、协议同意和注册功能。
+  properties:
+    - name: onRegisterSuccess
+      type: function
+      description: "注册成功后的回调函数。"
+    - name: onNavigateToLogin
+      type: function
+      description: "导航到登录页面的回调函数。"
+  state:
+    - phoneNumber
+    - verificationCode
+    - agreeToTerms
+    - error
+    - isLoading
+    - countdown
+    - canSendCode
+  dependencies:
+    - API-POST-SendVerificationCode
+    - API-POST-Register
+  acceptanceCriteria:
+    - 组件应渲染手机号输入框、验证码输入框、获取验证码按钮、用户协议勾选框和注册按钮。
+    - 点击获取验证码按钮时，应调用API-POST-SendVerificationCode接口。
+    - 获取验证码后，按钮应进入60秒倒计时且不可点击。
+    - 当未勾选用户协议时，注册按钮应为不可点击状态。
+    - 当勾选用户协议时，注册按钮变为可点击状态。
+    - 点击注册按钮时，应调用API-POST-Register接口。
+    - 当isLoading状态为true时，注册按钮应被禁用。
+    - 应显示相应的错误提示信息。
+    - 注册成功后应调用onRegisterSuccess回调。
+  changeLog:
+    - date: "2025-01-25"
+      description: "初始创建。"
+
+- type: Frontend
+  id: UI-HomePage
+  description: 应用首页组件，包含登录和注册入口。
+  properties:
+    - name: onNavigateToLogin
+      type: function
+      description: "导航到登录页面的回调函数。"
+    - name: onNavigateToRegister
+      type: function
+      description: "导航到注册页面的回调函数。"
+  state:
+    - isLoggedIn
+    - userInfo
+  dependencies:
+    - none
+  acceptanceCriteria:
+    - 组件应渲染"亲，请登录"按钮和"免费注册"按钮。
+    - 点击"亲，请登录"按钮时，应调用onNavigateToLogin回调。
+    - 点击"免费注册"按钮时，应调用onNavigateToRegister回调。
+    - 当用户已登录时，应显示用户信息而非登录注册按钮。
+  changeLog:
+    - date: "2025-01-25"
+      description: "初始创建。"
