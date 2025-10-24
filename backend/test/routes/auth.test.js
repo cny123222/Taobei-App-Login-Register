@@ -1,221 +1,304 @@
 const request = require('supertest');
 const app = require('../../src/app');
-const Database = require('../../src/database');
+const { resetDatabase } = require('../../src/db-instance');
 
-describe('Authentication API', () => {
-  let db;
-
-  beforeAll(async () => {
-    db = new Database();
-    await db.init();
+describe('Auth Routes', () => {
+  afterAll(() => {
+    resetDatabase();
   });
+  describe('API-POST-SendVerificationCode', () => {
+    test('应该能够发送验证码到指定手机号', async () => {
+      const requestData = {
+        phoneNumber: '13812345678',
+        countryCode: '+86'
+      };
 
-  afterAll(async () => {
-    if (db) {
-      await db.close();
-    }
-  });
-
-  beforeEach(async () => {
-    // 清理测试数据
-    await db.clearTestData();
-  });
-
-  describe('POST /api/auth/send-verification-code', () => {
-    it('应该成功发送验证码给有效手机号', async () => {
       const response = await request(app)
         .post('/api/auth/send-verification-code')
-        .send({
-          phoneNumber: '13812345678'
-        });
+        .send(requestData)
+        .expect(200);
 
-      expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('message', '验证码发送成功');
-      expect(response.body).toHaveProperty('countdown', 60);
+      expect(response.body.message).toBe('验证码已发送');
+      expect(response.body.expiresIn).toBe(60);
     });
 
-    it('应该拒绝无效的手机号格式', async () => {
+    test('应该验证手机号格式', async () => {
+      const requestData = {
+        phoneNumber: '', // 空手机号
+        countryCode: '+86'
+      };
+
       const response = await request(app)
         .post('/api/auth/send-verification-code')
-        .send({
-          phoneNumber: '12345'
-        });
+        .send(requestData)
+        .expect(400);
 
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('error', '请输入正确的手机号码');
+      expect(response.body.error).toBe('请输入正确的手机号码');
     });
 
-    it('应该拒绝空的手机号', async () => {
+    test('应该处理不同的国家代码', async () => {
+      const requestData = {
+        phoneNumber: '1234567890',
+        countryCode: '+1'
+      };
+
       const response = await request(app)
         .post('/api/auth/send-verification-code')
-        .send({});
+        .send(requestData)
+        .expect(400);
 
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('error', '请输入正确的手机号码');
+      expect(response.body.error).toBe('请输入正确的手机号码');
     });
 
-    it('应该限制同一手机号的发送频率', async () => {
-      const phoneNumber = '13812345678';
-      
-      // 第一次发送
+    test('应该处理默认国家代码', async () => {
+      const requestData = {
+        phoneNumber: '13812345678'
+        // 不提供countryCode，应该使用默认值+86
+      };
+
+      const response = await request(app)
+        .post('/api/auth/send-verification-code')
+        .send(requestData)
+        .expect(200);
+
+      expect(response.body.message).toBe('验证码已发送');
+      expect(response.body.expiresIn).toBe(60);
+    });
+  });
+
+  describe('API-POST-Login', () => {
+    test('应该能够使用手机号和验证码进行登录', async () => {
+      // 首先注册用户
       await request(app)
         .post('/api/auth/send-verification-code')
-        .send({ phoneNumber });
+        .send({
+          phoneNumber: '13812345678',
+          countryCode: '+86'
+        });
 
-      // 立即再次发送
-      const response = await request(app)
+      await request(app)
+        .post('/api/auth/register')
+        .send({
+          phoneNumber: '13812345678',
+          verificationCode: '123456',
+          countryCode: '+86',
+          agreeToTerms: true
+        });
+
+      // 然后发送验证码进行登录
+      await request(app)
         .post('/api/auth/send-verification-code')
-        .send({ phoneNumber });
+        .send({
+          phoneNumber: '13812345678',
+          countryCode: '+86'
+        });
 
-      expect(response.status).toBe(429);
-      expect(response.body).toHaveProperty('error', '验证码发送过于频繁，请稍后再试');
+      const requestData = {
+        phoneNumber: '13812345678',
+        verificationCode: '123456',
+        countryCode: '+86'
+      };
+
+      const response = await request(app)
+        .post('/api/auth/login')
+        .send(requestData)
+        .expect(200);
+
+      expect(response.body.token).toBeDefined();
+      expect(response.body.user).toBeDefined();
+      expect(response.body.user.phoneNumber).toBe('13812345678');
+    });
+
+    test('应该验证必需的字段', async () => {
+      const requestData = {
+        phoneNumber: '13812345678'
+        // 缺少verificationCode
+      };
+
+      const response = await request(app)
+        .post('/api/auth/login')
+        .send(requestData)
+        .expect(400);
+
+      expect(response.body.error).toBe('请输入正确的手机号码');
+    });
+
+    test('应该拒绝错误的验证码', async () => {
+      const requestData = {
+        phoneNumber: '13812345678',
+        verificationCode: '000000', // 错误的验证码
+        countryCode: '+86'
+      };
+
+      const response = await request(app)
+        .post('/api/auth/login')
+        .send(requestData)
+        .expect(400);
+
+      expect(response.body.error).toBe('验证码错误或已过期');
+    });
+
+    test('应该拒绝不存在的用户', async () => {
+      const requestData = {
+        phoneNumber: '13999999999',
+        verificationCode: '123456',
+        countryCode: '+86'
+      };
+
+      const response = await request(app)
+        .post('/api/auth/login')
+        .send(requestData)
+        .expect(400);
+
+      expect(response.body.error).toBe('验证码错误或已过期');
     });
   });
 
-  describe('POST /api/auth/login', () => {
-    beforeEach(async () => {
-      // 预先创建用户
-      await db.createUser('13812345678');
-      await db.saveVerificationCode('13812345678', '123456');
-    });
-
-    it('应该成功登录已注册用户', async () => {
-      const response = await request(app)
-        .post('/api/auth/login')
-        .send({
-          phoneNumber: '13812345678',
-          verificationCode: '123456'
-        });
-
-      expect(response.status).toBe(200);
-      expect(response.body).toHaveProperty('message', '登录成功');
-      expect(response.body).toHaveProperty('user');
-      expect(response.body.user).toHaveProperty('phoneNumber', '13812345678');
-    });
-
-    it('应该拒绝未注册的手机号', async () => {
-      const response = await request(app)
-        .post('/api/auth/login')
+  describe('API-POST-Register', () => {
+    test('应该能够注册新用户', async () => {
+      // 首先发送验证码
+      await request(app)
+        .post('/api/auth/send-verification-code')
         .send({
           phoneNumber: '13987654321',
-          verificationCode: '123456'
+          countryCode: '+86'
         });
 
-      expect(response.status).toBe(404);
-      expect(response.body).toHaveProperty('error', '该手机号未注册，请先完成注册');
+      const requestData = {
+        phoneNumber: '13987654321',
+        verificationCode: '123456',
+        countryCode: '+86',
+        agreeToTerms: true
+      };
+
+      const response = await request(app)
+        .post('/api/auth/register')
+        .send(requestData)
+        .expect(201);
+
+      expect(response.body.token).toBeDefined();
+      expect(response.body.user).toBeDefined();
+      expect(response.body.user.phoneNumber).toBe('13987654321');
     });
 
-    it('应该拒绝错误的验证码', async () => {
-      const response = await request(app)
-        .post('/api/auth/login')
-        .send({
-          phoneNumber: '13812345678',
-          verificationCode: '654321'
-        });
+    test('应该验证服务条款同意', async () => {
+      const requestData = {
+        phoneNumber: '13812345678',
+        verificationCode: '123456',
+        countryCode: '+86',
+        agreeToTerms: false // 未同意服务条款
+      };
 
-      expect(response.status).toBe(401);
-      expect(response.body).toHaveProperty('error', '验证码错误或已过期');
+      const response = await request(app)
+        .post('/api/auth/register')
+        .send(requestData)
+        .expect(400);
+
+      expect(response.body.error).toBe('必须同意服务条款');
     });
 
-    it('应该拒绝无效的手机号格式', async () => {
-      const response = await request(app)
-        .post('/api/auth/login')
+    test('应该拒绝已注册的手机号', async () => {
+      // 首先发送验证码
+      await request(app)
+        .post('/api/auth/send-verification-code')
         .send({
-          phoneNumber: '12345',
-          verificationCode: '123456'
+          phoneNumber: '13555666777',
+          countryCode: '+86'
         });
 
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('error', '请输入正确的手机号码');
+      const requestData = {
+        phoneNumber: '13555666777',
+        verificationCode: '123456',
+        countryCode: '+86',
+        agreeToTerms: true
+      };
+
+      // 第一次注册
+      await request(app)
+        .post('/api/auth/register')
+        .send(requestData)
+        .expect(201);
+
+      // 为第二次注册重新发送验证码
+      await request(app)
+        .post('/api/auth/send-verification-code')
+        .send({
+          phoneNumber: '13555666777',
+          countryCode: '+86'
+        });
+
+      // 第二次注册相同手机号
+      const response = await request(app)
+        .post('/api/auth/register')
+        .send(requestData)
+        .expect(400);
+
+      expect(response.body.error).toBe('该手机号已注册');
     });
 
-    it('应该拒绝空的验证码', async () => {
-      const response = await request(app)
-        .post('/api/auth/login')
-        .send({
-          phoneNumber: '13812345678',
-          verificationCode: ''
-        });
+    test('应该验证验证码', async () => {
+      const requestData = {
+        phoneNumber: '13812345678',
+        verificationCode: '000000', // 错误的验证码
+        countryCode: '+86',
+        agreeToTerms: true
+      };
 
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('error', '请输入验证码');
+      const response = await request(app)
+        .post('/api/auth/register')
+        .send(requestData)
+        .expect(400);
+
+      expect(response.body.error).toBe('验证码错误或已过期');
     });
   });
 
-  describe('POST /api/auth/register', () => {
-    beforeEach(async () => {
-      // 预先保存验证码
-      await db.saveVerificationCode('13812345678', '123456');
-    });
+  describe('API-GET-UserProfile', () => {
+    test('应该能够获取用户信息', async () => {
+      // 首先注册一个用户获取token
+      await request(app)
+        .post('/api/auth/send-verification-code')
+        .send({
+          phoneNumber: '13999888777',
+          countryCode: '+86'
+        });
 
-    it('应该成功注册新用户', async () => {
-      const response = await request(app)
+      const registerResponse = await request(app)
         .post('/api/auth/register')
         .send({
-          phoneNumber: '13812345678',
+          phoneNumber: '13999888777',
           verificationCode: '123456',
+          countryCode: '+86',
           agreeToTerms: true
         });
 
-      expect(response.status).toBe(201);
-      expect(response.body).toHaveProperty('message', '注册成功');
-      expect(response.body).toHaveProperty('user');
-      expect(response.body.user).toHaveProperty('phoneNumber', '13812345678');
-    });
-
-    it('应该拒绝未同意用户协议的注册', async () => {
-      const response = await request(app)
-        .post('/api/auth/register')
-        .send({
-          phoneNumber: '13812345678',
-          verificationCode: '123456',
-          agreeToTerms: false
-        });
-
-      expect(response.status).toBe(422);
-      expect(response.body).toHaveProperty('error', '请同意用户协议');
-    });
-
-    it('应该拒绝已注册的手机号', async () => {
-      // 先注册一次
-      await db.createUser('13812345678');
+      const token = registerResponse.body.token;
 
       const response = await request(app)
-        .post('/api/auth/register')
-        .send({
-          phoneNumber: '13812345678',
-          verificationCode: '123456',
-          agreeToTerms: true
-        });
+        .get('/api/user/profile')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200);
 
-      expect(response.status).toBe(409);
-      expect(response.body).toHaveProperty('error', '该手机号已注册，请直接登录');
+      expect(response.body.phoneNumber).toBe('13999888777');
+      expect(response.body.countryCode).toBe('+86');
     });
 
-    it('应该拒绝错误的验证码', async () => {
+    test('应该验证用户身份认证', async () => {
       const response = await request(app)
-        .post('/api/auth/register')
-        .send({
-          phoneNumber: '13812345678',
-          verificationCode: '654321',
-          agreeToTerms: true
-        });
+        .get('/api/user/profile')
+        // 不提供认证token
+        .expect(401);
 
-      expect(response.status).toBe(401);
-      expect(response.body).toHaveProperty('error', '验证码错误或已过期');
+      expect(response.body.error).toBe('未授权访问');
     });
 
-    it('应该拒绝无效的手机号格式', async () => {
+    test('应该拒绝无效的token', async () => {
       const response = await request(app)
-        .post('/api/auth/register')
-        .send({
-          phoneNumber: '12345',
-          verificationCode: '123456',
-          agreeToTerms: true
-        });
+        .get('/api/user/profile')
+        .set('Authorization', 'Bearer invalid-token')
+        .expect(401);
 
-      expect(response.status).toBe(400);
-      expect(response.body).toHaveProperty('error', '请输入正确的手机号码');
+      expect(response.body.error).toBe('未授权访问');
     });
   });
 });

@@ -1,11 +1,12 @@
 - type: Backend
   id: API-POST-SendVerificationCode
   route: POST /api/auth/send-verification-code
-  description: 发送验证码到指定手机号，生成6位数字验证码并在控制台打印。
+  description: 发送验证码到指定手机号，用于登录或注册验证。
   input:
     type: JSON
     body:
       phoneNumber: string
+      countryCode: string (optional, default: "+86")
   output:
     success:
       statusCode: 200
@@ -18,12 +19,13 @@
   dependencies:
     - DB-SaveVerificationCode
   acceptanceCriteria:
-    - 当接收到格式正确的手机号时，应生成6位验证码并在控制台打印。
+    - 验证手机号格式的有效性。
+    - 生成6位随机数字验证码。
+    - 验证码在控制台打印（开发环境）。
     - 验证码有效期为60秒。
-    - 应防止同一手机号频繁请求验证码。
-    - 当手机号格式无效时，应返回400错误。
+    - 同一手机号60秒内只能发送一次验证码。
   changeLog:
-    - date: "2025-01-25"
+    - date: "2025-01-27"
       description: "初始创建。"
 
 - type: Backend
@@ -35,6 +37,7 @@
     body:
       phoneNumber: string
       verificationCode: string
+      countryCode: string (optional, default: "+86")
   output:
     success:
       statusCode: 200
@@ -50,12 +53,13 @@
     - DB-FindUserByPhone
     - DB-VerifyCode
   acceptanceCriteria:
-    - 当手机号已注册且验证码正确时，应返回200成功。
-    - 当手机号未注册时，应返回404错误。
-    - 当验证码错误时，应返回401错误。
-    - 成功登录后应返回用户ID和认证令牌。
+    - 验证手机号格式。
+    - 检查手机号是否已注册。
+    - 验证验证码的正确性和有效性。
+    - 登录成功后生成JWT token。
+    - 返回用户基本信息。
   changeLog:
-    - date: "2025-01-25"
+    - date: "2025-01-27"
       description: "初始创建。"
 
 - type: Backend
@@ -67,6 +71,7 @@
     body:
       phoneNumber: string
       verificationCode: string
+      countryCode: string (optional, default: "+86")
       agreeToTerms: boolean
   output:
     success:
@@ -78,7 +83,7 @@
       - statusCode: 401
         body: { error: "验证码错误" }
       - statusCode: 409
-        body: { error: "该手机号已注册，将直接为您登录" }
+        body: { error: "该手机号已注册，将直接为您登录", userId: "uuid", token: "jwt" }
       - statusCode: 422
         body: { error: "请同意用户协议" }
   dependencies:
@@ -86,11 +91,38 @@
     - DB-VerifyCode
     - DB-CreateUser
   acceptanceCriteria:
-    - 当手机号未注册、验证码正确且同意协议时，应创建新用户并返回201。
-    - 当手机号已注册时，应返回409错误并提示直接登录。
-    - 当验证码错误时，应返回401错误。
-    - 当未同意协议时，应返回422错误。
-    - 成功注册后应自动登录并返回用户ID和认证令牌。
+    - 验证手机号格式。
+    - 验证用户是否同意协议。
+    - 验证验证码的正确性和有效性。
+    - 如果手机号已注册，直接登录并返回token。
+    - 如果手机号未注册，创建新用户并返回token。
   changeLog:
-    - date: "2025-01-25"
+    - date: "2025-01-27"
+      description: "初始创建。"
+
+- type: Backend
+  id: API-GET-UserProfile
+  route: GET /api/user/profile
+  description: 获取当前登录用户的基本信息。
+  input:
+    type: Headers
+    headers:
+      Authorization: "Bearer {jwt_token}"
+  output:
+    success:
+      statusCode: 200
+      body: { userId: "uuid", phoneNumber: "string", createdAt: "datetime" }
+    error:
+      - statusCode: 401
+        body: { error: "未授权访问" }
+      - statusCode: 404
+        body: { error: "用户不存在" }
+  dependencies:
+    - DB-FindUserByPhone
+  acceptanceCriteria:
+    - 验证JWT token的有效性。
+    - 返回用户的基本信息（不包含敏感数据）。
+    - 处理token过期和无效的情况。
+  changeLog:
+    - date: "2025-01-27"
       description: "初始创建。"

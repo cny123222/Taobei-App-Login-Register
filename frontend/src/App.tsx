@@ -1,100 +1,166 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
-import HomePage from './pages/HomePage'
+import './App.css'
 
-// 简单的路由状态管理
-type Page = 'home' | 'login' | 'register'
+type View = 'login' | 'register' | 'profile'
 
 interface User {
-  id: string
   phoneNumber: string
-  token: string
+  countryCode: string
 }
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('home')
+  const [currentView, setCurrentView] = useState<View>('login')
   const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string>('')
+  const [success, setSuccess] = useState<string>('')
 
-  // 检查本地存储中的用户信息
-  useEffect(() => {
-    const savedUser = localStorage.getItem('taobei_user')
-    if (savedUser) {
-      try {
-        const userData = JSON.parse(savedUser)
-        setUser(userData)
-      } catch (error) {
-        console.error('解析用户数据失败:', error)
-        localStorage.removeItem('taobei_user')
+  const API_BASE_URL = 'http://localhost:3000/api'
+
+  const clearMessages = () => {
+    setError('')
+    setSuccess('')
+  }
+
+  const handleSendVerificationCode = async (phoneNumber: string, countryCode: string) => {
+    clearMessages()
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/send-verification-code`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phoneNumber, countryCode }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        setSuccess('验证码已发送')
+      } else {
+        setError(data.message || '发送验证码失败')
       }
+    } catch (err) {
+      setError('网络错误，请稍后重试')
     }
-    setIsLoading(false)
-  }, [])
-
-  // 登录成功处理
-  const handleLoginSuccess = () => {
-    // 这个函数会在LoginForm组件内部处理用户数据
-    setCurrentPage('home')
   }
 
-  // 注册成功处理
-  const handleRegisterSuccess = () => {
-    // 这个函数会在RegisterForm组件内部处理用户数据
-    setCurrentPage('home')
+  const handleLogin = async (data: { phoneNumber: string; verificationCode: string; countryCode: string }) => {
+    clearMessages()
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setUser({ phoneNumber: data.phoneNumber, countryCode: data.countryCode })
+        setCurrentView('profile')
+        setSuccess('登录成功')
+      } else {
+        setError(result.message || '登录失败')
+      }
+    } catch (err) {
+      setError('网络错误，请稍后重试')
+    }
   }
 
-  // 退出登录处理
+  const handleRegister = async (data: { phoneNumber: string; verificationCode: string; countryCode: string; agreeToTerms: boolean }) => {
+    clearMessages()
+    try {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setUser({ phoneNumber: data.phoneNumber, countryCode: data.countryCode })
+        setCurrentView('profile')
+        setSuccess('注册成功')
+      } else {
+        setError(result.message || '注册失败')
+      }
+    } catch (err) {
+      setError('网络错误，请稍后重试')
+    }
+  }
+
   const handleLogout = () => {
     setUser(null)
-    localStorage.removeItem('taobei_user')
-    setCurrentPage('home')
+    setCurrentView('login')
+    clearMessages()
   }
 
-  // 页面导航处理
-  const navigateToLogin = () => setCurrentPage('login')
-  const navigateToRegister = () => setCurrentPage('register')
-  const navigateToHome = () => setCurrentPage('home')
-
-  if (isLoading) {
-    return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh',
-        fontSize: '18px',
-        color: '#666'
-      }}>
-        加载中...
-      </div>
-    )
+  const renderCurrentView = () => {
+    switch (currentView) {
+      case 'login':
+        return (
+          <LoginForm
+            onSubmit={handleLogin}
+            onNavigateToRegister={() => setCurrentView('register')}
+            onSendVerificationCode={handleSendVerificationCode}
+          />
+        )
+      case 'register':
+        return (
+          <RegisterForm
+            onSubmit={handleRegister}
+            onNavigateToLogin={() => setCurrentView('login')}
+            onSendVerificationCode={handleSendVerificationCode}
+          />
+        )
+      case 'profile':
+        return (
+          <div className="profile-view" data-testid="profile-view">
+            <h2>用户信息</h2>
+            <div className="user-info">
+              <p><strong>手机号:</strong> {user?.countryCode} {user?.phoneNumber}</p>
+            </div>
+            <button onClick={handleLogout} className="btn btn-secondary">
+              退出登录
+            </button>
+          </div>
+        )
+      default:
+        return null
+    }
   }
 
   return (
     <div className="app">
-      {currentPage === 'home' && (
-        <HomePage
-          user={user ? { phoneNumber: user.phoneNumber } : undefined}
-          onNavigateToLogin={navigateToLogin}
-          onNavigateToRegister={navigateToRegister}
-          onLogout={handleLogout}
-        />
-      )}
-      
-      {currentPage === 'login' && (
-        <LoginForm
-          onLoginSuccess={handleLoginSuccess}
-          onNavigateToRegister={navigateToRegister}
-        />
-      )}
-      
-      {currentPage === 'register' && (
-        <RegisterForm
-          onRegisterSuccess={handleRegisterSuccess}
-          onNavigateToLogin={navigateToLogin}
-        />
-      )}
+      <div className="container">
+        <div className="form-container">
+          <div className="logo">
+            <h1>淘贝</h1>
+            <p>手机验证登录</p>
+          </div>
+          
+          {error && (
+            <div className="message error" data-testid="error-message">
+              {error}
+            </div>
+          )}
+          
+          {success && (
+            <div className="message success" data-testid="success-message">
+              {success}
+            </div>
+          )}
+
+          {renderCurrentView()}
+        </div>
+      </div>
     </div>
   )
 }

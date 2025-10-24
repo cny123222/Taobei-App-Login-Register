@@ -1,4 +1,5 @@
-// 设置测试环境变量
+// 测试环境设置
 process.env.NODE_ENV = 'test';
-// 使用内存数据库避免文件权限问题
-process.env.DB_PATH = ':memory:';
+
+// 全局测试配置
+global.testTimeout = 10000;

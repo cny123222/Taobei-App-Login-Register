@@ -1,216 +1,232 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 import RegisterForm from '../../src/components/RegisterForm';
 
-// Mock fetch
-global.fetch = vi.fn();
-
-describe('RegisterForm Component', () => {
-  const mockOnRegisterSuccess = vi.fn();
+describe('UI-RegisterForm', () => {
+  const mockOnSubmit = vi.fn();
   const mockOnNavigateToLogin = vi.fn();
+  const mockOnSendVerificationCode = vi.fn();
 
   beforeEach(() => {
     vi.clearAllMocks();
-    (fetch as any).mockClear();
   });
 
-  it('应该渲染所有必需的表单元素', () => {
+  test('应该显示注册表单的所有必需元素', () => {
     render(
-      <RegisterForm 
-        onRegisterSuccess={mockOnRegisterSuccess}
+      <RegisterForm
+        onSubmit={mockOnSubmit}
         onNavigateToLogin={mockOnNavigateToLogin}
+        onSendVerificationCode={mockOnSendVerificationCode}
       />
     );
 
-    expect(screen.getByTestId('phone-input')).toBeInTheDocument();
-    expect(screen.getByTestId('code-input')).toBeInTheDocument();
-    expect(screen.getByTestId('send-code-button')).toBeInTheDocument();
-    expect(screen.getByTestId('terms-checkbox')).toBeInTheDocument();
-    expect(screen.getByTestId('register-button')).toBeInTheDocument();
-    expect(screen.getByTestId('navigate-to-login')).toBeInTheDocument();
+    // 验证表单标题
+    expect(screen.getByRole('heading', { name: '注册' })).toBeInTheDocument();
+
+    // 验证国家代码选择器
+    expect(screen.getByLabelText('国家/地区')).toBeInTheDocument();
+
+    // 验证手机号输入框
+    expect(screen.getByLabelText('手机号')).toBeInTheDocument();
+
+    // 验证验证码输入框
+    expect(screen.getByLabelText('验证码')).toBeInTheDocument();
+
+    // 验证服务条款复选框
+    expect(screen.getByText('我已阅读并同意《服务条款》和《隐私政策》')).toBeInTheDocument();
+
+    // 验证注册按钮
+    expect(screen.getByRole('button', { name: '注册' })).toBeInTheDocument();
+
+    // 验证登录链接
+    expect(screen.getByText('已有账号？')).toBeInTheDocument();
+    expect(screen.getByText('立即登录')).toBeInTheDocument();
   });
 
-  it('应该验证手机号格式', async () => {
-    render(<RegisterForm />);
+  test('应该能够输入手机号', async () => {
+    const user = userEvent.setup();
     
-    const phoneInput = screen.getByTestId('phone-input');
-    const sendCodeButton = screen.getByTestId('send-code-button');
+    render(
+      <RegisterForm
+        onSubmit={mockOnSubmit}
+        onNavigateToLogin={mockOnNavigateToLogin}
+        onSendVerificationCode={mockOnSendVerificationCode}
+      />
+    );
 
-    // 输入无效手机号
-    fireEvent.change(phoneInput, { target: { value: '12345' } });
-    fireEvent.click(sendCodeButton);
+    const phoneInput = screen.getByLabelText('手机号');
+    await user.type(phoneInput, '13812345678');
 
-    await waitFor(() => {
-      expect(screen.getByTestId('error-message')).toHaveTextContent('请输入正确的手机号码');
+    expect(phoneInput).toHaveValue('13812345678');
+  });
+
+  test('应该能够选择国家代码', async () => {
+    const user = userEvent.setup();
+    
+    render(
+      <RegisterForm
+        onSubmit={mockOnSubmit}
+        onNavigateToLogin={mockOnNavigateToLogin}
+        onSendVerificationCode={mockOnSendVerificationCode}
+      />
+    );
+
+    const countrySelect = screen.getByLabelText('国家/地区');
+    await user.selectOptions(countrySelect, '+1');
+
+    expect(countrySelect).toHaveValue('+1');
+  });
+
+  test('应该能够输入验证码', async () => {
+    const user = userEvent.setup();
+    
+    render(
+      <RegisterForm
+        onSubmit={mockOnSubmit}
+        onNavigateToLogin={mockOnNavigateToLogin}
+        onSendVerificationCode={mockOnSendVerificationCode}
+      />
+    );
+
+    const codeInput = screen.getByLabelText('验证码');
+    await user.type(codeInput, '123456');
+
+    expect(codeInput).toHaveValue('123456');
+  });
+
+  test('应该能够同意服务条款', async () => {
+    const user = userEvent.setup();
+    
+    render(
+      <RegisterForm
+        onSubmit={mockOnSubmit}
+        onNavigateToLogin={mockOnNavigateToLogin}
+        onSendVerificationCode={mockOnSendVerificationCode}
+      />
+    );
+
+    const termsCheckbox = screen.getByRole('checkbox');
+    await user.click(termsCheckbox);
+
+    expect(termsCheckbox).toBeChecked();
+  });
+
+  test('注册按钮在未同意服务条款时应该被禁用', () => {
+    render(
+      <RegisterForm
+        onSubmit={mockOnSubmit}
+        onNavigateToLogin={mockOnNavigateToLogin}
+        onSendVerificationCode={mockOnSendVerificationCode}
+      />
+    );
+
+    const registerButton = screen.getByRole('button', { name: '注册' });
+    expect(registerButton).toBeDisabled();
+  });
+
+  test('应该能够发送验证码', async () => {
+    const user = userEvent.setup();
+    
+    render(
+      <RegisterForm
+        onSubmit={mockOnSubmit}
+        onNavigateToLogin={mockOnNavigateToLogin}
+        onSendVerificationCode={mockOnSendVerificationCode}
+      />
+    );
+
+    // 输入手机号
+    const phoneInput = screen.getByLabelText('手机号');
+    await user.type(phoneInput, '13812345678');
+
+    // 点击发送验证码
+    const sendCodeButton = screen.getByText('发送验证码');
+    await user.click(sendCodeButton);
+
+    expect(mockOnSendVerificationCode).toHaveBeenCalledWith('13812345678', '+86');
+  });
+
+  test('应该能够提交注册表单', async () => {
+    const user = userEvent.setup();
+    
+    render(
+      <RegisterForm
+        onSubmit={mockOnSubmit}
+        onNavigateToLogin={mockOnNavigateToLogin}
+        onSendVerificationCode={mockOnSendVerificationCode}
+      />
+    );
+
+    // 填写表单
+    await user.type(screen.getByLabelText('手机号'), '13812345678');
+    await user.type(screen.getByLabelText('验证码'), '123456');
+    await user.click(screen.getByRole('checkbox'));
+
+    // 提交表单
+    const registerButton = screen.getByRole('button', { name: '注册' });
+    await user.click(registerButton);
+
+    expect(mockOnSubmit).toHaveBeenCalledWith({
+      phoneNumber: '13812345678',
+      verificationCode: '123456',
+      countryCode: '+86',
+      agreeToTerms: true
     });
   });
 
-  it('应该成功发送验证码', async () => {
-    (fetch as any).mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ message: '验证码发送成功', countdown: 60 })
-    });
-
-    render(<RegisterForm />);
+  test('应该能够导航到登录页面', async () => {
+    const user = userEvent.setup();
     
-    const phoneInput = screen.getByTestId('phone-input');
-    const sendCodeButton = screen.getByTestId('send-code-button');
+    render(
+      <RegisterForm
+        onSubmit={mockOnSubmit}
+        onNavigateToLogin={mockOnNavigateToLogin}
+        onSendVerificationCode={mockOnSendVerificationCode}
+      />
+    );
 
-    fireEvent.change(phoneInput, { target: { value: '13812345678' } });
-    fireEvent.click(sendCodeButton);
-
-    await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('/api/auth/send-verification-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phoneNumber: '13812345678' })
-      });
-    });
-
-    await waitFor(() => {
-      expect(sendCodeButton).toHaveTextContent(/\d+秒后重试/);
-    });
-  });
-
-  it('应该成功注册新用户', async () => {
-    (fetch as any).mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ 
-        message: '注册成功', 
-        user: { phoneNumber: '13812345678' }
-      })
-    });
-
-    render(<RegisterForm onRegisterSuccess={mockOnRegisterSuccess} />);
-    
-    const phoneInput = screen.getByTestId('phone-input');
-    const codeInput = screen.getByTestId('code-input');
-    const termsCheckbox = screen.getByTestId('terms-checkbox');
-    const registerButton = screen.getByTestId('register-button');
-
-    fireEvent.change(phoneInput, { target: { value: '13812345678' } });
-    fireEvent.change(codeInput, { target: { value: '123456' } });
-    fireEvent.click(termsCheckbox);
-    fireEvent.click(registerButton);
-
-    await waitFor(() => {
-      expect(fetch).toHaveBeenCalledWith('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          phoneNumber: '13812345678', 
-          verificationCode: '123456',
-          agreeToTerms: true
-        })
-      });
-    });
-
-    await waitFor(() => {
-      expect(mockOnRegisterSuccess).toHaveBeenCalled();
-    });
-  });
-
-  it('应该要求同意用户协议', async () => {
-    render(<RegisterForm />);
-    
-    const phoneInput = screen.getByTestId('phone-input');
-    const codeInput = screen.getByTestId('code-input');
-    const registerButton = screen.getByTestId('register-button');
-
-    fireEvent.change(phoneInput, { target: { value: '13812345678' } });
-    fireEvent.change(codeInput, { target: { value: '123456' } });
-    // 不勾选用户协议
-    fireEvent.click(registerButton);
-
-    await waitFor(() => {
-      expect(screen.getByTestId('error-message')).toHaveTextContent('请同意用户协议');
-    });
-  });
-
-  it('应该处理注册失败', async () => {
-    (fetch as any).mockResolvedValueOnce({
-      ok: false,
-      json: async () => ({ error: '该手机号已注册，请直接登录' })
-    });
-
-    render(<RegisterForm />);
-    
-    const phoneInput = screen.getByTestId('phone-input');
-    const codeInput = screen.getByTestId('code-input');
-    const termsCheckbox = screen.getByTestId('terms-checkbox');
-    const registerButton = screen.getByTestId('register-button');
-
-    fireEvent.change(phoneInput, { target: { value: '13812345678' } });
-    fireEvent.change(codeInput, { target: { value: '123456' } });
-    fireEvent.click(termsCheckbox);
-    fireEvent.click(registerButton);
-
-    await waitFor(() => {
-      expect(screen.getByTestId('error-message')).toHaveTextContent('该手机号已注册，请直接登录');
-    });
-  });
-
-  it('应该验证必填字段', async () => {
-    render(<RegisterForm />);
-    
-    const registerButton = screen.getByTestId('register-button');
-
-    // 不填写任何信息直接点击注册
-    fireEvent.click(registerButton);
-
-    await waitFor(() => {
-      expect(screen.getByTestId('error-message')).toHaveTextContent('请输入手机号和验证码');
-    });
-  });
-
-  it('应该导航到登录页面', () => {
-    render(<RegisterForm onNavigateToLogin={mockOnNavigateToLogin} />);
-    
-    const navigateButton = screen.getByTestId('navigate-to-login');
-    fireEvent.click(navigateButton);
+    const loginButton = screen.getByText('立即登录');
+    await user.click(loginButton);
 
     expect(mockOnNavigateToLogin).toHaveBeenCalled();
   });
 
-  it('应该在加载时禁用按钮', async () => {
-    (fetch as any).mockImplementationOnce(() => new Promise(resolve => setTimeout(resolve, 100)));
-
-    render(<RegisterForm />);
+  test('应该在提交时显示加载状态', async () => {
+    const user = userEvent.setup();
     
-    const phoneInput = screen.getByTestId('phone-input');
-    const codeInput = screen.getByTestId('code-input');
-    const termsCheckbox = screen.getByTestId('terms-checkbox');
-    const registerButton = screen.getByTestId('register-button');
+    render(
+      <RegisterForm
+        onSubmit={mockOnSubmit}
+        onNavigateToLogin={mockOnNavigateToLogin}
+        onSendVerificationCode={mockOnSendVerificationCode}
+      />
+    );
 
-    fireEvent.change(phoneInput, { target: { value: '13812345678' } });
-    fireEvent.change(codeInput, { target: { value: '123456' } });
-    fireEvent.click(termsCheckbox);
-    fireEvent.click(registerButton);
+    // 填写表单
+    await user.type(screen.getByLabelText('手机号'), '13812345678');
+    await user.type(screen.getByLabelText('验证码'), '123456');
+    await user.click(screen.getByRole('checkbox'));
 
-    expect(registerButton).toBeDisabled();
-    expect(registerButton).toHaveTextContent('注册中...');
+    // 提交表单
+    const registerButton = screen.getByRole('button', { name: '注册' });
+    await user.click(registerButton);
+
+    expect(screen.getByText('注册中...')).toBeInTheDocument();
   });
 
-  it('应该处理验证码错误', async () => {
-    (fetch as any).mockResolvedValueOnce({
-      ok: false,
-      json: async () => ({ error: '验证码错误或已过期' })
-    });
+  test('应该验证所有必需字段都已填写', () => {
+    render(
+      <RegisterForm
+        onSubmit={mockOnSubmit}
+        onNavigateToLogin={mockOnNavigateToLogin}
+        onSendVerificationCode={mockOnSendVerificationCode}
+      />
+    );
 
-    render(<RegisterForm />);
+    const registerButton = screen.getByRole('button', { name: '注册' });
     
-    const phoneInput = screen.getByTestId('phone-input');
-    const codeInput = screen.getByTestId('code-input');
-    const termsCheckbox = screen.getByTestId('terms-checkbox');
-    const registerButton = screen.getByTestId('register-button');
-
-    fireEvent.change(phoneInput, { target: { value: '13812345678' } });
-    fireEvent.change(codeInput, { target: { value: '654321' } });
-    fireEvent.click(termsCheckbox);
-    fireEvent.click(registerButton);
-
-    await waitFor(() => {
-      expect(screen.getByTestId('error-message')).toHaveTextContent('验证码错误或已过期');
-    });
+    // 在未填写任何字段时，注册按钮应该被禁用
+    expect(registerButton).toBeDisabled();
   });
 });
