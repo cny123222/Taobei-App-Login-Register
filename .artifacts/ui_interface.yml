@@ -1,69 +1,69 @@
 - type: Frontend
   id: UI-LoginForm
-  description: 完整的用户登录表单组件，包含手机号输入、验证码输入和登录功能。
+  description: 用户登录表单组件，处理手机号和验证码输入及登录逻辑。
   properties:
     - name: onLoginSuccess
       type: function
-      description: "登录成功后的回调函数，接收用户信息和token。"
+      description: "登录成功后的回调函数。"
     - name: onNavigateToRegister
       type: function
-      description: "导航到注册页面的回调函数。"
+      description: "跳转到注册页面的回调函数。"
   state:
     - phoneNumber
-    - countryCode
     - verificationCode
+    - countDown
     - isLoading
     - error
-    - countdown
     - agreeToTerms
   dependencies:
     - API-POST-SendVerificationCode
     - API-POST-Login
   acceptanceCriteria:
-    - 渲染国家代码选择器（默认"+86"）和手机号输入框。
-    - 渲染验证码输入框和"获取验证码"按钮。
-    - 渲染全宽度"登录"按钮。
-    - 渲染底部导航区域（"忘记账号"和"免费注册"链接）。
-    - 渲染协议同意区域和复选框。
-    - 验证码按钮点击后进入60秒倒计时。
-    - 处理各种错误状态和用户反馈。
-    - 登录成功后调用onLoginSuccess回调。
+    - 组件应渲染手机号输入框（带国家代码选择器，默认+86）。
+    - 组件应渲染验证码输入框和获取验证码按钮。
+    - 获取验证码按钮点击后应进入60秒倒计时且不可点击。
+    - 组件应渲染登录按钮（全宽度）。
+    - 组件应渲染"忘记账号"和"免费注册"链接。
+    - 组件应渲染协议同意复选框和协议文本。
+    - 当isLoading状态为true时，登录按钮应被禁用。
+    - 点击"免费注册"应调用onNavigateToRegister回调。
+    - 登录成功后应调用onLoginSuccess回调。
   changeLog:
-    - date: "2025-01-27"
+    - date: "2025-01-20"
       description: "初始创建。"
 
 - type: Frontend
   id: UI-RegisterForm
-  description: 完整的用户注册表单组件，包含手机号输入、验证码输入和注册功能。
+  description: 用户注册表单组件，处理手机号和验证码输入及注册逻辑。
   properties:
     - name: onRegisterSuccess
       type: function
-      description: "注册成功后的回调函数，接收用户信息和token。"
+      description: "注册成功后的回调函数。"
     - name: onNavigateToLogin
       type: function
-      description: "导航到登录页面的回调函数。"
+      description: "返回登录页面的回调函数。"
   state:
     - phoneNumber
-    - countryCode
     - verificationCode
+    - countDown
     - isLoading
     - error
-    - countdown
     - agreeToTerms
   dependencies:
     - API-POST-SendVerificationCode
     - API-POST-Register
   acceptanceCriteria:
-    - 渲染国家选择下拉框（默认"中国大陆 +86"）和手机号输入框。
-    - 渲染验证码输入框和"获取验证码"按钮。
-    - 渲染全宽度"同意并注册"按钮。
-    - 渲染协议同意区域和复选框。
-    - 验证码按钮点击后进入60秒倒计时。
-    - 注册按钮只有在同意协议后才可点击。
-    - 处理已注册手机号的情况（自动登录）。
-    - 注册成功后调用onRegisterSuccess回调。
+    - 组件应渲染手机号输入框（带国家选择下拉框，默认"中国大陆 +86"）。
+    - 组件应渲染验证码输入框和获取验证码按钮。
+    - 获取验证码按钮点击后应进入60秒倒计时且不可点击。
+    - 组件应渲染"同意并注册"按钮（全宽度）。
+    - 组件应渲染协议同意复选框和协议文本（淘贝平台服务协议）。
+    - 当agreeToTerms为false时，注册按钮应为不可点击状态。
+    - 当isLoading状态为true时，注册按钮应被禁用。
+    - 注册成功后应调用onRegisterSuccess回调。
+    - 支持通过浏览器返回按钮或页面导航返回登录页面。
   changeLog:
-    - date: "2025-01-27"
+    - date: "2025-01-20"
       description: "初始创建。"
 
 - type: Frontend
@@ -72,130 +72,24 @@
   properties:
     - name: value
       type: string
-      description: "当前选中的国家代码，默认为'+86'。"
+      description: "当前选中的国家代码值。"
     - name: onChange
       type: function
       description: "国家代码变更时的回调函数。"
-    - name: disabled
-      type: boolean
-      description: "是否禁用选择器。"
+    - name: defaultValue
+      type: string
+      description: "默认选中的国家代码，默认为'+86'。"
   state:
-    - isOpen
     - selectedCountry
+    - isOpen
   dependencies:
     - none
   acceptanceCriteria:
-    - 显示当前选中的国家代码和国家名称。
-    - 点击后展开国家列表供选择。
-    - 支持搜索和过滤国家。
-    - 包含常用国家的快捷选择。
-    - 支持键盘导航。
+    - 组件应显示当前选中的国家代码（如"+86"）。
+    - 点击组件应展开国家代码选择列表。
+    - 列表应包含常用国家代码选项。
+    - 选择新的国家代码后应调用onChange回调。
+    - 组件应支持键盘导航和无障碍访问。
   changeLog:
-    - date: "2025-01-27"
-      description: "初始创建。"
-
-- type: Frontend
-  id: UI-VerificationCodeInput
-  description: 验证码输入组件，包含输入框和获取验证码按钮。
-  properties:
-    - name: phoneNumber
-      type: string
-      description: "关联的手机号。"
-    - name: countryCode
-      type: string
-      description: "国家代码。"
-    - name: value
-      type: string
-      description: "验证码值。"
-    - name: onChange
-      type: function
-      description: "验证码变更时的回调函数。"
-    - name: disabled
-      type: boolean
-      description: "是否禁用输入。"
-  state:
-    - countdown
-    - isLoading
-    - error
-  dependencies:
-    - API-POST-SendVerificationCode
-  acceptanceCriteria:
-    - 渲染验证码输入框（占位符："请输入验证码"或"请输入校验码"）。
-    - 渲染"获取验证码"按钮。
-    - 验证手机号格式后才允许发送验证码。
-    - 发送验证码后按钮进入60秒倒计时状态。
-    - 倒计时期间按钮不可点击。
-    - 显示发送状态和错误信息。
-  changeLog:
-    - date: "2025-01-27"
-      description: "初始创建。"
-
-- type: Frontend
-  id: UI-TermsAgreement
-  description: 用户协议同意组件，包含复选框和协议链接。
-  properties:
-    - name: checked
-      type: boolean
-      description: "是否已同意协议。"
-    - name: onChange
-      type: function
-      description: "同意状态变更时的回调函数。"
-    - name: required
-      type: boolean
-      description: "是否为必选项。"
-  state:
-    - isChecked
-  dependencies:
-    - none
-  acceptanceCriteria:
-    - 渲染复选框和协议文本。
-    - 协议文本包含可点击的链接。
-    - 支持键盘操作（空格键切换状态）。
-    - 协议链接点击后打开相应页面或弹窗。
-    - 文本内容："已阅读并同意以下协议淘宝平台服务协议、隐私政策、法律声明、支付宝及客户端服务协议"。
-  changeLog:
-    - date: "2025-01-27"
-      description: "初始创建。"
-
-- type: Frontend
-  id: UI-LoginPage
-  description: 登录页面容器组件，整合登录表单和页面导航。
-  properties:
-    - name: onLoginSuccess
-      type: function
-      description: "登录成功后的回调函数。"
-  state:
-    - none
-  dependencies:
-    - UI-LoginForm
-  acceptanceCriteria:
-    - 包含完整的登录表单。
-    - 处理页面级别的导航逻辑。
-    - 登录成功后跳转到首页。
-    - 点击"免费注册"链接跳转到注册页面。
-    - 保持页面状态管理。
-  changeLog:
-    - date: "2025-01-27"
-      description: "初始创建。"
-
-- type: Frontend
-  id: UI-RegisterPage
-  description: 注册页面容器组件，整合注册表单和页面导航。
-  properties:
-    - name: onRegisterSuccess
-      type: function
-      description: "注册成功后的回调函数。"
-  state:
-    - none
-  dependencies:
-    - UI-RegisterForm
-  acceptanceCriteria:
-    - 包含完整的注册表单。
-    - 处理页面级别的导航逻辑。
-    - 注册成功后跳转到首页。
-    - 支持从登录页面导航进入。
-    - 支持返回登录页面的导航。
-    - 保持页面状态管理。
-  changeLog:
-    - date: "2025-01-27"
+    - date: "2025-01-20"
       description: "初始创建。"

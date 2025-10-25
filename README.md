@@ -1,47 +1,52 @@
-# Taobei 应用测试框架
+# 淘贝应用 - 测试驱动开发项目
 
-## 项目概述
+这是一个基于测试驱动开发(TDD)原则构建的手机验证码登录/注册系统。
 
-这是一个基于"测试先行"原则构建的 Taobei 应用项目，包含完整的前后端代码骨架和测试用例。
-
-## 技术架构
+## 🏗️ 项目架构
 
 ### 技术栈
 - **前端**: React + TypeScript + Vite
 - **后端**: Node.js + Express + SQLite
-- **前端测试**: Vitest + React Testing Library
-- **后端测试**: Jest + Supertest
+- **测试框架**: 
+  - 前端: Vitest + React Testing Library
+  - 后端: Jest + Supertest
 
 ### 项目结构
 ```
-├── backend/
-│   ├── src/
-│   │   ├── app.js           # Express 应用主文件
-│   │   ├── auth.js          # 认证相关路由
-│   │   └── database.js      # 数据库操作模块
-│   ├── test/
-│   │   ├── setup.js         # 测试环境配置
-│   │   ├── database.test.js # 数据库模块测试
-│   │   └── auth.test.js     # 认证API测试
-│   ├── package.json         # 后端依赖配置
-│   └── jest.config.js       # Jest 测试配置
-├── frontend/
-│   ├── src/
-│   │   └── components/
-│   │       ├── LoginForm.tsx    # 登录表单组件
-│   │       └── RegisterForm.tsx # 注册表单组件
-│   ├── test/
-│   │   ├── setup.ts             # 测试环境配置
-│   │   ├── LoginForm.test.tsx   # 登录表单测试
-│   │   └── RegisterForm.test.tsx # 注册表单测试
-│   ├── package.json             # 前端依赖配置
-│   └── vite.config.ts           # Vite 配置
-├── verify-system.js             # 系统验证脚本
-├── integration-test.js          # 集成测试脚本
-└── README.md                    # 项目说明文档
+├── backend/                 # 后端服务
+│   ├── src/                # 源代码
+│   │   ├── app.js         # Express应用主文件
+│   │   ├── database.js    # 数据库操作类
+│   │   └── routes/        # API路由
+│   │       └── auth.js    # 认证相关路由
+│   ├── test/              # 测试文件
+│   │   ├── database.test.js           # 数据库测试
+│   │   ├── routes/auth.test.js        # 路由测试
+│   │   └── integration/api.integration.test.js  # 集成测试
+│   ├── package.json       # 后端依赖配置
+│   └── jest.config.js     # Jest测试配置
+├── frontend/               # 前端应用
+│   ├── src/               # 源代码
+│   │   └── components/    # React组件
+│   │       ├── LoginForm.tsx
+│   │       ├── RegisterForm.tsx
+│   │       └── CountryCodeSelector.tsx
+│   ├── test/              # 测试文件
+│   │   ├── components/    # 组件测试
+│   │   ├── e2e/          # 端到端测试
+│   │   └── setup.ts      # 测试环境配置
+│   ├── package.json       # 前端依赖配置
+│   ├── vite.config.ts     # Vite配置
+│   └── tsconfig.json      # TypeScript配置
+├── verify-system.js        # 系统验证脚本
+├── integration-test.js     # 集成测试脚本
+└── .artifacts/            # 接口定义文件
+    ├── ui_interface.yml
+    ├── api_interface.yml
+    └── data_interface.yml
 ```
 
-## 快速开始
+## 🚀 快速开始
 
 ### 1. 安装依赖
 
@@ -55,96 +60,91 @@ cd ../frontend
 npm install
 ```
 
-### 2. 运行测试
+### 2. 启动服务
 
-#### 后端测试
 ```bash
+# 启动后端服务 (端口 3000)
 cd backend
-npm test -- --verbose --bail --forceExit
-```
+npm run dev
 
-#### 前端测试
-```bash
+# 新开终端，启动前端服务 (端口 5173)
 cd frontend
-npm test -- --run --reporter=verbose --bail=1
+npm run dev
 ```
 
-### 3. 系统验证
+### 3. 验证系统
 
-#### 验证系统状态
 ```bash
-# 在项目根目录运行
+# 在项目根目录运行系统验证
+./verify-system.js
+
+# 或者使用 node 运行
 node verify-system.js
 ```
 
-#### 运行集成测试
-```bash
-# 在项目根目录运行
-node integration-test.js
-```
+## 🧪 测试指南
 
-### 4. 启动开发服务器
+### 测试类型
 
-#### 启动后端服务器
+1. **单元测试**: 测试单个组件或函数
+2. **集成测试**: 测试组件间的交互
+3. **端到端测试**: 测试完整的用户流程
+4. **系统验证**: 验证服务启动和连通性
+
+### 运行测试
+
 ```bash
+# 后端测试
 cd backend
-npm start
-# 服务器将在 http://localhost:3000 启动
-```
+npm test                                    # 运行所有测试
+npm test -- --verbose --bail --forceExit   # 详细输出，遇错停止
 
-#### 启动前端开发服务器
-```bash
+# 前端测试
 cd frontend
-npm run dev
-# 开发服务器将在 http://localhost:5173 启动
+npm test                                    # 运行所有测试
+npm test -- --run --reporter=verbose --bail=1  # 详细输出，遇错停止
+
+# 系统验证
+./verify-system.js                         # 验证系统状态
+
+# 集成测试
+./integration-test.js                      # 测试完整流程
 ```
 
-## 测试覆盖范围
+### 测试覆盖率
 
-### 后端测试
-- **数据库模块测试** (`database.test.js`)
-  - 用户查找功能
-  - 用户创建功能
-  - 验证码保存功能
-  - 验证码验证功能
-  - 过期验证码清理功能
+项目要求达到以下测试覆盖率：
+- 每个API接口必须有对应的单元测试
+- 每个React组件必须有对应的组件测试
+- 每个用户流程必须有对应的端到端测试
+- 所有错误处理场景必须有对应的测试用例
 
-- **认证API测试** (`auth.test.js`)
-  - 发送验证码接口
-  - 用户登录接口
-  - 用户注册接口
-  - 用户信息获取接口
+## 📋 功能特性
 
-### 前端测试
-- **登录表单测试** (`LoginForm.test.tsx`)
-  - 组件渲染测试
-  - 用户交互测试
-  - 表单提交测试
-  - 验证码发送测试
+### 用户认证系统
+- ✅ 手机号验证码登录
+- ✅ 手机号验证码注册
+- ✅ 国家/地区代码选择
+- ✅ 验证码发送频率限制
+- ✅ 用户协议确认
 
-- **注册表单测试** (`RegisterForm.test.tsx`)
-  - 组件渲染测试
-  - 用户交互测试
-  - 表单提交测试
-  - 条款同意测试
+### API接口
+- `GET /health` - 健康检查
+- `POST /api/auth/send-verification-code` - 发送验证码
+- `POST /api/auth/login` - 用户登录
+- `POST /api/auth/register` - 用户注册
 
-### 集成测试
-- **完整用户流程测试**
-  - 注册流程测试
-  - 登录流程测试
-  - API调用链测试
-  - 错误处理测试
+### 安全特性
+- ✅ CORS跨域配置
+- ✅ 请求频率限制
+- ✅ 输入验证和清理
+- ✅ 错误处理和日志记录
 
-### 系统验证
-- **服务状态检查**
-  - 后端服务连通性
-  - 前端服务连通性
-  - API端点可访问性
-  - 数据库连接状态
+## 🔧 开发工具
 
-## 测试配置
+### 测试配置
 
-### 后端测试配置 (jest.config.js)
+**后端测试配置 (jest.config.js)**:
 ```javascript
 module.exports = {
   testTimeout: 10000,
@@ -155,7 +155,7 @@ module.exports = {
 }
 ```
 
-### 前端测试配置 (vite.config.ts)
+**前端测试配置 (vite.config.ts)**:
 ```typescript
 export default defineConfig({
   test: {
@@ -169,91 +169,74 @@ export default defineConfig({
 })
 ```
 
-## API 接口说明
+### 代理配置
 
-### 认证相关接口
+前端开发服务器配置了API代理，将 `/api/*` 请求转发到后端服务器:
+```typescript
+server: {
+  port: 5173,
+  proxy: {
+    '/api': {
+      target: 'http://localhost:3000',
+      changeOrigin: true
+    }
+  }
+}
+```
 
-#### 发送验证码
-- **路径**: `POST /api/auth/send-verification-code`
-- **参数**: `{ phoneNumber, countryCode }`
-- **响应**: `{ success: boolean, message: string }`
-
-#### 用户登录
-- **路径**: `POST /api/auth/login`
-- **参数**: `{ phoneNumber, verificationCode, countryCode }`
-- **响应**: `{ success: boolean, user: object, token: string }`
-
-#### 用户注册
-- **路径**: `POST /api/auth/register`
-- **参数**: `{ phoneNumber, verificationCode, countryCode, agreeToTerms }`
-- **响应**: `{ success: boolean, user: object, token: string }`
-
-#### 获取用户信息
-- **路径**: `GET /api/auth/profile`
-- **响应**: `{ success: boolean, user: object }`
-
-## 开发指南
-
-### 测试驱动开发流程
-
-1. **运行现有测试** - 确保所有测试都失败（红色状态）
-2. **实现最小功能** - 编写最少的代码使测试通过
-3. **重构代码** - 在保持测试通过的前提下优化代码
-4. **添加新测试** - 为新功能编写测试用例
-5. **重复循环** - 继续TDD循环
-
-### 代码实现注意事项
-
-- 所有标记为 `// TODO` 的代码需要实现
-- 数据库操作需要实现真实的SQLite操作
-- API响应格式需要符合接口规范
-- 错误处理需要返回适当的HTTP状态码
-- 前端组件需要实现真实的用户交互逻辑
-
-### 测试最佳实践
-
-- 使用真实有效的测试数据
-- 确保测试用例独立运行
-- 包含正常、边界、异常情况测试
-- 使用精确的断言语句
-- 正确处理异步操作
-
-## 故障排除
+## 🐛 故障排除
 
 ### 常见问题
 
-1. **测试超时**
-   - 检查测试配置中的超时设置
-   - 确保异步操作正确处理
+1. **端口被占用**
+   ```bash
+   # 检查端口占用
+   lsof -i :3000  # 后端端口
+   lsof -i :5173  # 前端端口
+   
+   # 杀死占用进程
+   kill -9 <PID>
+   ```
 
 2. **数据库连接失败**
-   - 检查SQLite数据库文件权限
-   - 确保测试环境配置正确
+   - 确保SQLite数据库文件权限正确
+   - 检查数据库文件路径是否存在
 
-3. **API调用失败**
-   - 检查服务器是否正常启动
-   - 验证API端点路径是否正确
+3. **测试失败**
+   - 确保所有依赖已正确安装
+   - 检查测试环境配置
+   - 查看详细错误日志
 
-4. **前端组件测试失败**
-   - 检查React Testing Library配置
-   - 确保组件正确导入
+4. **CORS错误**
+   - 确认后端CORS配置正确
+   - 检查前端代理配置
 
-### 获取帮助
+### 日志和调试
 
-如果遇到问题，请检查：
-1. 控制台错误信息
-2. 测试输出日志
-3. 系统验证脚本结果
-4. 集成测试报告
+- 后端日志: 控制台输出
+- 前端日志: 浏览器开发者工具
+- 测试报告: `system-verification-report.json` 和 `integration-test-report.json`
 
-## 下一步开发
+## 📊 测试报告
 
-1. 实现所有 `// TODO` 标记的功能
-2. 完善错误处理逻辑
-3. 添加更多测试用例
-4. 优化用户界面
-5. 添加更多功能特性
+运行系统验证和集成测试后，会生成详细的JSON报告：
 
----
+- `system-verification-report.json` - 系统验证报告
+- `integration-test-report.json` - 集成测试报告
 
-**注意**: 这是一个测试驱动开发的项目模板，所有功能都需要根据测试用例的要求进行实现。
+这些报告包含：
+- 测试执行时间戳
+- 测试通过/失败统计
+- 详细的测试结果
+- 错误信息和建议
+
+## 🤝 贡献指南
+
+1. 遵循测试驱动开发原则
+2. 确保所有测试通过
+3. 保持代码覆盖率
+4. 遵循代码规范和最佳实践
+
+## 📄 许可证
+
+本项目仅用于学习和教育目的。

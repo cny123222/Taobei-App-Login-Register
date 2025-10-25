@@ -7,18 +7,15 @@
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
     "test": "jest --verbose --bail --forceExit",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "express": "^4.18.2",
     "cors": "^2.8.5",
-    "helmet": "^7.1.0",
+    "sqlite3": "^5.1.6",
     "jsonwebtoken": "^9.0.2",
     "bcryptjs": "^2.4.3",
-    "sqlite3": "^5.1.6",
-    "express-rate-limit": "^7.1.5",
-    "express-validator": "^7.0.1"
+    "express-rate-limit": "^7.1.5"
   },
   "devDependencies": {
     "jest": "^29.7.0",

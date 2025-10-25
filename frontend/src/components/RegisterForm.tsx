@@ -1,130 +1,178 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import CountryCodeSelector from './CountryCodeSelector';
+import './RegisterForm.css';
 
 interface RegisterFormProps {
-  onSubmit: (data: { phoneNumber: string; verificationCode: string; countryCode: string; agreeToTerms: boolean }) => void;
-  onNavigateToLogin: () => void;
-  onSendVerificationCode: (phoneNumber: string, countryCode: string) => void;
+  onSubmit: (phoneNumber: string, verificationCode: string, agreeToTerms: boolean) => void;
+  onSendVerificationCode: (phoneNumber: string) => void;
+  onSwitchToLogin: () => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({
   onSubmit,
-  onNavigateToLogin,
-  onSendVerificationCode
+  onSendVerificationCode,
+  onSwitchToLogin
 }) => {
+  const [selectedCountry, setSelectedCountry] = useState({ code: '+86', name: '中国', flag: '🇨🇳' });
+  const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
-  const [countryCode, setCountryCode] = useState('+86');
   const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [countdown, setCountdown] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [codeSent, setCodeSent] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSendCode = () => {
-    // TODO: 实现发送验证码逻辑
-    onSendVerificationCode(phoneNumber, countryCode);
-    setCodeSent(true);
+  // 倒计时效果
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (countdown > 0) {
+      timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [countdown]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    
+    if (!phoneNumber.trim()) {
+      setError('请输入手机号');
+      return;
+    }
+    
+    if (!verificationCode.trim()) {
+      setError('请输入验证码');
+      return;
+    }
+    
+    if (!agreeToTerms) {
+      setError('请同意服务协议');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await onSubmit(selectedCountry.code + phoneNumber, verificationCode, agreeToTerms);
+    } catch (err) {
+      setError('注册失败，请重试');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: 实现表单提交逻辑
+  const handleSendCode = async () => {
+    if (!phoneNumber.trim()) {
+      setError('请输入手机号');
+      return;
+    }
+    
+    setError('');
     setIsLoading(true);
-    onSubmit({ phoneNumber, verificationCode, countryCode, agreeToTerms });
+    
+    try {
+      await onSendVerificationCode(selectedCountry.code + phoneNumber);
+      setCountdown(60);
+    } catch (err) {
+      setError('发送验证码失败，请重试');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="register-form" data-testid="register-form">
-      <h2>注册</h2>
-      
-      {/* 国家代码选择器 */}
-      <div className="form-group">
-        <label htmlFor="country-code">国家/地区</label>
-        <select 
-          id="country-code"
-          value={countryCode} 
-          onChange={(e) => setCountryCode(e.target.value)}
-          data-testid="country-code-select"
+    <div className="register-form" data-testid="register-form">
+      <h1>注册</h1>
+      <form onSubmit={handleSubmit} className="form">
+        {error && (
+          <div className="error-message" data-testid="error-message">
+            {error}
+          </div>
+        )}
+        
+        <div className="form-group">
+          <label htmlFor="phone-input" className="form-label">手机号</label>
+          <div className="phone-input-group">
+            <CountryCodeSelector
+              selectedCountry={selectedCountry}
+              isOpen={isCountrySelectorOpen}
+              onSelect={(country) => setSelectedCountry(country)}
+            />
+            <input
+              id="phone-input"
+              type="tel"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              placeholder="请输入手机号"
+              className="phone-input"
+              data-testid="phone-input"
+              maxLength={11}
+            />
+          </div>
+        </div>
+        
+        <div className="form-group">
+          <label htmlFor="verification-input" className="form-label">验证码</label>
+          <div className="verification-input-group">
+            <input
+              id="verification-input"
+              type="text"
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value)}
+              placeholder="请输入验证码"
+              className="verification-input"
+              data-testid="verification-input"
+              maxLength={6}
+            />
+            <button
+              type="button"
+              onClick={handleSendCode}
+              disabled={countdown > 0 || isLoading}
+              className="send-code-button"
+              data-testid="send-code-button"
+            >
+              {countdown > 0 ? `${countdown}s` : '获取验证码'}
+            </button>
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          className="submit-button"
+          disabled={isLoading}
+          data-testid="register-button"
         >
-          <option value="+86">中国 (+86)</option>
-          <option value="+1">美国 (+1)</option>
-          <option value="+44">英国 (+44)</option>
-        </select>
-      </div>
+          {isLoading ? '注册中...' : '注册'}
+        </button>
+      </form>
 
-      {/* 手机号输入 */}
-      <div className="form-group">
-        <label htmlFor="phone-number">手机号</label>
-        <input
-          id="phone-number"
-          type="tel"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-          placeholder="请输入手机号"
-          data-testid="phone-input"
-          required
-        />
-      </div>
-
-      {/* 验证码输入 */}
-      <div className="form-group">
-        <label htmlFor="verification-code">验证码</label>
-        <div className="verification-input">
-          <input
-            id="verification-code"
-            type="text"
-            value={verificationCode}
-            onChange={(e) => setVerificationCode(e.target.value)}
-            placeholder="请输入验证码"
-            maxLength={6}
-            data-testid="verification-code-input"
-            required
-          />
-          <button
-            type="button"
-            onClick={handleSendCode}
-            disabled={!phoneNumber || codeSent}
-            data-testid="send-code-button"
+      <div className="form-footer">
+        <div className="terms-agreement">
+          <label className="terms-label">
+            <input
+              type="checkbox"
+              checked={agreeToTerms}
+              onChange={(e) => setAgreeToTerms(e.target.checked)}
+              className="terms-checkbox"
+              data-testid="terms-checkbox"
+            />
+            <span className="terms-text">
+              我已阅读并同意《淘贝平台服务协议》
+            </span>
+          </label>
+        </div>
+        
+        <div className="footer-links">
+          <button 
+            type="button" 
+            className="link-btn" 
+            onClick={onSwitchToLogin}
+            data-testid="login-link"
           >
-            {codeSent ? '已发送' : '发送验证码'}
+            立即登录
           </button>
         </div>
       </div>
-
-      {/* 服务条款同意 */}
-      <div className="form-group">
-        <label className="checkbox-label">
-          <input
-            type="checkbox"
-            checked={agreeToTerms}
-            onChange={(e) => setAgreeToTerms(e.target.checked)}
-            data-testid="terms-checkbox"
-            required
-          />
-          我已阅读并同意《服务条款》和《隐私政策》
-        </label>
-      </div>
-
-      {/* 注册按钮 */}
-      <button 
-        type="submit" 
-        disabled={isLoading || !phoneNumber || !verificationCode || !agreeToTerms}
-        className="submit-button"
-        data-testid="register-button"
-      >
-        {isLoading ? '注册中...' : '注册'}
-      </button>
-
-      {/* 登录链接 */}
-      <div className="login-link">
-        <span>已有账号？</span>
-        <button 
-          type="button" 
-          onClick={onNavigateToLogin}
-          data-testid="navigate-to-login"
-        >
-          立即登录
-        </button>
-      </div>
-    </form>
+    </div>
   );
 };
 

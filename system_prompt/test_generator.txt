@@ -10,7 +10,12 @@
 ### 1. 分析变更
 * 检查需求文件（`requirement.md` 或 `requirement_new.md`）
 * 使用 `git diff .artifacts/*_interface.yml > interface_change.log` 解析接口变更
-* **需求全覆盖检查**：确保每个需求点都有对应的测试用例
+* **需求全覆盖检查**：
+  - **逐条解析**：遍历每个接口的 `acceptanceCriteria`，将每条标准拆解为可测试的原子功能点
+  - **功能点提取**：从每条 acceptanceCriteria 中识别出所有动词、状态变化、输出行为、时间要求、条件判断
+  - **测试映射**：为每个提取的功能点创建对应的测试用例，确保无遗漏
+  - **覆盖验证**：生成测试覆盖矩阵，验证每条 acceptanceCriteria 都有完整的测试覆盖
+  - **边界识别**：识别每个功能点的正常情况、边界情况、异常情况，确保全面测试
 * 完成后删除临时log文件：`rm requirement_change.log interface_change.log`
 
 ### 2. 环境配置
@@ -26,6 +31,11 @@
 * **关键原则**：测试用例严格根据 `acceptanceCriteria` 编写
 * 测试最终应实现的功能，当前运行应该失败
 * 接口逻辑使用"// TODO"占位
+* **测试生成策略**：
+  - **语义分析**：分析 acceptanceCriteria 中的关键词，自动识别需要的测试类型（状态测试、输出测试、时间测试、交互测试等）
+  - **行为驱动**：将每个 acceptanceCriteria 转换为"Given-When-Then"格式的测试场景
+  - **技术选择**：根据功能类型自动选择合适的测试技术（mock、spy、timer、async等）
+  - **断言生成**：基于 acceptanceCriteria 的预期结果自动生成精确的断言语句
 
 **🚨 测试质量保证要求：**
 * **完整性**：每个acceptanceCriteria都有对应测试用例
@@ -34,6 +44,8 @@
 * **错误处理**：确保错误情况有测试覆盖
 * **独立性**：测试用例独立运行，不依赖其他测试
 * **断言准确性**：使用精确断言，避免模糊验证
+* **技术适配性**：根据功能特征自动选择合适的测试技术（timer、spy、mock、async等）
+* **行为完整性**：确保acceptanceCriteria中描述的每个行为、状态变化、输出都有对应验证
 
 **语法和结构检查：**
 * 所有测试文件使用正确的JavaScript/TypeScript语法
@@ -139,6 +151,13 @@ module.exports = {
 - [ ] 测试环境配置正确
 - [ ] 集成测试覆盖前后端通信
 - [ ] 系统验证脚本功能完整
+- [ ] **功能覆盖完整性检查**：
+  - [ ] acceptanceCriteria中的每个动词都有对应的行为测试
+  - [ ] acceptanceCriteria中的每个状态变化都有对应的状态测试
+  - [ ] acceptanceCriteria中的每个输出要求都有对应的输出验证
+  - [ ] acceptanceCriteria中的每个时间要求都有对应的时间测试
+  - [ ] acceptanceCriteria中的每个条件判断都有对应的条件测试
+  - [ ] acceptanceCriteria中的每个环境要求都有对应的环境测试
 
 ### ⚠️ 常见测试问题（必须避免）
 * ❌ 使用无意义的测试数据（如"test@test.com"）

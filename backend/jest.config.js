@@ -12,5 +12,7 @@ module.exports = {
   collectCoverageFrom: [
     'src/**/*.js',
     '!src/app.js'
-  ]
+  ],
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'lcov', 'html']
 };
