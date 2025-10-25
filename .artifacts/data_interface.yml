@@ -8,7 +8,7 @@
     - 如果手机号不存在，返回null或空结果。
     - 查询应该是精确匹配手机号。
   changeLog:
-    - date: "2025-01-20"
+    - date: "2025-01-27"
       description: "初始创建。"
 
 - type: Database
@@ -19,35 +19,48 @@
   acceptanceCriteria:
     - 成功执行后，users表中会增加一条新记录。
     - 如果手机号已存在，操作应失败并抛出唯一性约束错误。
-    - 新用户记录应包含手机号和创建时间戳。
+    - 新用户记录应包含手机号、创建时间等基本信息。
   changeLog:
-    - date: "2025-01-20"
+    - date: "2025-01-27"
       description: "初始创建。"
 
 - type: Database
-  id: DB-GenerateVerificationCode
-  description: 为指定手机号生成6位验证码并存储到数据库。
+  id: DB-CreateVerificationCode
+  description: 在数据库中创建验证码记录。
   dependencies:
     - none
   acceptanceCriteria:
-    - 生成的验证码必须是6位数字。
+    - 成功执行后，verification_codes表中会增加一条新记录。
+    - 记录应包含手机号、验证码、创建时间和过期时间。
     - 验证码有效期为60秒。
-    - 如果该手机号已有未过期的验证码，应覆盖旧的验证码。
-    - 验证码应存储在verification_codes表中。
+    - 如果同一手机号已有未过期的验证码，应更新而不是创建新记录。
   changeLog:
-    - date: "2025-01-20"
+    - date: "2025-01-27"
       description: "初始创建。"
 
 - type: Database
   id: DB-VerifyCode
-  description: 验证手机号和验证码的匹配性及有效性。
+  description: 验证手机号和验证码的匹配性和有效性。
   dependencies:
     - none
   acceptanceCriteria:
-    - 验证码必须与数据库中存储的验证码完全匹配。
-    - 验证码必须在有效期内（60秒）。
-    - 验证成功后，应删除或标记该验证码为已使用。
-    - 如果验证码不存在、已过期或不匹配，返回验证失败。
+    - 验证验证码是否与手机号匹配。
+    - 验证验证码是否在有效期内（60秒）。
+    - 验证成功后应删除或标记验证码为已使用。
+    - 返回验证结果（成功/失败）。
   changeLog:
-    - date: "2025-01-20"
+    - date: "2025-01-27"
+      description: "初始创建。"
+
+- type: Database
+  id: DB-CleanExpiredCodes
+  description: 清理过期的验证码记录。
+  dependencies:
+    - none
+  acceptanceCriteria:
+    - 删除所有超过60秒的验证码记录。
+    - 应定期执行以保持数据库清洁。
+    - 操作应该是安全的，不影响有效的验证码。
+  changeLog:
+    - date: "2025-01-27"
       description: "初始创建。"

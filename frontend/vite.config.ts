@@ -19,7 +19,6 @@ export default defineConfig({
     hookTimeout: 10000,
     teardownTimeout: 10000,
     bail: 1,
-    reporter: ['verbose'],
-    globals: true
+    reporter: ['verbose']
   }
 })

@@ -1,95 +1,77 @@
 - type: Frontend
   id: UI-LoginForm
-  description: 用户登录表单组件，处理手机号和验证码输入及登录逻辑。
+  description: 用户登录表单组件，处理手机号验证码登录流程。
   properties:
     - name: onLoginSuccess
       type: function
-      description: "登录成功后的回调函数。"
+      description: "登录成功后的回调函数，接收用户信息参数。"
     - name: onNavigateToRegister
       type: function
       description: "跳转到注册页面的回调函数。"
   state:
     - phoneNumber
     - verificationCode
-    - countDown
-    - isLoading
     - error
-    - agreeToTerms
+    - isLoading
+    - countdown
+    - canSendCode
   dependencies:
     - API-POST-SendVerificationCode
     - API-POST-Login
   acceptanceCriteria:
-    - 组件应渲染手机号输入框（带国家代码选择器，默认+86）。
-    - 组件应渲染验证码输入框和获取验证码按钮。
-    - 获取验证码按钮点击后应进入60秒倒计时且不可点击。
-    - 组件应渲染登录按钮（全宽度）。
-    - 组件应渲染"忘记账号"和"免费注册"链接。
-    - 组件应渲染协议同意复选框和协议文本。
+    - 组件应渲染手机号输入框（占位符："请输入手机号"）。
+    - 手机号输入区域左侧显示"+86"。
+    - 组件应渲染验证码输入框（占位符："请输入验证码"）。
+    - 组件应渲染"获取验证码"按钮。
+    - 组件应渲染"登录"按钮（全宽度）。
+    - 组件应渲染底部导航区域，包含"忘记账号"和"免费注册"链接。
+    - 点击"获取验证码"时应验证手机号格式。
+    - 获取验证码后按钮进入60秒倒计时且不可点击。
+    - 点击"登录"时应调用API-POST-Login接口。
     - 当isLoading状态为true时，登录按钮应被禁用。
-    - 点击"免费注册"应调用onNavigateToRegister回调。
-    - 登录成功后应调用onLoginSuccess回调。
+    - 点击"免费注册"链接时应调用onNavigateToRegister回调。
+    - 应显示适当的错误提示信息。
   changeLog:
-    - date: "2025-01-20"
+    - date: "2025-01-27"
       description: "初始创建。"
 
 - type: Frontend
   id: UI-RegisterForm
-  description: 用户注册表单组件，处理手机号和验证码输入及注册逻辑。
+  description: 用户注册表单组件，处理手机号验证码注册流程。
   properties:
     - name: onRegisterSuccess
       type: function
-      description: "注册成功后的回调函数。"
+      description: "注册成功后的回调函数，接收用户信息参数。"
     - name: onNavigateToLogin
       type: function
       description: "返回登录页面的回调函数。"
   state:
     - phoneNumber
     - verificationCode
-    - countDown
-    - isLoading
-    - error
     - agreeToTerms
+    - error
+    - isLoading
+    - countdown
+    - canSendCode
   dependencies:
     - API-POST-SendVerificationCode
     - API-POST-Register
   acceptanceCriteria:
-    - 组件应渲染手机号输入框（带国家选择下拉框，默认"中国大陆 +86"）。
-    - 组件应渲染验证码输入框和获取验证码按钮。
-    - 获取验证码按钮点击后应进入60秒倒计时且不可点击。
+    - 组件应渲染手机号输入框（占位符："请输入你的手机号码"）。
+    - 手机号输入区域左侧显示"中国大陆 +86"。
+    - 组件应渲染验证码输入框（占位符："请输入校验码"）。
+    - 组件应渲染"获取验证码"按钮。
     - 组件应渲染"同意并注册"按钮（全宽度）。
-    - 组件应渲染协议同意复选框和协议文本（淘贝平台服务协议）。
-    - 当agreeToTerms为false时，注册按钮应为不可点击状态。
+    - 组件应渲染协议同意区域，包含复选框和协议链接文本。
+    - 协议文本："已阅读并同意以下协议淘贝平台服务协议、隐私政策、法律声明、支付宝及客户端服务协议"。
+    - 点击"获取验证码"时应验证手机号格式。
+    - 获取验证码后按钮进入60秒倒计时且不可点击。
+    - 未勾选协议时，"同意并注册"按钮应为不可点击状态。
+    - 勾选协议后，"同意并注册"按钮变为可点击状态。
+    - 点击"同意并注册"时应调用API-POST-Register接口。
     - 当isLoading状态为true时，注册按钮应被禁用。
-    - 注册成功后应调用onRegisterSuccess回调。
-    - 支持通过浏览器返回按钮或页面导航返回登录页面。
+    - 应支持返回登录页面的导航功能。
+    - 应显示适当的错误提示信息。
   changeLog:
-    - date: "2025-01-20"
-      description: "初始创建。"
-
-- type: Frontend
-  id: UI-CountryCodeSelector
-  description: 国家代码选择器组件，用于选择手机号的国家代码。
-  properties:
-    - name: value
-      type: string
-      description: "当前选中的国家代码值。"
-    - name: onChange
-      type: function
-      description: "国家代码变更时的回调函数。"
-    - name: defaultValue
-      type: string
-      description: "默认选中的国家代码，默认为'+86'。"
-  state:
-    - selectedCountry
-    - isOpen
-  dependencies:
-    - none
-  acceptanceCriteria:
-    - 组件应显示当前选中的国家代码（如"+86"）。
-    - 点击组件应展开国家代码选择列表。
-    - 列表应包含常用国家代码选项。
-    - 选择新的国家代码后应调用onChange回调。
-    - 组件应支持键盘导航和无障碍访问。
-  changeLog:
-    - date: "2025-01-20"
+    - date: "2025-01-27"
       description: "初始创建。"

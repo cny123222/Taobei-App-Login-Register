@@ -1,349 +1,349 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
-import LoginForm from '../../src/components/LoginForm';
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import LoginForm from '../../src/components/LoginForm'
 
-describe('LoginForm', () => {
-  const mockOnSubmit = vi.fn();
-  const mockOnSendVerificationCode = vi.fn();
-  const mockOnSwitchToRegister = vi.fn();
+describe('LoginForm Component Tests', () => {
+  const mockOnSubmit = vi.fn()
+  const mockOnSendCode = vi.fn()
+  const mockOnSwitchToRegister = vi.fn()
 
   beforeEach(() => {
-    vi.clearAllMocks();
-  });
+    vi.clearAllMocks()
+  })
 
-  const renderLoginForm = () => {
-    return render(
-      <LoginForm
-        onSubmit={mockOnSubmit}
-        onSendVerificationCode={mockOnSendVerificationCode}
-        onSwitchToRegister={mockOnSwitchToRegister}
-      />
-    );
-  };
-
-  describe('UI-LoginForm 渲染测试', () => {
-    it('应该渲染所有必需的表单元素', () => {
+  describe('UI-LoginForm 界面渲染', () => {
+    it('应该渲染所有必需的界面元素', () => {
       // When: 渲染登录表单
-      renderLoginForm();
+      render(
+        <LoginForm
+          onSubmit={mockOnSubmit}
+          onSendCode={mockOnSendCode}
+          onSwitchToRegister={mockOnSwitchToRegister}
+        />
+      )
 
       // Then: 应该显示所有必需元素
-      expect(screen.getByRole('heading', { name: '登录' })).toBeInTheDocument();
-      expect(screen.getByLabelText('手机号')).toBeInTheDocument();
-      expect(screen.getByLabelText('验证码')).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: '获取验证码' })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: '登录' })).toBeInTheDocument();
-      expect(screen.getByRole('button', { name: '立即注册' })).toBeInTheDocument();
-    });
+      expect(screen.getByText('用户登录')).toBeInTheDocument()
+      expect(screen.getByLabelText('手机号')).toBeInTheDocument()
+      expect(screen.getByLabelText('验证码')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: '获取验证码' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: '登录' })).toBeInTheDocument()
+      expect(screen.getByText('还没有账号？')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: '立即注册' })).toBeInTheDocument()
+    })
 
-    it('应该显示正确的占位符文本', () => {
+    it('应该显示正确的输入框占位符', () => {
       // When: 渲染登录表单
-      renderLoginForm();
+      render(<LoginForm />)
 
-      // Then: 应该显示正确的占位符
-      expect(screen.getByPlaceholderText('请输入手机号')).toBeInTheDocument();
-      expect(screen.getByPlaceholderText('请输入验证码')).toBeInTheDocument();
-    });
+      // Then: 应该显示正确的占位符文本
+      expect(screen.getByPlaceholderText('请输入手机号')).toBeInTheDocument()
+      expect(screen.getByPlaceholderText('请输入验证码')).toBeInTheDocument()
+    })
 
-    it('应该显示切换到注册的提示文本', () => {
+    it('应该设置正确的输入框属性', () => {
       // When: 渲染登录表单
-      renderLoginForm();
+      render(<LoginForm />)
 
-      // Then: 应该显示切换提示
-      expect(screen.getByText('还没有账号？')).toBeInTheDocument();
-    });
-  });
+      // Then: 手机号输入框应该有正确属性
+      const phoneInput = screen.getByLabelText('手机号')
+      expect(phoneInput).toHaveAttribute('type', 'tel')
+      expect(phoneInput).toHaveAttribute('maxLength', '11')
 
-  describe('手机号输入功能', () => {
-    it('应该允许用户输入手机号', async () => {
+      // And: 验证码输入框应该有正确属性
+      const codeInput = screen.getByLabelText('验证码')
+      expect(codeInput).toHaveAttribute('type', 'text')
+      expect(codeInput).toHaveAttribute('maxLength', '6')
+    })
+  })
+
+  describe('UI-LoginForm 手机号输入验证', () => {
+    it('应该允许输入有效的手机号', async () => {
       // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-      const phoneInput = screen.getByLabelText('手机号');
+      const user = userEvent.setup()
+      render(<LoginForm />)
+      const phoneInput = screen.getByLabelText('手机号')
 
-      // When: 用户输入手机号
-      await user.type(phoneInput, '13812345678');
+      // When: 输入有效手机号
+      await user.type(phoneInput, '13800138001')
 
-      // Then: 输入框应该显示输入的手机号
-      expect(phoneInput).toHaveValue('13812345678');
-    });
+      // Then: 输入值应该被正确设置
+      expect(phoneInput).toHaveValue('13800138001')
+    })
 
-    it('应该支持手机号输入格式', async () => {
+    it('应该限制手机号输入长度为11位', async () => {
       // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-      const phoneInput = screen.getByLabelText('手机号');
+      const user = userEvent.setup()
+      render(<LoginForm />)
+      const phoneInput = screen.getByLabelText('手机号')
 
-      // When: 输入各种格式的手机号
-      const phoneNumbers = ['13812345678', '15987654321', '18612345678'];
-      
-      for (const phone of phoneNumbers) {
-        await user.clear(phoneInput);
-        await user.type(phoneInput, phone);
-        
-        // Then: 应该正确显示
-        expect(phoneInput).toHaveValue(phone);
-      }
-    });
-  });
+      // When: 输入超过11位的号码
+      await user.type(phoneInput, '138001380012345')
 
-  describe('验证码输入功能', () => {
-    it('应该允许用户输入验证码', async () => {
+      // Then: 应该只保留前11位
+      expect(phoneInput).toHaveValue('13800138001')
+    })
+
+    it('应该在手机号格式错误时显示错误提示', async () => {
       // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-      const codeInput = screen.getByLabelText('验证码');
+      const user = userEvent.setup()
+      render(<LoginForm onSendCode={mockOnSendCode} />)
+      const phoneInput = screen.getByLabelText('手机号')
+      const sendCodeBtn = screen.getByRole('button', { name: '获取验证码' })
 
-      // When: 用户输入验证码
-      await user.type(codeInput, '123456');
+      // Mock alert
+      const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
 
-      // Then: 输入框应该显示输入的验证码
-      expect(codeInput).toHaveValue('123456');
-    });
+      // When: 输入无效手机号并点击获取验证码
+      await user.type(phoneInput, '123')
+      await user.click(sendCodeBtn)
 
-    it('应该限制验证码为6位数字', async () => {
+      // Then: 应该显示错误提示
+      expect(alertSpy).toHaveBeenCalledWith('请输入正确的手机号')
+      expect(mockOnSendCode).not.toHaveBeenCalled()
+
+      alertSpy.mockRestore()
+    })
+  })
+
+  describe('UI-LoginForm 验证码输入验证', () => {
+    it('应该允许输入6位验证码', async () => {
       // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-      const codeInput = screen.getByLabelText('验证码');
+      const user = userEvent.setup()
+      render(<LoginForm />)
+      const codeInput = screen.getByLabelText('验证码')
+
+      // When: 输入6位验证码
+      await user.type(codeInput, '123456')
+
+      // Then: 输入值应该被正确设置
+      expect(codeInput).toHaveValue('123456')
+    })
+
+    it('应该限制验证码输入长度为6位', async () => {
+      // Given: 渲染登录表单
+      const user = userEvent.setup()
+      render(<LoginForm />)
+      const codeInput = screen.getByLabelText('验证码')
 
       // When: 输入超过6位的验证码
-      await user.type(codeInput, '1234567890');
+      await user.type(codeInput, '1234567890')
 
-      // Then: 应该只显示前6位（如果有输入限制）
-      // 注意：这个测试取决于实际的输入限制实现
-      expect(codeInput.value.length).toBeLessThanOrEqual(6);
-    });
-  });
+      // Then: 应该只保留前6位
+      expect(codeInput).toHaveValue('123456')
+    })
+  })
 
-  describe('获取验证码功能', () => {
-    it('应该在点击时调用发送验证码回调', async () => {
-      // Given: 渲染登录表单并输入手机号
-      const user = userEvent.setup();
-      renderLoginForm();
-      const phoneInput = screen.getByLabelText('手机号');
-      const sendCodeButton = screen.getByRole('button', { name: '获取验证码' });
+  describe('UI-LoginForm 获取验证码功能', () => {
+    it('应该在手机号有效时调用发送验证码回调', async () => {
+      // Given: 渲染登录表单
+      const user = userEvent.setup()
+      render(<LoginForm onSendCode={mockOnSendCode} />)
+      const phoneInput = screen.getByLabelText('手机号')
+      const sendCodeBtn = screen.getByRole('button', { name: '获取验证码' })
 
-      await user.type(phoneInput, '13812345678');
-
-      // When: 点击获取验证码按钮
-      await user.click(sendCodeButton);
+      // When: 输入有效手机号并点击获取验证码
+      await user.type(phoneInput, '13800138001')
+      await user.click(sendCodeBtn)
 
       // Then: 应该调用发送验证码回调
-      expect(mockOnSendVerificationCode).toHaveBeenCalledWith('13812345678');
-      expect(mockOnSendVerificationCode).toHaveBeenCalledTimes(1);
-    });
+      expect(mockOnSendCode).toHaveBeenCalledWith('13800138001')
+    })
 
-    it('应该显示倒计时状态', async () => {
+    it('应该在发送验证码后开始倒计时', async () => {
       // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-      const phoneInput = screen.getByLabelText('手机号');
-      const sendCodeButton = screen.getByRole('button', { name: '获取验证码' });
+      const user = userEvent.setup()
+      mockOnSendCode.mockResolvedValue(undefined)
+      render(<LoginForm onSendCode={mockOnSendCode} />)
+      const phoneInput = screen.getByLabelText('手机号')
+      const sendCodeBtn = screen.getByRole('button', { name: '获取验证码' })
 
-      await user.type(phoneInput, '13812345678');
+      // When: 发送验证码
+      await user.type(phoneInput, '13800138001')
+      await user.click(sendCodeBtn)
 
-      // When: 点击获取验证码按钮
-      await user.click(sendCodeButton);
-
-      // Then: 按钮应该显示倒计时（需要实际实现倒计时逻辑）
-      // 这个测试需要组件实际实现倒计时功能
+      // Then: 按钮应该显示倒计时并被禁用
       await waitFor(() => {
-        expect(sendCodeButton).toBeDisabled();
-      });
-    });
+        expect(sendCodeBtn).toBeDisabled()
+        expect(sendCodeBtn.textContent).toMatch(/\d+s/)
+      })
+    })
 
-    it('应该在倒计时期间禁用按钮', async () => {
-      // Given: 渲染登录表单并触发倒计时
-      const user = userEvent.setup();
-      renderLoginForm();
-      const phoneInput = screen.getByLabelText('手机号');
-      const sendCodeButton = screen.getByRole('button', { name: '获取验证码' });
+    it('应该在倒计时期间禁用发送验证码按钮', async () => {
+      // Given: 渲染登录表单并发送验证码
+      const user = userEvent.setup()
+      mockOnSendCode.mockResolvedValue(undefined)
+      render(<LoginForm onSendCode={mockOnSendCode} />)
+      const phoneInput = screen.getByLabelText('手机号')
+      const sendCodeBtn = screen.getByRole('button', { name: '获取验证码' })
 
-      await user.type(phoneInput, '13812345678');
-      await user.click(sendCodeButton);
+      await user.type(phoneInput, '13800138001')
+      await user.click(sendCodeBtn)
 
-      // When: 倒计时期间
-      // Then: 按钮应该被禁用
+      // When: 倒计时期间再次点击
       await waitFor(() => {
-        expect(sendCodeButton).toBeDisabled();
-      });
-    });
-  });
+        expect(sendCodeBtn).toBeDisabled()
+      })
 
-  describe('表单提交功能', () => {
-    it('应该在提交时调用onSubmit回调', async () => {
-      // Given: 渲染登录表单并填写信息
-      const user = userEvent.setup();
-      renderLoginForm();
-      const phoneInput = screen.getByLabelText('手机号');
-      const codeInput = screen.getByLabelText('验证码');
-      const submitButton = screen.getByRole('button', { name: '登录' });
+      // Then: 按钮应该保持禁用状态
+      expect(sendCodeBtn).toBeDisabled()
+    })
 
-      await user.type(phoneInput, '13812345678');
-      await user.type(codeInput, '123456');
+    it('应该在发送验证码失败时显示错误提示', async () => {
+      // Given: 渲染登录表单
+      const user = userEvent.setup()
+      const error = new Error('网络错误')
+      mockOnSendCode.mockRejectedValue(error)
+      render(<LoginForm onSendCode={mockOnSendCode} />)
+      const phoneInput = screen.getByLabelText('手机号')
+      const sendCodeBtn = screen.getByRole('button', { name: '获取验证码' })
+
+      // Mock alert
+      const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
+
+      // When: 发送验证码失败
+      await user.type(phoneInput, '13800138001')
+      await user.click(sendCodeBtn)
+
+      // Then: 应该显示错误提示
+      await waitFor(() => {
+        expect(alertSpy).toHaveBeenCalledWith('发送验证码失败')
+      })
+
+      alertSpy.mockRestore()
+    })
+  })
+
+  describe('UI-LoginForm 登录提交功能', () => {
+    it('应该在信息完整时调用提交回调', async () => {
+      // Given: 渲染登录表单
+      const user = userEvent.setup()
+      render(<LoginForm onSubmit={mockOnSubmit} />)
+      const phoneInput = screen.getByLabelText('手机号')
+      const codeInput = screen.getByLabelText('验证码')
+      const submitBtn = screen.getByRole('button', { name: '登录' })
+
+      // When: 填写完整信息并提交
+      await user.type(phoneInput, '13800138001')
+      await user.type(codeInput, '123456')
+      await user.click(submitBtn)
+
+      // Then: 应该调用提交回调
+      expect(mockOnSubmit).toHaveBeenCalledWith({
+        phone: '13800138001',
+        code: '123456'
+      })
+    })
+
+    it('应该在信息不完整时显示错误提示', async () => {
+      // Given: 渲染登录表单
+      const user = userEvent.setup()
+      render(<LoginForm onSubmit={mockOnSubmit} />)
+      const submitBtn = screen.getByRole('button', { name: '登录' })
+
+      // Mock alert
+      const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
+
+      // When: 不填写信息直接提交
+      await user.click(submitBtn)
+
+      // Then: 应该显示错误提示
+      expect(alertSpy).toHaveBeenCalledWith('请填写完整信息')
+      expect(mockOnSubmit).not.toHaveBeenCalled()
+
+      alertSpy.mockRestore()
+    })
+
+    it('应该在提交期间显示加载状态', async () => {
+      // Given: 渲染登录表单
+      const user = userEvent.setup()
+      mockOnSubmit.mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)))
+      render(<LoginForm onSubmit={mockOnSubmit} />)
+      const phoneInput = screen.getByLabelText('手机号')
+      const codeInput = screen.getByLabelText('验证码')
+      const submitBtn = screen.getByRole('button', { name: '登录' })
 
       // When: 提交表单
-      await user.click(submitButton);
+      await user.type(phoneInput, '13800138001')
+      await user.type(codeInput, '123456')
+      await user.click(submitBtn)
 
-      // Then: 应该调用onSubmit回调
-      expect(mockOnSubmit).toHaveBeenCalledWith('13812345678', '123456');
-      expect(mockOnSubmit).toHaveBeenCalledTimes(1);
-    });
+      // Then: 应该显示加载状态
+      expect(screen.getByRole('button', { name: '登录中...' })).toBeInTheDocument()
+      expect(submitBtn).toBeDisabled()
+    })
 
-    it('应该阻止默认表单提交行为', async () => {
+    it('应该在提交失败时显示错误提示', async () => {
       // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-      const form = screen.getByRole('form') || screen.getByTestId('login-form');
-      const phoneInput = screen.getByLabelText('手机号');
-      const codeInput = screen.getByLabelText('验证码');
+      const user = userEvent.setup()
+      const error = new Error('登录失败')
+      mockOnSubmit.mockRejectedValue(error)
+      render(<LoginForm onSubmit={mockOnSubmit} />)
+      const phoneInput = screen.getByLabelText('手机号')
+      const codeInput = screen.getByLabelText('验证码')
+      const submitBtn = screen.getByRole('button', { name: '登录' })
 
-      await user.type(phoneInput, '13812345678');
-      await user.type(codeInput, '123456');
+      // Mock alert
+      const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
 
-      // When: 通过回车提交表单
-      fireEvent.submit(form);
+      // When: 提交失败
+      await user.type(phoneInput, '13800138001')
+      await user.type(codeInput, '123456')
+      await user.click(submitBtn)
 
-      // Then: 应该阻止默认行为并调用回调
-      expect(mockOnSubmit).toHaveBeenCalled();
-    });
+      // Then: 应该显示错误提示
+      await waitFor(() => {
+        expect(alertSpy).toHaveBeenCalledWith('登录失败')
+      })
 
-    it('应该处理空表单提交', async () => {
-      // Given: 渲染登录表单（不填写任何信息）
-      const user = userEvent.setup();
-      renderLoginForm();
-      const submitButton = screen.getByRole('button', { name: '登录' });
+      alertSpy.mockRestore()
+    })
+  })
 
-      // When: 提交空表单
-      await user.click(submitButton);
-
-      // Then: 应该调用onSubmit但参数为空
-      expect(mockOnSubmit).toHaveBeenCalledWith('', '');
-    });
-  });
-
-  describe('页面切换功能', () => {
+  describe('UI-LoginForm 页面跳转功能', () => {
     it('应该在点击注册链接时调用切换回调', async () => {
       // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-      const registerLink = screen.getByRole('button', { name: '立即注册' });
+      const user = userEvent.setup()
+      render(<LoginForm onSwitchToRegister={mockOnSwitchToRegister} />)
+      const registerLink = screen.getByRole('button', { name: '立即注册' })
 
       // When: 点击注册链接
-      await user.click(registerLink);
+      await user.click(registerLink)
 
-      // Then: 应该调用切换到注册回调
-      expect(mockOnSwitchToRegister).toHaveBeenCalledTimes(1);
-    });
-  });
+      // Then: 应该调用切换回调
+      expect(mockOnSwitchToRegister).toHaveBeenCalled()
+    })
+  })
 
-  describe('表单验证', () => {
-    it('应该验证手机号格式', async () => {
-      // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-      const phoneInput = screen.getByLabelText('手机号');
-
-      // When: 输入无效手机号
-      await user.type(phoneInput, '123');
-      await user.tab(); // 触发blur事件
-
-      // Then: 应该显示验证错误（如果有验证逻辑）
-      // 这个测试需要组件实际实现验证逻辑
-    });
-
-    it('应该验证验证码格式', async () => {
-      // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-      const codeInput = screen.getByLabelText('验证码');
-
-      // When: 输入无效验证码
-      await user.type(codeInput, 'abc');
-      await user.tab(); // 触发blur事件
-
-      // Then: 应该显示验证错误（如果有验证逻辑）
-      // 这个测试需要组件实际实现验证逻辑
-    });
-  });
-
-  describe('用户交互体验', () => {
-    it('应该支持键盘导航', async () => {
-      // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-
-      // When: 使用Tab键导航
-      await user.tab();
-      expect(screen.getByLabelText('手机号')).toHaveFocus();
-
-      await user.tab();
-      expect(screen.getByLabelText('验证码')).toHaveFocus();
-
-      await user.tab();
-      expect(screen.getByRole('button', { name: '获取验证码' })).toHaveFocus();
-
-      await user.tab();
-      expect(screen.getByRole('button', { name: '登录' })).toHaveFocus();
-    });
-
-    it('应该支持回车键提交', async () => {
-      // Given: 渲染登录表单并填写信息
-      const user = userEvent.setup();
-      renderLoginForm();
-      const phoneInput = screen.getByLabelText('手机号');
-      const codeInput = screen.getByLabelText('验证码');
-
-      await user.type(phoneInput, '13812345678');
-      await user.type(codeInput, '123456');
-
-      // When: 在验证码输入框按回车
-      await user.keyboard('{Enter}');
-
-      // Then: 应该提交表单
-      expect(mockOnSubmit).toHaveBeenCalledWith('13812345678', '123456');
-    });
-  });
-
-  describe('状态管理', () => {
+  describe('UI-LoginForm 状态管理', () => {
     it('应该正确管理表单状态', async () => {
       // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-      const phoneInput = screen.getByLabelText('手机号');
-      const codeInput = screen.getByLabelText('验证码');
+      const user = userEvent.setup()
+      render(<LoginForm />)
+      const phoneInput = screen.getByLabelText('手机号')
+      const codeInput = screen.getByLabelText('验证码')
 
-      // When: 输入并清空内容
-      await user.type(phoneInput, '13812345678');
-      await user.clear(phoneInput);
-      await user.type(codeInput, '123456');
-      await user.clear(codeInput);
+      // When: 输入数据
+      await user.type(phoneInput, '13800138001')
+      await user.type(codeInput, '123456')
 
-      // Then: 输入框应该为空
-      expect(phoneInput).toHaveValue('');
-      expect(codeInput).toHaveValue('');
-    });
+      // Then: 状态应该被正确更新
+      expect(phoneInput).toHaveValue('13800138001')
+      expect(codeInput).toHaveValue('123456')
+    })
 
-    it('应该正确管理倒计时状态', async () => {
+    it('应该在组件重新渲染时保持状态', () => {
       // Given: 渲染登录表单
-      const user = userEvent.setup();
-      renderLoginForm();
-      const phoneInput = screen.getByLabelText('手机号');
-      const sendCodeButton = screen.getByRole('button', { name: '获取验证码' });
+      const { rerender } = render(<LoginForm />)
+      const phoneInput = screen.getByLabelText('手机号')
 
-      await user.type(phoneInput, '13812345678');
+      // When: 输入数据后重新渲染
+      fireEvent.change(phoneInput, { target: { value: '13800138001' } })
+      rerender(<LoginForm />)
 
-      // When: 触发倒计时
-      await user.click(sendCodeButton);
-
-      // Then: 倒计时状态应该正确管理
-      expect(sendCodeButton).toBeDisabled();
-      
-      // 等待倒计时结束（需要实际的倒计时实现）
-      // await waitFor(() => {
-      //   expect(sendCodeButton).not.toBeDisabled();
-      // }, { timeout: 61000 });
-    });
-  });
-});
+      // Then: 状态应该被保持
+      expect(screen.getByLabelText('手机号')).toHaveValue('13800138001')
+    })
+  })
+})

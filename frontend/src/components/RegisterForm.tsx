@@ -1,177 +1,228 @@
 import React, { useState, useEffect } from 'react';
-import CountryCodeSelector from './CountryCodeSelector';
-import './RegisterForm.css';
 
 interface RegisterFormProps {
-  onSubmit: (phoneNumber: string, verificationCode: string, agreeToTerms: boolean) => void;
-  onSendVerificationCode: (phoneNumber: string) => void;
-  onSwitchToLogin: () => void;
+  onSubmit?: (data: { phone: string; code: string }) => Promise<void>;
+  onSendCode?: (phone: string) => Promise<void>;
+  onSwitchToLogin?: () => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({
   onSubmit,
-  onSendVerificationCode,
+  onSendCode,
   onSwitchToLogin
 }) => {
-  const [selectedCountry, setSelectedCountry] = useState({ code: '+86', name: '中国', flag: '🇨🇳' });
-  const [isCountrySelectorOpen, setIsCountrySelectorOpen] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [verificationCode, setVerificationCode] = useState('');
-  const [agreeToTerms, setAgreeToTerms] = useState(false);
+  const [phone, setPhone] = useState('');
+  const [code, setCode] = useState('');
   const [countdown, setCountdown] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [isSendingCode, setIsSendingCode] = useState(false);
+  const [errors, setErrors] = useState<{
+    phone?: string;
+    code?: string;
+    submit?: string;
+    sendCode?: string;
+  }>({});
 
-  // 倒计时效果
+  // 清理定时器
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: number;
     if (countdown > 0) {
-      timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      timer = setInterval(() => {
+        setCountdown(prev => {
+          if (prev <= 1) {
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
     }
-    return () => clearTimeout(timer);
+    return () => {
+      if (timer) {
+        clearInterval(timer);
+      }
+    };
   }, [countdown]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    
-    if (!phoneNumber.trim()) {
-      setError('请输入手机号');
-      return;
+  // 验证手机号格式
+  const validatePhone = (phoneNumber: string): string | null => {
+    if (!phoneNumber) {
+      return '请输入手机号';
     }
-    
-    if (!verificationCode.trim()) {
-      setError('请输入验证码');
-      return;
+    if (phoneNumber.length !== 11 || !/^1[3-9]\d{9}$/.test(phoneNumber)) {
+      return '请输入正确的手机号';
     }
-    
-    if (!agreeToTerms) {
-      setError('请同意服务协议');
-      return;
-    }
+    return null;
+  };
 
-    setIsLoading(true);
-    try {
-      await onSubmit(selectedCountry.code + phoneNumber, verificationCode, agreeToTerms);
-    } catch (err) {
-      setError('注册失败，请重试');
-    } finally {
-      setIsLoading(false);
+  // 验证验证码格式
+  const validateCode = (verificationCode: string): string | null => {
+    if (!verificationCode) {
+      return '请输入验证码';
+    }
+    if (verificationCode.length !== 6) {
+      return '验证码必须为6位数字';
+    }
+    if (!/^\d{6}$/.test(verificationCode)) {
+      return '验证码只能包含数字';
+    }
+    return null;
+  };
+
+  // 处理手机号输入
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, ''); // 只允许数字
+    if (value.length <= 11) {
+      setPhone(value);
+      // 清除手机号错误
+      if (errors.phone) {
+        setErrors(prev => ({ ...prev, phone: undefined }));
+      }
     }
   };
 
+  // 处理验证码输入
+  const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, ''); // 只允许数字
+    if (value.length <= 6) {
+      setCode(value);
+      // 清除验证码错误
+      if (errors.code) {
+        setErrors(prev => ({ ...prev, code: undefined }));
+      }
+    }
+  };
+
+  // 发送验证码
   const handleSendCode = async () => {
-    if (!phoneNumber.trim()) {
-      setError('请输入手机号');
+    // 验证手机号
+    const phoneError = validatePhone(phone);
+    if (phoneError) {
+      alert(phoneError);
+      setErrors(prev => ({ ...prev, phone: phoneError }));
       return;
     }
-    
-    setError('');
-    setIsLoading(true);
-    
+
+    setIsSendingCode(true);
+    setErrors(prev => ({ ...prev, sendCode: undefined }));
+
     try {
-      await onSendVerificationCode(selectedCountry.code + phoneNumber);
+      if (onSendCode) {
+        await onSendCode(phone);
+      }
+      
+      // 开始倒计时
       setCountdown(60);
-    } catch (err) {
-      setError('发送验证码失败，请重试');
+    } catch (error) {
+      console.error('发送验证码失败:', error);
+      const errorMessage = error instanceof Error ? error.message : '发送验证码失败，请重试';
+      alert('发送验证码失败');
+      setErrors(prev => ({ ...prev, sendCode: errorMessage }));
+    } finally {
+      setIsSendingCode(false);
+    }
+  };
+
+  // 提交注册
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // 验证表单
+    const phoneError = validatePhone(phone);
+    const codeError = validateCode(code);
+    
+    if (phoneError || codeError) {
+      alert('请填写完整信息');
+      setErrors({
+        phone: phoneError || undefined,
+        code: codeError || undefined,
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    setErrors(prev => ({ ...prev, submit: undefined }));
+
+    try {
+      if (onSubmit) {
+        await onSubmit({ phone, code });
+      }
+    } catch (error) {
+      console.error('注册失败:', error);
+      const errorMessage = error instanceof Error ? error.message : '注册失败，请重试';
+      setErrors(prev => ({ ...prev, submit: errorMessage }));
+      alert('注册失败');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="register-form" data-testid="register-form">
-      <h1>注册</h1>
-      <form onSubmit={handleSubmit} className="form">
-        {error && (
-          <div className="error-message" data-testid="error-message">
-            {error}
-          </div>
-        )}
-        
+    <div className="form-container">
+      <h2 className="form-title">用户注册</h2>
+      <form onSubmit={handleSubmit} className="auth-form">
         <div className="form-group">
-          <label htmlFor="phone-input" className="form-label">手机号</label>
-          <div className="phone-input-group">
-            <CountryCodeSelector
-              selectedCountry={selectedCountry}
-              isOpen={isCountrySelectorOpen}
-              onSelect={(country) => setSelectedCountry(country)}
-            />
+          <label htmlFor="phone">手机号</label>
+          <div className="phone-input-container">
+            <span className="country-code">中国大陆 +86</span>
             <input
-              id="phone-input"
+              id="phone"
               type="tel"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              value={phone}
+              onChange={handlePhoneChange}
               placeholder="请输入手机号"
-              className="phone-input"
-              data-testid="phone-input"
               maxLength={11}
+              className={errors.phone ? 'error' : ''}
             />
           </div>
+          {errors.phone && <div className="error-message">{errors.phone}</div>}
         </div>
-        
+
         <div className="form-group">
-          <label htmlFor="verification-input" className="form-label">验证码</label>
-          <div className="verification-input-group">
+          <label htmlFor="code">验证码</label>
+          <div className="code-input-group">
             <input
-              id="verification-input"
+              id="code"
               type="text"
-              value={verificationCode}
-              onChange={(e) => setVerificationCode(e.target.value)}
+              value={code}
+              onChange={handleCodeChange}
               placeholder="请输入验证码"
-              className="verification-input"
-              data-testid="verification-input"
               maxLength={6}
+              className={errors.code ? 'error' : ''}
             />
             <button
               type="button"
               onClick={handleSendCode}
-              disabled={countdown > 0 || isLoading}
-              className="send-code-button"
-              data-testid="send-code-button"
+              disabled={countdown > 0 || isSendingCode || !phone}
+              className="send-code-btn"
             >
-              {countdown > 0 ? `${countdown}s` : '获取验证码'}
+              {isSendingCode ? '发送中...' : countdown > 0 ? `${countdown}s` : '获取验证码'}
             </button>
           </div>
+          {errors.code && <div className="error-message">{errors.code}</div>}
+          {errors.sendCode && <div className="error-message">{errors.sendCode}</div>}
         </div>
 
-        <button 
-          type="submit" 
-          className="submit-button"
+        {errors.submit && <div className="error-message">{errors.submit}</div>}
+
+        <button
+          type="submit"
           disabled={isLoading}
-          data-testid="register-button"
+          className={`submit-btn ${isLoading ? 'loading' : ''}`}
         >
           {isLoading ? '注册中...' : '注册'}
         </button>
-      </form>
 
-      <div className="form-footer">
-        <div className="terms-agreement">
-          <label className="terms-label">
-            <input
-              type="checkbox"
-              checked={agreeToTerms}
-              onChange={(e) => setAgreeToTerms(e.target.checked)}
-              className="terms-checkbox"
-              data-testid="terms-checkbox"
-            />
-            <span className="terms-text">
-              我已阅读并同意《淘贝平台服务协议》
-            </span>
-          </label>
-        </div>
-        
-        <div className="footer-links">
-          <button 
-            type="button" 
-            className="link-btn" 
-            onClick={onSwitchToLogin}
-            data-testid="login-link"
-          >
+        <div className="switch-form">
+          <span>已有账号？</span>
+          <button type="button" onClick={onSwitchToLogin} className="switch-btn">
             立即登录
           </button>
         </div>
-      </div>
+
+        <div className="terms-text">
+          已阅读并同意以下协议<span className="link">淘宝平台服务协议</span>、<span className="link">隐私权政策</span>、<span className="link">法律声明</span>、<span className="link">支付宝及客户端服务协议</span>
+        </div>
+      </form>
     </div>
   );
 };

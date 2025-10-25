@@ -1,29 +1,32 @@
 - type: Backend
   id: API-POST-SendVerificationCode
   route: POST /api/auth/send-verification-code
-  description: 为指定手机号发送验证码，支持登录和注册场景。
+  description: 发送验证码到指定手机号，支持登录和注册场景。
   input:
     type: JSON
     body:
       phoneNumber: string
+      type: string # "login" or "register"
   output:
     success:
       statusCode: 200
-      body: { message: "验证码已发送", expiresIn: 60 }
+      body: { message: "验证码已发送", countdown: 60 }
     error:
       - statusCode: 400
         body: { error: "请输入正确的手机号码" }
       - statusCode: 429
         body: { error: "请求过于频繁，请稍后再试" }
   dependencies:
-    - DB-GenerateVerificationCode
+    - DB-CreateVerificationCode
+    - DB-CleanExpiredCodes
   acceptanceCriteria:
-    - 当接收到格式正确的手机号时，应返回200状态码。
-    - 验证码应在控制台打印输出。
-    - 当手机号格式无效时，应返回400错误。
-    - 应实现60秒的请求频率限制。
+    - 验证手机号格式的有效性。
+    - 生成6位随机数字验证码。
+    - 验证码在控制台打印。
+    - 验证码有效期60秒。
+    - 同一手机号60秒内只能发送一次验证码。
   changeLog:
-    - date: "2025-01-20"
+    - date: "2025-01-27"
       description: "初始创建。"
 
 - type: Backend
@@ -38,7 +41,7 @@
   output:
     success:
       statusCode: 200
-      body: { userId: "uuid", token: "jwt", message: "登录成功" }
+      body: { message: "登录成功", userId: "uuid", token: "jwt" }
     error:
       - statusCode: 400
         body: { error: "请输入正确的手机号码" }
@@ -50,12 +53,13 @@
     - DB-FindUserByPhone
     - DB-VerifyCode
   acceptanceCriteria:
-    - 当手机号已注册且验证码正确时，应返回200状态码和用户信息。
-    - 当手机号未注册时，应返回404错误。
-    - 当验证码错误时，应返回401错误。
-    - 成功登录后应生成JWT token。
+    - 验证手机号格式。
+    - 检查手机号是否已注册。
+    - 验证验证码的正确性和有效性。
+    - 登录成功后返回用户信息和认证令牌。
+    - 验证码使用后应失效。
   changeLog:
-    - date: "2025-01-20"
+    - date: "2025-01-27"
       description: "初始创建。"
 
 - type: Backend
@@ -71,7 +75,7 @@
   output:
     success:
       statusCode: 201
-      body: { userId: "uuid", token: "jwt", message: "注册成功" }
+      body: { message: "注册成功", userId: "uuid", token: "jwt" }
     error:
       - statusCode: 400
         body: { error: "请输入正确的手机号码" }
@@ -86,11 +90,13 @@
     - DB-VerifyCode
     - DB-CreateUser
   acceptanceCriteria:
-    - 当手机号未注册、验证码正确且同意协议时，应返回201状态码。
-    - 当手机号已注册时，应返回409状态码并自动登录。
-    - 当未同意协议时，应返回422错误。
-    - 当验证码错误时，应返回401错误。
-    - 成功注册后应自动登录并生成JWT token。
+    - 验证手机号格式。
+    - 验证用户是否同意协议。
+    - 检查手机号是否已注册。
+    - 验证验证码的正确性和有效性。
+    - 如果手机号已注册，直接登录并返回用户信息。
+    - 如果手机号未注册，创建新用户并返回用户信息。
+    - 验证码使用后应失效。
   changeLog:
-    - date: "2025-01-20"
+    - date: "2025-01-27"
       description: "初始创建。"

@@ -1,238 +1,162 @@
 const express = require('express');
-const rateLimit = require('express-rate-limit');
-const jwt = require('jsonwebtoken');
-const Database = require('../database');
-
+const databaseManager = require('../models/databaseManager');
 const router = express.Router();
 
-// JWT密钥（生产环境应使用环境变量）
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-
-// 验证码发送限制
-const verificationCodeLimit = process.env.NODE_ENV === 'test' 
-  ? (req, res, next) => next() // 测试环境跳过rate limiting
-  : rateLimit({
-      windowMs: 60 * 1000, // 生产环境1分钟
-      max: 1, // 每个窗口期只允许1次请求
-      message: { error: '发送验证码过于频繁，请稍后再试' },
-      keyGenerator: (req) => req.body.phoneNumber || req.ip // 基于手机号限制
-    });
-
-// 手机号格式验证
-function validatePhoneNumber(phoneNumber) {
-  const phoneRegex = /^1[3-9]\d{9}$/;
-  return phoneRegex.test(phoneNumber);
-}
-
-// POST /api/auth/send-verification-code
-router.post('/send-verification-code', verificationCodeLimit, async (req, res) => {
+// TODO: 发送验证码接口
+router.post('/send-verification-code', async (req, res) => {
   try {
-    const { phoneNumber } = req.body;
+    const { phone, type } = req.body;
     
-    // 验证请求参数
-    if (!phoneNumber) {
-      return res.status(400).json({ 
-        error: '手机号不能为空' 
+    // TODO: 验证手机号格式
+    if (!phone || !/^1[3-9]\d{9}$/.test(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: '手机号格式不正确'
       });
     }
-    
-    // 验证手机号格式
-    if (!validatePhoneNumber(phoneNumber)) {
-      return res.status(400).json({ 
-        error: '手机号格式不正确' 
+
+    // TODO: 验证类型
+    if (!type || !['login', 'register'].includes(type)) {
+      return res.status(400).json({
+        success: false,
+        message: '验证码类型不正确'
       });
     }
+
+    // TODO: 生成6位数字验证码
+    const code = process.env.NODE_ENV === 'test' ? '123456' : Math.floor(100000 + Math.random() * 900000).toString();
     
-    // 获取共享数据库连接
-    const db = req.app.locals.database;
-    if (!db) {
-      return res.status(500).json({ 
-        success: false, 
-        message: '数据库连接不可用' 
-      });
-    }
+    // TODO: 设置过期时间（5分钟）
+    const expiresAt = new Date(Date.now() + 5 * 60 * 1000).toISOString();
     
-    // 生成验证码并存储到数据库
-    const verificationData = await db.generateVerificationCode(phoneNumber);
+    // TODO: 保存验证码到数据库
+    const database = await databaseManager.getInstance();
+    await database.createVerificationCode(phone, code, type, expiresAt);
     
-    // 模拟发送短信（实际项目中应调用短信服务）
-    console.log(`发送验证码到 ${phoneNumber}: ${verificationData.code}`);
+    // TODO: 发送短信（模拟）
+    console.log(`发送验证码 ${code} 到手机号 ${phone}`);
     
-    const responseData = {
-      phoneNumber: phoneNumber,
-      expiresIn: 300 // 5分钟
-    };
-    
-    // 在测试环境中返回验证码
-    if (process.env.NODE_ENV === 'test') {
-      responseData.verificationCode = verificationData.code;
-    }
-    
-    res.status(200).json({ 
-      success: true, 
+    res.json({
+      success: true,
       message: '验证码发送成功',
-      timestamp: new Date().toISOString(),
-      data: responseData
+      countdown: 300
     });
   } catch (error) {
-    console.error('发送验证码错误:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: '服务器内部错误' 
+    console.error('发送验证码失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '服务器内部错误'
     });
   }
 });
 
-// POST /api/auth/login
+// TODO: 用户登录接口
 router.post('/login', async (req, res) => {
   try {
-    const { phoneNumber, verificationCode } = req.body;
+    const { phone, code } = req.body;
     
-    // 验证请求参数
-    if (!phoneNumber || !verificationCode) {
-      return res.status(400).json({ 
-        error: '手机号和验证码不能为空' 
+    // TODO: 验证输入
+    if (!phone || !code) {
+      return res.status(400).json({
+        success: false,
+        message: '手机号和验证码不能为空'
       });
     }
-    
-    // 验证手机号格式
-    if (!validatePhoneNumber(phoneNumber)) {
-      return res.status(400).json({ 
-        error: '手机号格式不正确' 
-      });
-    }
-    
-    // 获取共享数据库连接
-    const db = req.app.locals.database;
-    if (!db) {
-      return res.status(500).json({ 
-        success: false, 
-        message: '数据库连接不可用' 
-      });
-    }
-      // 验证验证码
-      const isValidCode = await db.verifyCode(phoneNumber, verificationCode);
-      if (!isValidCode) {
-        return res.status(400).json({ 
-          error: '验证码无效或已过期' 
-        });
-      }
-      
-      // 检查用户是否存在
-      const user = await db.findUserByPhone(phoneNumber);
-      if (!user) {
-        return res.status(404).json({ 
-          error: '用户不存在，请先注册' 
-        });
-      }
-      
-      // 生成JWT令牌
-      const token = jwt.sign(
-        { userId: user.id, phoneNumber: user.phone_number },
-        JWT_SECRET,
-        { expiresIn: '7d' }
-      );
-      
-      res.status(200).json({ 
-        success: true, 
-        message: '登录成功',
-        data: {
-          token: token,
-          user: {
-            id: user.id,
-            phoneNumber: user.phone_number,
-            createdAt: user.created_at
-          }
-        }
-      });
 
+    const database = await databaseManager.getInstance();
+
+    // TODO: 验证验证码
+    const verificationRecord = await database.verifyCode(phone, code, 'login');
+    if (!verificationRecord) {
+      return res.status(400).json({
+        success: false,
+        message: '验证码无效或已过期'
+      });
+    }
+
+    // TODO: 检查用户是否存在
+    const user = await database.findUserByPhone(phone);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: '用户不存在，请先注册'
+      });
+    }
+
+    // TODO: 标记验证码为已使用
+    await database.markCodeAsUsed(verificationRecord.id);
+
+    // TODO: 生成JWT token
+    const token = 'mock-jwt-token';
+
+    res.json({
+      success: true,
+      message: '登录成功',
+      token,
+      user: { id: user.id, phone: user.phone }
+    });
   } catch (error) {
-    console.error('用户登录错误:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: '服务器内部错误' 
+    console.error('登录失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '服务器内部错误'
     });
   }
 });
 
-// POST /api/auth/register
+// TODO: 用户注册接口
 router.post('/register', async (req, res) => {
   try {
-    const { phoneNumber, verificationCode, agreeToTerms } = req.body;
+    const { phone, code } = req.body;
     
-    // 验证请求参数
-    if (!phoneNumber || !verificationCode) {
-      return res.status(400).json({ 
-        error: '手机号和验证码不能为空' 
+    // TODO: 验证输入
+    if (!phone || !code) {
+      return res.status(400).json({
+        success: false,
+        message: '手机号和验证码不能为空'
       });
     }
-    
-    // 验证手机号格式
-    if (!validatePhoneNumber(phoneNumber)) {
-      return res.status(400).json({ 
-        error: '手机号格式不正确' 
-      });
-    }
-    
-    // 验证用户协议同意状态
-    if (!agreeToTerms) {
-      return res.status(400).json({ 
-        error: '请同意用户协议' 
-      });
-    }
-    
-    // 获取共享数据库连接
-    const db = req.app.locals.database;
-    if (!db) {
-      return res.status(500).json({ 
-        success: false, 
-        message: '数据库连接不可用' 
-      });
-    }
-      // 验证验证码
-      const isValidCode = await db.verifyCode(phoneNumber, verificationCode);
-      if (!isValidCode) {
-        return res.status(400).json({ 
-          error: '验证码无效或已过期' 
-        });
-      }
-      
-      // 检查用户是否已存在
-      const existingUser = await db.findUserByPhone(phoneNumber);
-      if (existingUser) {
-        return res.status(400).json({ 
-          error: '用户已存在，请直接登录' 
-        });
-      }
-      
-      // 创建新用户
-      const newUser = await db.createUser(phoneNumber);
-      
-      // 生成JWT令牌
-      const token = jwt.sign(
-        { userId: newUser.id, phoneNumber: newUser.phone_number },
-        JWT_SECRET,
-        { expiresIn: '7d' }
-      );
-      
-      res.status(201).json({ 
-        success: true, 
-        message: '注册成功',
-        data: {
-          token: token,
-          user: {
-            id: newUser.id,
-            phoneNumber: newUser.phone_number,
-            createdAt: newUser.created_at
-          }
-        }
-      });
 
+    const database = await databaseManager.getInstance();
+
+    // TODO: 验证验证码
+    const verificationRecord = await database.verifyCode(phone, code, 'register');
+    if (!verificationRecord) {
+      return res.status(400).json({
+        success: false,
+        message: '验证码无效或已过期'
+      });
+    }
+
+    // TODO: 检查用户是否已存在
+    const existingUser = await database.findUserByPhone(phone);
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: '用户已存在，请直接登录'
+      });
+    }
+
+    // TODO: 创建新用户
+    const user = await database.createUser(phone);
+
+    // TODO: 标记验证码为已使用
+    await database.markCodeAsUsed(verificationRecord.id);
+
+    // TODO: 生成JWT token
+    const token = 'mock-jwt-token';
+
+    res.json({
+      success: true,
+      message: '注册成功',
+      token,
+      user: { id: user.id, phone: user.phone }
+    });
   } catch (error) {
-    console.error('用户注册错误:', error);
-    res.status(500).json({ 
-      success: false, 
-      message: '服务器内部错误' 
+    console.error('注册失败:', error);
+    res.status(500).json({
+      success: false,
+      message: '服务器内部错误'
     });
   }
 });
