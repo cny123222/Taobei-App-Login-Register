@@ -1,0 +1,51 @@
+- type: Database
+  id: DB-FindUserByPhone
+  description: 根据手机号查找用户记录。
+  dependencies:
+    - none
+  acceptanceCriteria:
+    - 根据提供的手机号在users表中查找对应的用户记录。
+    - 如果找到用户，返回用户信息；如果未找到，返回null。
+    - 查询操作不应修改任何数据。
+  changeLog:
+    - date: "2025-01-21"
+      description: "初始创建。"
+
+- type: Database
+  id: DB-CreateUser
+  description: 在数据库中创建一个新的用户记录。
+  dependencies:
+    - none
+  acceptanceCriteria:
+    - 成功执行后，users表中会增加一条新记录。
+    - 如果手机号已存在，操作应失败并抛出唯一性约束错误。
+    - 新用户记录应包含手机号、创建时间等基本信息。
+  changeLog:
+    - date: "2025-01-21"
+      description: "初始创建。"
+
+- type: Database
+  id: DB-StoreVerificationCode
+  description: 在数据库中存储验证码信息。
+  dependencies:
+    - none
+  acceptanceCriteria:
+    - 成功执行后，verification_codes表中会增加一条新记录。
+    - 记录应包含手机号、验证码、创建时间和过期时间。
+    - 如果该手机号已有未过期的验证码，应更新现有记录。
+  changeLog:
+    - date: "2025-01-21"
+      description: "初始创建。"
+
+- type: Database
+  id: DB-VerifyCode
+  description: 验证手机号对应的验证码是否正确且未过期。
+  dependencies:
+    - none
+  acceptanceCriteria:
+    - 根据手机号和验证码查找verification_codes表中的记录。
+    - 验证码必须匹配且未过期（60秒内）。
+    - 验证成功后应删除或标记该验证码为已使用。
+  changeLog:
+    - date: "2025-01-21"
+      description: "初始创建。"

@@ -1,0 +1,67 @@
+- type: Frontend
+  id: UI-LoginPage
+  description: 用户登录页面组件，包含手机号输入、验证码获取和登录功能。
+  properties:
+    - name: onLoginSuccess
+      type: function
+      description: "登录成功后的回调函数。"
+    - name: onNavigateToRegister
+      type: function
+      description: "跳转到注册页面的回调函数。"
+  state:
+    - phoneNumber
+    - verificationCode
+    - error
+    - isLoading
+    - countdown
+    - canRequestCode
+  dependencies:
+    - API-POST-SendVerificationCode
+    - API-POST-Login
+  acceptanceCriteria:
+    - 渲染手机号输入框，左侧显示"+86"，占位符为"请输入手机号"。
+    - 渲染验证码输入框，占位符为"请输入验证码"。
+    - 渲染"获取验证码"按钮，点击后进入60秒倒计时。
+    - 渲染"登录"按钮，全宽度样式。
+    - 渲染底部导航，包含"忘记账号"和"免费注册"链接。
+    - 点击"免费注册"时调用onNavigateToRegister回调。
+    - 实现手机号格式验证和错误提示。
+    - 登录成功时调用onLoginSuccess回调。
+  changeLog:
+    - date: "2025-01-21"
+      description: "初始创建。"
+
+- type: Frontend
+  id: UI-RegisterPage
+  description: 用户注册页面组件，包含手机号输入、验证码获取、协议同意和注册功能。
+  properties:
+    - name: onRegisterSuccess
+      type: function
+      description: "注册成功后的回调函数。"
+    - name: onNavigateToLogin
+      type: function
+      description: "返回登录页面的回调函数。"
+  state:
+    - phoneNumber
+    - verificationCode
+    - agreeToTerms
+    - error
+    - isLoading
+    - countdown
+    - canRequestCode
+  dependencies:
+    - API-POST-SendVerificationCode
+    - API-POST-Register
+  acceptanceCriteria:
+    - 渲染手机号输入框，左侧显示"中国大陆 +86"，占位符为"请输入你的手机号码"。
+    - 渲染验证码输入框，占位符为"请输入校验码"。
+    - 渲染"获取验证码"按钮，点击后进入60秒倒计时。
+    - 渲染协议同意复选框和"同意《淘贝用户协议》"文本。
+    - 渲染"同意并注册"按钮，全宽度样式。
+    - 只有勾选协议时，注册按钮才可点击。
+    - 实现手机号格式验证和错误提示。
+    - 注册成功时调用onRegisterSuccess回调。
+    - 支持通过onNavigateToLogin返回登录页面。
+  changeLog:
+    - date: "2025-01-21"
+      description: "初始创建。"
