@@ -47,7 +47,7 @@
         - none
       acceptanceCriteria:
         - 成功执行后，users表中会增加一条新记录。
-        - 如果手机号已存在，操作应失败并抛出唯一性约束错误。
+        - 如果唯一字段已存在，操作应失败并抛出唯一性约束错误。
       changeLog:
         - date: "2025-10-12"
           description: "初始创建。"
@@ -55,18 +55,18 @@
 
 **4.2. 后端 API 接口 (`api_interface.yml`)**
 
-  - **ID 规范**: `API-[HTTP-Method]-[Resource]` (例如: `API-POST-Register`)
+  - **ID 规范**: `API-[HTTP-Method]-[Resource]` (例如: `API-POST-Users`)
   - **YAML 结构**:
     ```yaml
     - type: Backend
-      id: API-POST-Register
-      route: POST /api/auth/register
-      description: 处理用户注册请求，包含验证码校验和密码设置。
+      id: API-POST-Users
+      route: POST /api/users
+      description: 处理用户创建请求，包含数据验证和存储。
       input:
         type: JSON
         body:
-          phoneNumber: string
-          verificationCode: string
+          username: string
+          email: string
           password: string
       output:
         success:
@@ -78,12 +78,12 @@
           - statusCode: 409
             body: { error: "User already exists." }
       dependencies:
-        - DB-FindUserByPhone
-        - DB-VerifyCode
+        - DB-FindUserByEmail
+        - DB-ValidateInput
         - DB-CreateUser
       acceptanceCriteria:
         - 当接收到合法且未注册的数据时，应返回 201 Created。
-        - 当手机号已存在时，应返回 409 Conflict。
+        - 当用户已存在时，应返回 409 Conflict。
       changeLog:
         - date: "2025-10-12"
           description: "初始创建。"
@@ -91,27 +91,27 @@
 
 **4.3. 前端 UI 接口 (`ui_interface.yml`)**
 
-  - **ID 规范**: `UI-[ComponentName]` (例如: `UI-RegisterForm`)
+  - **ID 规范**: `UI-[ComponentName]` (例如: `UI-UserForm`)
   - **YAML 结构**:
     ```yaml
     - type: Frontend
-      id: UI-RegisterForm
-      description: 一个完整的用户注册表单，处理用户输入、验证和提交。
+      id: UI-UserForm
+      description: 一个完整的用户表单，处理用户输入、验证和提交。
       properties: # Props
-        - name: onRegisterSuccess
+        - name: onSubmitSuccess
           type: function
-          description: "注册成功后的回调函数。"
+          description: "提交成功后的回调函数。"
       state: # Internal State
-        - phoneNumber
-        - verificationCode
+        - username
+        - email
         - password
         - error
         - isLoading
       dependencies:
-        - API-POST-Register
+        - API-POST-Users
       acceptanceCriteria:
-        - 组件应渲染手机号、验证码、密码输入框和提交按钮。
-        - 点击提交按钮时，应调用 API-POST-Register 接口。
+        - 组件应渲染用户名、邮箱、密码输入框和提交按钮。
+        - 点击提交按钮时，应调用 API-POST-Users 接口。
         - 当 isLoading 状态为 true 时，提交按钮应被禁用。
       changeLog:
         - date: "2025-10-12"
