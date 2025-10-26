@@ -277,6 +277,73 @@ body {
   line-height: 1.4;
 }
 
+/* 协议复选框样式 */
+.terms-container {
+  margin-top: 16px;
+}
+
+.terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  line-height: 1.5;
+}
+
+.terms-checkbox .terms-text {
+  flex: 1;
+  word-wrap: break-word;
+  white-space: normal;
+  margin-top: 1px;
+  text-align: left;
+}
+
+.terms-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.terms-checkbox .checkmark {
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  background-color: white;
+  flex-shrink: 0;
+  margin-top: 0px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.terms-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-color: #ff6900;
+  border-color: #ff6900;
+}
+
+.terms-checkbox input[type="checkbox"]:checked + .checkmark::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.terms-checkbox .link {
+  color: #ff6900;
+  text-decoration: none;
+  white-space: nowrap;
+  display: inline;
+}
+
+.terms-checkbox .link:hover {
+  text-decoration: underline;
+}
+
 .terms-text .link {
   color: #ff6900;
   text-decoration: none;
