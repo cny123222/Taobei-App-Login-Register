@@ -6,9 +6,6 @@ Test Generator:
 新增接口： [.artifacts]
 开始任务
 
-Test Checker:
-检查测试用例对需求 [requirement_new.md] 的覆盖情况，补充对未覆盖需求的测试用例，开始任务
-
 Backend Developer:
 根据测试用例和相应的接口描述，补全后端代码，保证通过所有后端测试，开始任务
 
