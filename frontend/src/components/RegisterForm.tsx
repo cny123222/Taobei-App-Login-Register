@@ -16,6 +16,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   const [countdown, setCountdown] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isSendingCode, setIsSendingCode] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
   const [errors, setErrors] = useState<{
     phone?: string;
     code?: string;
@@ -157,9 +158,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   };
 
   return (
-    <div className="form-container">
-      <h2 className="form-title">用户注册</h2>
-      <form onSubmit={handleSubmit} className="auth-form">
+    <div className="register-form">
+      <h2>用户注册</h2>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="phone">手机号</label>
           <div className="phone-input-container">
@@ -206,10 +207,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 
         <button
           type="submit"
-          disabled={isLoading}
-          className={`submit-btn ${isLoading ? 'loading' : ''}`}
+          disabled={isLoading || !agreeTerms}
+          className={`submit-btn ${isLoading ? 'loading' : ''} ${!agreeTerms ? 'disabled' : ''}`}
         >
-          {isLoading ? '注册中...' : '注册'}
+          {isLoading ? '注册中...' : '同意并注册'}
         </button>
 
         <div className="switch-form">
@@ -219,8 +220,18 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
           </button>
         </div>
 
-        <div className="terms-text">
-          已阅读并同意以下协议<span className="link">淘宝平台服务协议</span>、<span className="link">隐私权政策</span>、<span className="link">法律声明</span>、<span className="link">支付宝及客户端服务协议</span>
+        <div className="terms-container">
+          <label className="terms-checkbox">
+            <input
+              type="checkbox"
+              checked={agreeTerms}
+              onChange={(e) => setAgreeTerms(e.target.checked)}
+            />
+            <span className="checkmark"></span>
+            <span className="terms-text">
+              已阅读并同意以下协议<span className="link">淘贝平台服务协议</span>、<span className="link">隐私政策</span>、<span className="link">法律声明</span>、<span className="link">支付宝及客户端服务协议</span>
+            </span>
+          </label>
         </div>
       </form>
     </div>
