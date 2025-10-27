@@ -9,8 +9,8 @@ const { spawn } = require('child_process');
  */
 class SystemVerifier {
   constructor() {
-    this.baseURL = 'http://localhost:3001';
-    this.frontendURL = 'http://localhost:3000';
+    this.baseURL = `http://localhost:${process.env.BACKEND_PORT || 3001}`;
+    this.frontendURL = `http://localhost:${process.env.FRONTEND_PORT || 3000}`;
     this.verificationResults = [];
     this.backendProcess = null;
     this.frontendProcess = null;
@@ -217,7 +217,7 @@ class SystemVerifier {
         await this.startBackend();
         
         // 等待服务启动
-        await this.waitForService(this.baseURL, 'Backend', 30000);
+        await this.waitForService(this.baseURL + '/api/health', 'Backend', 30000);
         
         this.addVerificationResult('Backend Service', 'Service Startup', 'PASSED', '后端服务启动成功');
       }
@@ -460,7 +460,7 @@ class SystemVerifier {
       
       this.backendProcess.stdout.on('data', (data) => {
         output += data.toString();
-        if (output.includes('Server running on port 3001') || output.includes('listening on port 3001')) {
+        if (output.includes('Server is running on port') || output.includes('Server running on port') || output.includes('listening on port')) {
           resolve();
         }
       });
@@ -483,10 +483,45 @@ class SystemVerifier {
    * 启动前端服务
    */
   async startFrontend() {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       const frontendPath = path.join(__dirname, 'frontend');
+      const frontendPort = this.frontendURL.split(':')[2].split('/')[0];
       
-      this.frontendProcess = spawn('npm', ['run', 'dev'], {
+      // 如果端口是4173，使用preview模式，否则使用dev模式
+      const isPreviewMode = frontendPort === '4173';
+      
+      if (isPreviewMode) {
+        // Preview模式需要先构建
+        console.log('构建前端项目...');
+        try {
+          await new Promise((buildResolve, buildReject) => {
+            const buildProcess = spawn('npm', ['run', 'build'], {
+              cwd: frontendPath,
+              stdio: 'pipe',
+              shell: true
+            });
+            
+            buildProcess.on('close', (code) => {
+              if (code === 0) {
+                buildResolve();
+              } else {
+                buildReject(new Error(`Build failed with code ${code}`));
+              }
+            });
+            
+            buildProcess.on('error', buildReject);
+          });
+        } catch (error) {
+          reject(new Error(`Frontend build failed: ${error.message}`));
+          return;
+        }
+      }
+      
+      const command = isPreviewMode ? 
+        ['run', 'preview', '--', '--port', frontendPort] : 
+        ['run', 'dev'];
+      
+      this.frontendProcess = spawn('npm', command, {
         cwd: frontendPath,
         stdio: 'pipe',
         shell: true
@@ -496,7 +531,8 @@ class SystemVerifier {
       
       this.frontendProcess.stdout.on('data', (data) => {
         output += data.toString();
-        if (output.includes('Local:') && output.includes('3000')) {
+        const frontendPort = this.frontendURL.split(':')[2].split('/')[0];
+        if (output.includes('Local:') && output.includes(frontendPort)) {
           resolve();
         }
       });

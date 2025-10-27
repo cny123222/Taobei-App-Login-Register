@@ -9,8 +9,8 @@ const path = require('path');
  */
 class IntegrationTester {
   constructor() {
-    this.baseURL = 'http://localhost:3001';
-    this.frontendURL = 'http://localhost:3000';
+    this.baseURL = `http://localhost:${process.env.BACKEND_PORT || 3001}`;
+    this.frontendURL = `http://localhost:${process.env.FRONTEND_PORT || 3000}`;
     this.testResults = [];
     this.backendProcess = null;
     this.frontendProcess = null;
@@ -80,7 +80,7 @@ class IntegrationTester {
       } else {
         // 启动后端服务
         await this.startBackend();
-        await this.waitForService(this.baseURL, 'Backend');
+        await this.waitForService(this.baseURL + '/api/health', 'Backend');
         this.addTestResult('System', 'Backend Service', 'PASSED', '后端服务启动成功');
       }
       
@@ -138,7 +138,7 @@ class IntegrationTester {
       
       this.backendProcess.stdout.on('data', (data) => {
         output += data.toString();
-        if (output.includes('Server running on port 3001') || output.includes('listening on port 3001')) {
+        if (output.includes('Server is running on port') || output.includes('Server running on port') || output.includes('listening on port')) {
           resolve();
         }
       });
@@ -174,12 +174,17 @@ class IntegrationTester {
       let output = '';
       
       this.frontendProcess.stdout.on('data', (data) => {
-        output += data.toString();
-        if (output.includes('Local:') && output.includes('3000')) {
-          resolve();
+        const dataStr = data.toString();
+        output += dataStr;
+        console.log('Frontend stdout:', dataStr);
+        const frontendPort = this.frontendURL.split(':')[2].split('/')[0];
+        if (output.includes('Local:') && output.includes(frontendPort)) {
+          console.log('✅ Frontend startup detected!');
+          // 等待一秒确保服务完全准备好
+          setTimeout(resolve, 1000);
         }
       });
-      
+
       this.frontendProcess.stderr.on('data', (data) => {
         console.error('Frontend stderr:', data.toString());
       });
@@ -204,12 +209,19 @@ class IntegrationTester {
     
     for (let i = 0; i < maxRetries; i++) {
       try {
-        await axios.get(url, { timeout: 5000 });
+        console.log(`🔍 尝试连接 ${serviceName} 服务: ${url} (第 ${i + 1}/${maxRetries} 次)`);
+        await axios.get(url, { 
+          timeout: 10000,
+          validateStatus: function (status) {
+            return status >= 200 && status < 500; // 接受所有非服务器错误状态码
+          }
+        });
         console.log(`✅ ${serviceName} 服务已启动: ${url}`);
         return;
       } catch (error) {
+        console.log(`❌ 连接失败: ${error.message}`);
         if (i === maxRetries - 1) {
-          throw new Error(`${serviceName} 服务启动失败: ${url}`);
+          throw new Error(`${serviceName} 服务启动失败: ${url} - ${error.message}`);
         }
         await this.sleep(retryInterval);
       }

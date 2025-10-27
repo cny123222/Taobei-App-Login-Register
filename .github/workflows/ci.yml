@@ -132,7 +132,7 @@ jobs:
     - name: 🌐 Start frontend server
       run: |
         cd frontend
-        npm run preview &
+        npm run preview -- --port ${{ env.FRONTEND_PORT }} &
         echo $! > frontend.pid
         
     - name: ⏳ Wait for frontend to be ready
@@ -140,10 +140,16 @@ jobs:
         npx wait-on http://localhost:${{ env.FRONTEND_PORT }} --timeout 60000
         
     - name: 🧪 Run integration tests
+      env:
+        BACKEND_PORT: ${{ env.BACKEND_PORT }}
+        FRONTEND_PORT: ${{ env.FRONTEND_PORT }}
       run: |
         npm run test:integration
         
     - name: 🔍 Run system verification
+      env:
+        BACKEND_PORT: ${{ env.BACKEND_PORT }}
+        FRONTEND_PORT: ${{ env.FRONTEND_PORT }}
       run: |
         npm run test:system
         
