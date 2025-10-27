@@ -1,16 +1,15 @@
 - type: Backend
-  id: API-POST-SendVerificationCode
-  route: POST /api/auth/send-verification-code
-  description: 发送验证码到指定手机号，支持登录和注册场景。
+  id: API-POST-GetVerificationCode
+  route: POST /api/auth/verification-code
+  description: 为指定手机号生成并发送验证码。
   input:
     type: JSON
     body:
       phoneNumber: string
-      type: string # "login" or "register"
   output:
     success:
       statusCode: 200
-      body: { message: "验证码已发送", countdown: 60 }
+      body: { message: "验证码已发送", expiresIn: 60 }
     error:
       - statusCode: 400
         body: { error: "请输入正确的手机号码" }
@@ -18,21 +17,19 @@
         body: { error: "请求过于频繁，请稍后再试" }
   dependencies:
     - DB-CreateVerificationCode
-    - DB-CleanExpiredCodes
   acceptanceCriteria:
-    - 验证手机号格式的有效性。
-    - 生成6位随机数字验证码。
-    - 验证码在控制台打印。
-    - 验证码有效期60秒。
-    - 同一手机号60秒内只能发送一次验证码。
+    - 验证手机号格式正确性。
+    - 生成6位数字验证码并打印到控制台。
+    - 验证码有效期为60秒。
+    - 同一手机号60秒内只能获取一次验证码。
   changeLog:
-    - date: "2025-01-27"
+    - date: "2025-01-25"
       description: "初始创建。"
 
 - type: Backend
   id: API-POST-Login
   route: POST /api/auth/login
-  description: 处理用户登录请求，验证手机号和验证码。
+  description: 处理用户登录请求，使用手机号和验证码进行身份验证。
   input:
     type: JSON
     body:
@@ -41,7 +38,7 @@
   output:
     success:
       statusCode: 200
-      body: { message: "登录成功", userId: "uuid", token: "jwt" }
+      body: { userId: "uuid", token: "jwt", message: "登录成功" }
     error:
       - statusCode: 400
         body: { error: "请输入正确的手机号码" }
@@ -53,13 +50,12 @@
     - DB-FindUserByPhone
     - DB-VerifyCode
   acceptanceCriteria:
-    - 验证手机号格式。
+    - 验证手机号格式正确性。
     - 检查手机号是否已注册。
     - 验证验证码的正确性和有效性。
-    - 登录成功后返回用户信息和认证令牌。
-    - 验证码使用后应失效。
+    - 登录成功后返回JWT令牌。
   changeLog:
-    - date: "2025-01-27"
+    - date: "2025-01-25"
       description: "初始创建。"
 
 - type: Backend
@@ -75,28 +71,26 @@
   output:
     success:
       statusCode: 201
-      body: { message: "注册成功", userId: "uuid", token: "jwt" }
+      body: { userId: "uuid", token: "jwt", message: "注册成功" }
     error:
       - statusCode: 400
         body: { error: "请输入正确的手机号码" }
+      - statusCode: 400
+        body: { error: "请同意用户协议" }
       - statusCode: 401
         body: { error: "验证码错误" }
-      - statusCode: 409
-        body: { error: "该手机号已注册，将直接为您登录" }
-      - statusCode: 422
-        body: { error: "请同意用户协议" }
+      - statusCode: 200
+        body: { userId: "uuid", token: "jwt", message: "该手机号已注册，将直接为您登录" }
   dependencies:
     - DB-FindUserByPhone
     - DB-VerifyCode
     - DB-CreateUser
   acceptanceCriteria:
-    - 验证手机号格式。
-    - 验证用户是否同意协议。
-    - 检查手机号是否已注册。
+    - 验证手机号格式正确性。
+    - 验证用户是否同意用户协议。
     - 验证验证码的正确性和有效性。
-    - 如果手机号已注册，直接登录并返回用户信息。
-    - 如果手机号未注册，创建新用户并返回用户信息。
-    - 验证码使用后应失效。
+    - 如果手机号已注册，直接登录用户。
+    - 如果手机号未注册，创建新用户并登录。
   changeLog:
-    - date: "2025-01-27"
+    - date: "2025-01-25"
       description: "初始创建。"

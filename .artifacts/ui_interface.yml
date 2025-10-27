@@ -1,50 +1,45 @@
 - type: Frontend
-  id: UI-LoginForm
-  description: 用户登录表单组件，处理手机号验证码登录流程。
+  id: UI-LoginPage
+  description: 用户登录页面，包含手机号输入、验证码获取和登录功能。
   properties:
     - name: onLoginSuccess
       type: function
-      description: "登录成功后的回调函数，接收用户信息参数。"
+      description: "登录成功后的回调函数。"
     - name: onNavigateToRegister
       type: function
-      description: "跳转到注册页面的回调函数。"
+      description: "导航到注册页面的回调函数。"
   state:
     - phoneNumber
     - verificationCode
     - error
     - isLoading
     - countdown
-    - canSendCode
+    - canGetCode
   dependencies:
-    - API-POST-SendVerificationCode
+    - API-POST-GetVerificationCode
     - API-POST-Login
   acceptanceCriteria:
-    - 组件应渲染手机号输入框（占位符："请输入手机号"）。
-    - 手机号输入区域左侧显示"+86"。
-    - 组件应渲染验证码输入框（占位符："请输入验证码"）。
-    - 组件应渲染"获取验证码"按钮。
-    - 组件应渲染"登录"按钮（全宽度）。
-    - 组件应渲染底部导航区域，包含"忘记账号"和"免费注册"链接。
-    - 点击"获取验证码"时应验证手机号格式。
-    - 获取验证码后按钮进入60秒倒计时且不可点击。
-    - 点击"登录"时应调用API-POST-Login接口。
-    - 当isLoading状态为true时，登录按钮应被禁用。
-    - 点击"免费注册"链接时应调用onNavigateToRegister回调。
-    - 应显示适当的错误提示信息。
+    - 界面包含手机号输入区域（左侧"+86"，右侧输入框）。
+    - 界面包含验证码输入区域（左侧输入框，右侧"获取验证码"按钮）。
+    - 界面包含全宽度橙色"登录"按钮。
+    - 界面包含底部导航区域（"忘记账号"和"免费注册"链接）。
+    - 获取验证码后按钮进入60秒倒计时状态。
+    - 点击"免费注册"跳转到注册页面。
+    - 显示相应的错误提示信息。
   changeLog:
-    - date: "2025-01-27"
+    - date: "2025-01-25"
       description: "初始创建。"
 
 - type: Frontend
-  id: UI-RegisterForm
-  description: 用户注册表单组件，处理手机号验证码注册流程。
+  id: UI-RegisterPage
+  description: 用户注册页面，包含手机号输入、验证码获取、协议同意和注册功能。
   properties:
     - name: onRegisterSuccess
       type: function
-      description: "注册成功后的回调函数，接收用户信息参数。"
+      description: "注册成功后的回调函数。"
     - name: onNavigateToLogin
       type: function
-      description: "返回登录页面的回调函数。"
+      description: "导航到登录页面的回调函数。"
   state:
     - phoneNumber
     - verificationCode
@@ -52,26 +47,47 @@
     - error
     - isLoading
     - countdown
-    - canSendCode
+    - canGetCode
   dependencies:
-    - API-POST-SendVerificationCode
+    - API-POST-GetVerificationCode
     - API-POST-Register
   acceptanceCriteria:
-    - 组件应渲染手机号输入框（占位符："请输入你的手机号码"）。
-    - 手机号输入区域左侧显示"中国大陆 +86"。
-    - 组件应渲染验证码输入框（占位符："请输入校验码"）。
-    - 组件应渲染"获取验证码"按钮。
-    - 组件应渲染"同意并注册"按钮（全宽度）。
-    - 组件应渲染协议同意区域，包含复选框和协议链接文本。
-    - 协议文本："已阅读并同意以下协议淘贝平台服务协议、隐私政策、法律声明、支付宝及客户端服务协议"。
-    - 点击"获取验证码"时应验证手机号格式。
-    - 获取验证码后按钮进入60秒倒计时且不可点击。
-    - 未勾选协议时，"同意并注册"按钮应为不可点击状态。
-    - 勾选协议后，"同意并注册"按钮变为可点击状态。
-    - 点击"同意并注册"时应调用API-POST-Register接口。
-    - 当isLoading状态为true时，注册按钮应被禁用。
-    - 应支持返回登录页面的导航功能。
-    - 应显示适当的错误提示信息。
+    - 界面包含手机号输入区域（左侧"中国大陆 +86"，右侧输入框）。
+    - 界面包含验证码输入区域（左侧输入框，右侧"获取验证码"按钮）。
+    - 界面包含协议同意区域（勾选框和"同意《淘贝用户协议》"文本）。
+    - 界面包含全宽度橙色"同意并注册"按钮。
+    - 界面包含"已有账号？立即登录"链接（"立即登录"为橙色）。
+    - 未同意协议时注册按钮不可点击。
+    - 获取验证码后按钮进入60秒倒计时状态。
+    - 点击"立即登录"跳转到登录页面。
+    - 显示相应的错误提示信息。
   changeLog:
-    - date: "2025-01-27"
+    - date: "2025-01-25"
+      description: "初始创建。"
+
+- type: Frontend
+  id: UI-HomePage
+  description: 应用首页，包含品牌logo和导航链接。
+  properties:
+    - name: onNavigateToLogin
+      type: function
+      description: "导航到登录页面的回调函数。"
+    - name: onNavigateToRegister
+      type: function
+      description: "导航到注册页面的回调函数。"
+    - name: isLoggedIn
+      type: boolean
+      description: "用户是否已登录的状态。"
+  state:
+    - userInfo
+  dependencies:
+    - none
+  acceptanceCriteria:
+    - 界面包含橙色"淘贝"品牌logo文字。
+    - 未登录时显示"亲，请登录"链接，点击跳转到登录页面。
+    - 未登录时显示"免费注册"链接，点击跳转到注册页面。
+    - 已登录时显示用户相关信息和功能。
+    - 页面布局美观，符合现代UI设计规范。
+  changeLog:
+    - date: "2025-01-25"
       description: "初始创建。"

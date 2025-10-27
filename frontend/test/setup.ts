@@ -1,34 +1,35 @@
-import '@testing-library/jest-dom/vitest'
-import { vi, beforeEach, afterEach } from 'vitest'
-import { cleanup } from '@testing-library/react'
+import { expect, vi } from 'vitest'
+import * as matchers from '@testing-library/jest-dom/matchers'
 
-// Mock fetch for testing
-(global as any).fetch = vi.fn()
+// Extend Vitest's expect with jest-dom matchers
+expect.extend(matchers)
 
-// Mock localStorage
-const localStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-}
-;(global as any).localStorage = localStorageMock
-
-// Mock sessionStorage
-const sessionStorageMock = {
-  getItem: vi.fn(),
-  setItem: vi.fn(),
-  removeItem: vi.fn(),
-  clear: vi.fn(),
-}
-;(global as any).sessionStorage = sessionStorageMock
-
-// Reset all mocks before each test
-beforeEach(() => {
-  vi.clearAllMocks()
+// Mock window.matchMedia
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: vi.fn().mockImplementation((query: string) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(), // deprecated
+    removeListener: vi.fn(), // deprecated
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
 })
 
-// Cleanup after each test
-afterEach(() => {
-  cleanup()
+// Mock window.location
+Object.defineProperty(window, 'location', {
+  value: {
+    href: 'http://localhost:3000',
+    origin: 'http://localhost:3000',
+    pathname: '/',
+    search: '',
+    hash: '',
+    assign: vi.fn(),
+    replace: vi.fn(),
+    reload: vi.fn(),
+  },
+  writable: true,
 })

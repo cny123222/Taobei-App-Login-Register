@@ -1,52 +1,63 @@
 const express = require('express');
 const cors = require('cors');
-const authRoutes = require('./routes/auth');
+const path = require('path');
+const database = require('./database');
+require('dotenv').config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
-// TODO: 配置中间件
+// Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// TODO: 配置路由
-app.use('/api/auth', authRoutes);
+// Routes
+app.use('/api/auth', require('./routes/auth'));
 
-// TODO: 健康检查接口
+// Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', message: '服务运行正常' });
+  res.json({ status: 'OK', message: 'Taobei Backend is running' });
 });
 
-// TODO: 404处理
-app.use('*', (req, res) => {
-  res.status(404).json({ 
-    success: false,
-    message: '接口不存在' 
+// Test endpoint to get verification code (only for testing)
+if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'development') {
+  app.get('/api/test/verification-code/:phoneNumber', async (req, res) => {
+    try {
+      const { phoneNumber } = req.params;
+      const database = require('./database');
+      const code = await database.getVerificationCode(phoneNumber);
+      if (code) {
+        res.json({ code: code.code });
+      } else {
+        res.status(404).json({ error: 'Verification code not found' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
   });
-});
+}
 
-// TODO: 错误处理中间件
+// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  
-  // 处理JSON解析错误
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-    return res.status(400).json({
-      success: false,
-      message: '请求格式错误'
-    });
-  }
-  
-  res.status(500).json({ 
-    success: false,
-    message: '服务器内部错误' 
-  });
+  res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// 启动服务器
+// 404 handler
+app.use('*', (req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
 if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`服务器运行在端口 ${PORT}`);
+  // Initialize database connection
+  database.connect().then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  }).catch(err => {
+    console.error('Failed to connect to database:', err);
+    process.exit(1);
   });
 }
 

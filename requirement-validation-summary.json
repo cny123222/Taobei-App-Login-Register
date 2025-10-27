@@ -1,0 +1,36 @@
+{
+  "timestamp": "2025-10-27T09:22:07.152Z",
+  "overallCoverage": 3.9285714285714293,
+  "totalRequirements": 168,
+  "totalTestCases": 171,
+  "coverageBreakdown": {
+    "full": 0,
+    "partial": 0,
+    "minimal": 33,
+    "none": 135
+  },
+  "typeBreakdown": {
+    "auth": {
+      "total": 18,
+      "covered": 6
+    },
+    "functional": {
+      "total": 11,
+      "covered": 0
+    },
+    "validation": {
+      "total": 11,
+      "covered": 7
+    },
+    "api": {
+      "total": 128,
+      "covered": 20
+    }
+  },
+  "recommendations": [
+    "需要为 135 个未覆盖的需求编写测试用例",
+    "需要增强 33 个最小覆盖需求的测试用例",
+    "需要补充 168 个需求的测试缺口",
+    "总体覆盖率偏低，建议增加更多测试用例"
+  ]
+}
