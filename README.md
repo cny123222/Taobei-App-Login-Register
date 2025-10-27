@@ -1,6 +1,6 @@
 # 淘贝购物应用 - 用户登录注册系统
 
-[![Version](https://img.shields.io/badge/version-v2.0.1-blue.svg)](https://github.com/cny123222/Taobei-App-Login-Register/releases/tag/v2.0.1)
+[![Version](https://img.shields.io/badge/version-v2.0.2-blue.svg)](https://github.com/cny123222/Taobei-App-Login-Register/releases/tag/v2.0.2)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](#测试执行)
 
