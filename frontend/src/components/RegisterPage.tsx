@@ -185,7 +185,7 @@ const RegisterPage: React.FC = () => {
               }}
               data-testid="register-btn"
             >
-              {loading ? '注册中...' : '注册'}
+              {loading ? '注册中...' : '同意并注册'}
             </button>
           </div>
         </form>

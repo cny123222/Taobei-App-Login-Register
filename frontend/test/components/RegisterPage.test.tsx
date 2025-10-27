@@ -100,7 +100,7 @@ describe('注册页面UI接口测试', () => {
       
       const registerBtn = screen.getByTestId('register-btn')
       expect(registerBtn).toBeInTheDocument()
-      expect(registerBtn).toHaveTextContent('注册')
+      expect(registerBtn).toHaveTextContent('同意并注册')
       expect(registerBtn).toHaveAttribute('type', 'submit')
     })
 
