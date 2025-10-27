@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-27T06:22:51.726Z",
+  "timestamp": "2025-10-27T09:22:07.151Z",
   "matrix": [
     {
       "requirementId": "REQ-1",
@@ -1349,7 +1349,7 @@
         },
         {
           "testId": "TEST-5",
-          "testName": "应该设置验证码5分钟过期时间",
+          "testName": "应该设置验证码60秒过期时间",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -1409,7 +1409,7 @@
         },
         {
           "testId": "TEST-13",
-          "testName": "应该为新用户自动创建账号",
+          "testName": "应该为新用户返回未注册错误",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -1585,6 +1585,16 @@
       "coverageLevel": "MINIMAL",
       "testCases": [
         {
+          "testId": "TEST-13",
+          "testName": "应该为新用户返回未注册错误",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        },
+        {
           "testId": "TEST-15",
           "testName": "应该成功注册新用户",
           "testFile": "backend/test/routes/auth.test.js",
@@ -1715,6 +1725,17 @@
           ]
         },
         {
+          "testId": "TEST-13",
+          "testName": "应该为新用户返回未注册错误",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
           "testId": "TEST-15",
           "testName": "应该成功注册新用户",
           "testFile": "backend/test/routes/auth.test.js",
@@ -1791,7 +1812,7 @@
         },
         {
           "testId": "TEST-5",
-          "testName": "应该设置验证码5分钟过期时间",
+          "testName": "应该设置验证码60秒过期时间",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -1857,16 +1878,6 @@
           "matchReasons": [
             "类型匹配: api",
             "关键词匹配: 验证码"
-          ]
-        },
-        {
-          "testId": "TEST-13",
-          "testName": "应该为新用户自动创建账号",
-          "testFile": "backend/test/routes/auth.test.js",
-          "matchScore": 0.4,
-          "matchReasons": [
-            "类型匹配: api",
-            "关键词匹配: 用户"
           ]
         },
         {
@@ -1963,6 +1974,16 @@
       "requirementDescription": "description 接口实现",
       "coverageLevel": "MINIMAL",
       "testCases": [
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户返回未注册错误",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        },
         {
           "testId": "TEST-15",
           "testName": "应该成功注册新用户",
@@ -2189,6 +2210,16 @@
       "coverageLevel": "MINIMAL",
       "testCases": [
         {
+          "testId": "TEST-13",
+          "testName": "应该为新用户返回未注册错误",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        },
+        {
           "testId": "TEST-15",
           "testName": "应该成功注册新用户",
           "testFile": "backend/test/routes/auth.test.js",
@@ -2264,7 +2295,7 @@
         },
         {
           "testId": "TEST-13",
-          "testName": "应该为新用户自动创建账号",
+          "testName": "应该为新用户返回未注册错误",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -2384,7 +2415,7 @@
           "testId": "TEST-1",
           "testName": "应该成功发送验证码给有效手机号",
           "testFile": "backend/test/routes/auth.test.js",
-          "matchScore": 0.35,
+          "matchScore": 0.4,
           "matchReasons": [
             "类型匹配: api"
           ]
@@ -2393,7 +2424,7 @@
           "testId": "TEST-2",
           "testName": "应该拒绝无效的手机号格式",
           "testFile": "backend/test/routes/auth.test.js",
-          "matchScore": 0.35,
+          "matchScore": 0.4,
           "matchReasons": [
             "类型匹配: api"
           ]
@@ -2402,7 +2433,7 @@
           "testId": "TEST-3",
           "testName": "应该处理缺少手机号参数",
           "testFile": "backend/test/routes/auth.test.js",
-          "matchScore": 0.35,
+          "matchScore": 0.4,
           "matchReasons": [
             "类型匹配: api"
           ]
@@ -2411,16 +2442,16 @@
           "testId": "TEST-4",
           "testName": "应该生成6位数字验证码",
           "testFile": "backend/test/routes/auth.test.js",
-          "matchScore": 0.35,
+          "matchScore": 0.4,
           "matchReasons": [
             "类型匹配: api"
           ]
         },
         {
           "testId": "TEST-5",
-          "testName": "应该设置验证码5分钟过期时间",
+          "testName": "应该设置验证码60秒过期时间",
           "testFile": "backend/test/routes/auth.test.js",
-          "matchScore": 0.35,
+          "matchScore": 0.4,
           "matchReasons": [
             "类型匹配: api"
           ]
@@ -2429,7 +2460,7 @@
           "testId": "TEST-6",
           "testName": "应该限制同一手机号的验证码发送频率",
           "testFile": "backend/test/routes/auth.test.js",
-          "matchScore": 0.35,
+          "matchScore": 0.4,
           "matchReasons": [
             "类型匹配: api"
           ]
@@ -2490,7 +2521,7 @@
         },
         {
           "testId": "TEST-13",
-          "testName": "应该为新用户自动创建账号",
+          "testName": "应该为新用户返回未注册错误",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.35,
           "matchReasons": [
@@ -2652,7 +2683,7 @@
         },
         {
           "testId": "TEST-5",
-          "testName": "应该设置验证码5分钟过期时间",
+          "testName": "应该设置验证码60秒过期时间",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -2994,7 +3025,7 @@
         },
         {
           "testId": "TEST-13",
-          "testName": "应该为新用户自动创建账号",
+          "testName": "应该为新用户返回未注册错误",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -3048,7 +3079,7 @@
         },
         {
           "testId": "TEST-5",
-          "testName": "应该设置验证码5分钟过期时间",
+          "testName": "应该设置验证码60秒过期时间",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.35,
           "matchReasons": [
@@ -3232,7 +3263,7 @@
         },
         {
           "testId": "TEST-5",
-          "testName": "应该设置验证码5分钟过期时间",
+          "testName": "应该设置验证码60秒过期时间",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -3292,7 +3323,7 @@
         },
         {
           "testId": "TEST-13",
-          "testName": "应该为新用户自动创建账号",
+          "testName": "应该为新用户返回未注册错误",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -3710,7 +3741,7 @@
         },
         {
           "testId": "TEST-5",
-          "testName": "应该设置验证码5分钟过期时间",
+          "testName": "应该设置验证码60秒过期时间",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.35,
           "matchReasons": [
@@ -3782,7 +3813,7 @@
         },
         {
           "testId": "TEST-13",
-          "testName": "应该为新用户自动创建账号",
+          "testName": "应该为新用户返回未注册错误",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.35,
           "matchReasons": [
@@ -3809,6 +3840,17 @@
       "requirementDescription": "description 接口实现",
       "coverageLevel": "MINIMAL",
       "testCases": [
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户返回未注册错误",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        },
         {
           "testId": "TEST-15",
           "testName": "应该成功注册新用户",
@@ -3853,7 +3895,7 @@
         },
         {
           "testId": "TEST-5",
-          "testName": "应该设置验证码5分钟过期时间",
+          "testName": "应该设置验证码60秒过期时间",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -3919,16 +3961,6 @@
           "matchReasons": [
             "类型匹配: api",
             "关键词匹配: 验证码"
-          ]
-        },
-        {
-          "testId": "TEST-13",
-          "testName": "应该为新用户自动创建账号",
-          "testFile": "backend/test/routes/auth.test.js",
-          "matchScore": 0.4,
-          "matchReasons": [
-            "类型匹配: api",
-            "关键词匹配: 用户"
           ]
         },
         {
@@ -4275,7 +4307,7 @@
         },
         {
           "testId": "TEST-13",
-          "testName": "应该为新用户自动创建账号",
+          "testName": "应该为新用户返回未注册错误",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -4422,7 +4454,7 @@
         },
         {
           "testId": "TEST-13",
-          "testName": "应该为新用户自动创建账号",
+          "testName": "应该为新用户返回未注册错误",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -4559,7 +4591,7 @@
         },
         {
           "testId": "TEST-5",
-          "testName": "应该设置验证码5分钟过期时间",
+          "testName": "应该设置验证码60秒过期时间",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -4758,7 +4790,7 @@
         },
         {
           "testId": "TEST-5",
-          "testName": "应该设置验证码5分钟过期时间",
+          "testName": "应该设置验证码60秒过期时间",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [
@@ -4945,7 +4977,7 @@
         },
         {
           "testId": "TEST-5",
-          "testName": "应该设置验证码5分钟过期时间",
+          "testName": "应该设置验证码60秒过期时间",
           "testFile": "backend/test/routes/auth.test.js",
           "matchScore": 0.4,
           "matchReasons": [

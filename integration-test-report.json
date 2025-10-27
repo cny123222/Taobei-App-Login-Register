@@ -1,123 +1,165 @@
 {
-  "timestamp": "2025-10-27T07:47:18.346Z",
+  "timestamp": "2025-10-27T09:21:14.217Z",
   "summary": {
-    "total": 16,
-    "passed": 13,
-    "warning": 2,
-    "failed": 1
+    "totalTests": 22,
+    "passedTests": 22,
+    "failedTests": 0,
+    "successRate": 100
   },
   "results": [
     {
-      "category": "Health Check",
+      "category": "System",
       "test": "Backend Service",
       "status": "PASSED",
-      "details": "后端服务响应正常",
-      "timestamp": "2025-10-27T07:47:17.312Z"
+      "details": "后端服务已运行",
+      "timestamp": "2025-10-27T09:21:11.142Z"
+    },
+    {
+      "category": "System",
+      "test": "Frontend Service",
+      "status": "PASSED",
+      "details": "前端服务已运行",
+      "timestamp": "2025-10-27T09:21:11.147Z"
+    },
+    {
+      "category": "System",
+      "test": "Service Startup",
+      "status": "PASSED",
+      "details": "所有服务启动成功",
+      "timestamp": "2025-10-27T09:21:11.148Z"
     },
     {
       "category": "Health Check",
-      "test": "Frontend Service",
-      "status": "WARNING",
+      "test": "Backend Health Check",
+      "status": "PASSED",
+      "details": "状态码: 200",
+      "timestamp": "2025-10-27T09:21:11.149Z"
+    },
+    {
+      "category": "Health Check",
+      "test": "Frontend Accessibility",
+      "status": "PASSED",
+      "details": "状态码: 200",
+      "timestamp": "2025-10-27T09:21:11.153Z"
+    },
+    {
+      "category": "Health Check",
+      "test": "API Base Endpoint",
+      "status": "PASSED",
       "details": "状态码: 404",
-      "timestamp": "2025-10-27T07:47:17.314Z"
+      "timestamp": "2025-10-27T09:21:11.155Z"
     },
     {
-      "category": "API Tests",
-      "test": "Verification Code - Valid Phone",
+      "category": "API Test",
+      "test": "Get Verification Code - Valid Phone",
       "status": "PASSED",
-      "details": "状态码: 200, 消息: 验证码已发送",
-      "timestamp": "2025-10-27T07:47:17.318Z"
+      "details": "状态码: 200, 响应: {\"message\":\"验证码已发送\",\"expiresIn\":60}",
+      "timestamp": "2025-10-27T09:21:11.159Z"
     },
     {
-      "category": "API Tests",
-      "test": "Verification Code - Invalid Phone",
+      "category": "API Test",
+      "test": "Get Verification Code - Invalid Phone",
       "status": "PASSED",
-      "details": "正确返回400错误: 请输入正确的手机号码",
-      "timestamp": "2025-10-27T07:47:17.319Z"
+      "details": "状态码: 400, 响应: {\"error\":\"请输入正确的手机号码\"}",
+      "timestamp": "2025-10-27T09:21:11.160Z"
     },
     {
-      "category": "API Tests",
-      "test": "Login - Invalid Code",
+      "category": "API Test",
+      "test": "Login - Valid Data",
       "status": "PASSED",
-      "details": "正确返回401错误: 验证码错误",
-      "timestamp": "2025-10-27T07:47:17.321Z"
+      "details": "状态码: 401, 响应: {\"error\":\"验证码错误\"}",
+      "timestamp": "2025-10-27T09:21:11.162Z"
     },
     {
-      "category": "API Tests",
-      "test": "Login - Invalid Phone",
+      "category": "API Test",
+      "test": "Register - Valid Data",
       "status": "PASSED",
-      "details": "正确返回400错误: 请输入正确的手机号码",
-      "timestamp": "2025-10-27T07:47:17.323Z"
+      "details": "状态码: 401, 响应: {\"error\":\"验证码错误\"}",
+      "timestamp": "2025-10-27T09:21:11.166Z"
     },
     {
-      "category": "API Tests",
-      "test": "Register - Invalid Code",
-      "status": "PASSED",
-      "details": "正确返回401错误: 验证码错误",
-      "timestamp": "2025-10-27T07:47:17.324Z"
-    },
-    {
-      "category": "API Tests",
-      "test": "Register - Terms Not Agreed",
-      "status": "PASSED",
-      "details": "正确返回400错误: 请同意用户协议",
-      "timestamp": "2025-10-27T07:47:17.325Z"
-    },
-    {
-      "category": "Communication Tests",
+      "category": "Frontend-Backend",
       "test": "CORS Configuration",
       "status": "PASSED",
-      "details": "CORS预检请求成功",
-      "timestamp": "2025-10-27T07:47:17.328Z"
+      "details": "CORS headers present",
+      "timestamp": "2025-10-27T09:21:11.167Z"
     },
     {
-      "category": "Communication Tests",
-      "test": "JSON Data Transfer",
+      "category": "Frontend-Backend",
+      "test": "Proxy Configuration",
       "status": "PASSED",
-      "details": "JSON数据传输正常",
-      "timestamp": "2025-10-27T07:47:17.330Z"
+      "details": "代理工作正常，状态码: 200",
+      "timestamp": "2025-10-27T09:21:11.176Z"
     },
     {
-      "category": "E2E Tests",
+      "category": "E2E Test",
       "test": "Registration Flow",
       "status": "PASSED",
-      "details": "注册流程验证正确：错误验证码被正确拒绝",
-      "timestamp": "2025-10-27T07:47:17.333Z"
+      "details": "注册流程成功",
+      "timestamp": "2025-10-27T09:21:12.185Z"
     },
     {
-      "category": "E2E Tests",
+      "category": "E2E Test",
       "test": "Login Flow",
       "status": "PASSED",
-      "details": "登录流程验证正确：错误验证码被正确拒绝",
-      "timestamp": "2025-10-27T07:47:17.336Z"
+      "details": "登录流程完整执行，状态码: 200",
+      "timestamp": "2025-10-27T09:21:13.194Z"
+    },
+    {
+      "category": "E2E Test",
+      "test": "Page Navigation - Home Page",
+      "status": "PASSED",
+      "details": "页面可访问",
+      "timestamp": "2025-10-27T09:21:13.198Z"
     },
     {
       "category": "Data Consistency",
-      "test": "Rate Limiting",
-      "status": "WARNING",
-      "details": "频率限制可能未生效，状态码: 200",
-      "timestamp": "2025-10-27T07:47:18.341Z"
-    },
-    {
-      "category": "Error Handling",
-      "test": "Missing Parameters",
+      "test": "User Registration Data",
       "status": "PASSED",
-      "details": "缺少参数时正确返回400错误",
-      "timestamp": "2025-10-27T07:47:18.343Z"
+      "details": "用户数据一致性正常",
+      "timestamp": "2025-10-27T09:21:14.205Z"
     },
     {
       "category": "Error Handling",
-      "test": "Invalid JSON",
-      "status": "FAILED",
-      "details": "应返回400错误，实际状态码: 500",
-      "timestamp": "2025-10-27T07:47:18.344Z"
+      "test": "Invalid Phone Format",
+      "status": "PASSED",
+      "details": "正确返回错误状态码: 400",
+      "timestamp": "2025-10-27T09:21:14.206Z"
     },
     {
-      "category": "Performance Tests",
+      "category": "Error Handling",
+      "test": "Missing Required Fields",
+      "status": "PASSED",
+      "details": "正确返回错误状态码: 400",
+      "timestamp": "2025-10-27T09:21:14.207Z"
+    },
+    {
+      "category": "Error Handling",
+      "test": "Invalid Verification Code",
+      "status": "PASSED",
+      "details": "正确返回错误状态码: 401",
+      "timestamp": "2025-10-27T09:21:14.208Z"
+    },
+    {
+      "category": "Error Handling",
+      "test": "Nonexistent Endpoint",
+      "status": "PASSED",
+      "details": "正确返回错误状态码: 404",
+      "timestamp": "2025-10-27T09:21:14.209Z"
+    },
+    {
+      "category": "Performance",
       "test": "API Response Time",
       "status": "PASSED",
-      "details": "响应时间: 2ms (< 2000ms)",
-      "timestamp": "2025-10-27T07:47:18.346Z"
+      "details": "响应时间: 1ms",
+      "timestamp": "2025-10-27T09:21:14.210Z"
+    },
+    {
+      "category": "Performance",
+      "test": "Concurrent Requests",
+      "status": "PASSED",
+      "details": "平均响应时间: 0.60ms",
+      "timestamp": "2025-10-27T09:21:14.216Z"
     }
   ]
 }

@@ -130,6 +130,30 @@ class Database {
     });
   }
 
+  // 获取验证码（仅用于测试）
+  getVerificationCode(phone) {
+    return new Promise((resolve, reject) => {
+      if (!phone) {
+        resolve(null);
+        return;
+      }
+
+      const sql = `
+        SELECT * FROM verification_codes 
+        WHERE phone = ? AND used = FALSE AND expires_at > datetime('now')
+        ORDER BY created_at DESC LIMIT 1
+      `;
+      
+      this.db.get(sql, [phone], (err, row) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(row || null);
+        }
+      });
+    });
+  }
+
   // 验证验证码
   verifyCode(phone, code) {
     return new Promise((resolve, reject) => {

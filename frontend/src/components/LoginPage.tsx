@@ -31,11 +31,11 @@ const LoginPage: React.FC = () => {
 
     try {
       const response = await authAPI.getVerificationCode(phone);
-      console.log(`验证码: ${response.data.code}`);
+      console.log('验证码获取响应:', response.data);
       setCountdown(60);
-      setSuccess('验证码已发送');
+      setSuccess(response.data.message || '验证码已发送');
     } catch (err: any) {
-      setError(err.response?.data?.message || '获取验证码失败');
+      setError(err.response?.data?.error || '获取验证码失败');
     } finally {
       setLoading(false);
     }
@@ -50,19 +50,20 @@ const LoginPage: React.FC = () => {
     try {
       const response = await authAPI.login(phone, verificationCode);
       
-      if (response.data.success) {
+      // 后端成功响应时直接包含token和message
+      if (response.data.token) {
         localStorage.setItem('token', response.data.token);
-        setSuccess('登录成功');
+        setSuccess(response.data.message || '登录成功');
         navigate('/');
       }
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message;
-      if (errorMessage === '手机号未注册') {
+      const errorMessage = err.response?.data?.error;
+      if (errorMessage === '该手机号未注册，请先完成注册') {
         setError('手机号未注册，请先注册');
       } else if (errorMessage === '验证码错误') {
         setError('验证码错误');
       } else {
-        setError('登录失败，请重试');
+        setError(errorMessage || '登录失败，请重试');
       }
     } finally {
       setLoading(false);

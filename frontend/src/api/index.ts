@@ -44,15 +44,15 @@ api.interceptors.response.use(
 export const authAPI = {
   // 获取验证码
   getVerificationCode: (phone: string) => 
-    api.post('/verification-code', { phone }),
+    api.post('/auth/verification-code', { phoneNumber: phone }),
   
   // 用户登录
   login: (phone: string, verificationCode: string) => 
-    api.post('/login', { phone, verificationCode }),
+    api.post('/auth/login', { phoneNumber: phone, verificationCode }),
   
   // 用户注册
-  register: (phone: string, verificationCode: string) => 
-    api.post('/register', { phone, verificationCode }),
+  register: (phone: string, verificationCode: string, agreeToTerms: boolean) => 
+    api.post('/auth/register', { phoneNumber: phone, verificationCode, agreeToTerms }),
   
   // 获取用户信息
   getUserInfo: () => 

@@ -32,11 +32,11 @@ const RegisterPage: React.FC = () => {
 
     try {
       const response = await authAPI.getVerificationCode(phone);
-      console.log(`验证码: ${response.data.code}`);
+      console.log('验证码获取响应:', response.data);
       setCountdown(60);
-      setSuccess('验证码已发送');
+      setSuccess(response.data.message || '验证码已发送');
     } catch (err: any) {
-      setError(err.response?.data?.message || '获取验证码失败');
+      setError(err.response?.data?.error || '获取验证码失败');
     } finally {
       setLoading(false);
     }
@@ -49,25 +49,20 @@ const RegisterPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await authAPI.register(phone, verificationCode);
+      const response = await authAPI.register(phone, verificationCode, agreeToTerms);
       
-      if (response.data.success) {
-        if (response.data.message === '该手机号已注册，将直接为您登录') {
-          setSuccess('该手机号已注册，将直接为您登录');
-          localStorage.setItem('token', response.data.token);
-          setTimeout(() => navigate('/'), 1500);
-        } else {
-          setSuccess('注册成功');
-          localStorage.setItem('token', response.data.token);
-          setTimeout(() => navigate('/'), 1500);
-        }
+      // 后端成功响应时直接包含token和message
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        setSuccess(response.data.message || '注册成功');
+        setTimeout(() => navigate('/'), 1500);
       }
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message;
+      const errorMessage = err.response?.data?.error;
       if (errorMessage === '验证码错误') {
         setError('验证码错误');
       } else {
-        setError('注册失败，请重试');
+        setError(errorMessage || '注册失败，请重试');
       }
     } finally {
       setLoading(false);
