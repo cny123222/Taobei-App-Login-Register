@@ -140,15 +140,26 @@ class Database {
 
       const sql = `
         SELECT * FROM verification_codes 
-        WHERE phone = ? AND used = FALSE AND expires_at > datetime('now')
+        WHERE phone = ? AND used = FALSE
         ORDER BY created_at DESC LIMIT 1
       `;
       
       this.db.get(sql, [phone], (err, row) => {
         if (err) {
           reject(err);
+        } else if (row) {
+          // 检查验证码是否过期（使用JavaScript时间比较）
+          const expiresAt = new Date(row.expires_at);
+          const now = new Date();
+          
+          if (now > expiresAt) {
+            // 验证码已过期
+            resolve(null);
+          } else {
+            resolve(row);
+          }
         } else {
-          resolve(row || null);
+          resolve(null);
         }
       });
     });
@@ -164,7 +175,7 @@ class Database {
 
       const sql = `
         SELECT * FROM verification_codes 
-        WHERE phone = ? AND code = ? AND used = FALSE AND expires_at > datetime('now')
+        WHERE phone = ? AND code = ? AND used = FALSE
         ORDER BY created_at DESC LIMIT 1
       `;
       
@@ -172,6 +183,16 @@ class Database {
         if (err) {
           reject(err);
         } else if (row) {
+          // 检查验证码是否过期（使用JavaScript时间比较）
+          const expiresAt = new Date(row.expires_at);
+          const now = new Date();
+          
+          if (now > expiresAt) {
+            // 验证码已过期
+            resolve(false);
+            return;
+          }
+          
           // 标记验证码为已使用
           const updateSql = 'UPDATE verification_codes SET used = TRUE WHERE id = ?';
           this.db.run(updateSql, [row.id], (updateErr) => {

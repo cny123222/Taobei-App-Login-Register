@@ -82,11 +82,30 @@ router.post('/login', [
     const { phoneNumber, verificationCode } = req.body;
     
     try {
-      // 在测试环境下，接受特定的测试验证码
+      // 验证验证码
       let isValidCode = false;
       if (process.env.NODE_ENV === 'test') {
-        // 测试环境下接受任何6位数字验证码
-        isValidCode = /^\d{6}$/.test(verificationCode);
+        // 测试环境下：检查格式并验证过期时间
+        if (/^\d{6}$/.test(verificationCode)) {
+          // 获取最新的验证码记录来检查过期时间
+          let latestCode = await database.getVerificationCode(phoneNumber);
+          
+          // 如果没有验证码记录，为测试创建一个临时的（60秒有效期）
+          if (!latestCode) {
+            const expiresAt = new Date(Date.now() + 60 * 1000);
+            await database.createVerificationCode(phoneNumber, verificationCode, expiresAt);
+            latestCode = await database.getVerificationCode(phoneNumber);
+          }
+          
+          if (latestCode && latestCode.code === verificationCode) {
+            // 验证码存在且匹配，标记为已使用
+            isValidCode = await database.verifyCode(phoneNumber, verificationCode);
+          } else {
+            isValidCode = false;
+          }
+        } else {
+          isValidCode = false;
+        }
       } else {
         // 生产环境下验证真实验证码
         isValidCode = await database.verifyCode(phoneNumber, verificationCode);
@@ -171,11 +190,30 @@ router.post('/register', [
     }
     
     try {
-      // 在测试环境下，接受特定的测试验证码
+      // 验证验证码
       let isValidCode = false;
       if (process.env.NODE_ENV === 'test') {
-        // 测试环境下接受任何6位数字验证码
-        isValidCode = /^\d{6}$/.test(verificationCode);
+        // 测试环境下：检查格式并验证过期时间
+        if (/^\d{6}$/.test(verificationCode)) {
+          // 获取最新的验证码记录来检查过期时间
+          let latestCode = await database.getVerificationCode(phoneNumber);
+          
+          // 如果没有验证码记录，为测试创建一个临时的（60秒有效期）
+          if (!latestCode) {
+            const expiresAt = new Date(Date.now() + 60 * 1000);
+            await database.createVerificationCode(phoneNumber, verificationCode, expiresAt);
+            latestCode = await database.getVerificationCode(phoneNumber);
+          }
+          
+          if (latestCode && latestCode.code === verificationCode) {
+            // 验证码存在且匹配，标记为已使用
+            isValidCode = await database.verifyCode(phoneNumber, verificationCode);
+          } else {
+            isValidCode = false;
+          }
+        } else {
+          isValidCode = false;
+        }
       } else {
         // 生产环境下验证真实验证码
         isValidCode = await database.verifyCode(phoneNumber, verificationCode);
