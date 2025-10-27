@@ -157,7 +157,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   };
 
   return (
-    <div className="login-form">
+    <div className="login-form" data-testid="login-form">
       <h2>用户登录</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -172,9 +172,10 @@ const LoginForm: React.FC<LoginFormProps> = ({
               placeholder="请输入手机号"
               maxLength={11}
               className={errors.phone ? 'error' : ''}
+              data-testid="phone-input"
             />
           </div>
-          {errors.phone && <div className="error-message">{errors.phone}</div>}
+          {errors.phone && <div className="error-message" data-testid="error-message">{errors.phone}</div>}
         </div>
 
         <div className="form-group">
@@ -188,26 +189,29 @@ const LoginForm: React.FC<LoginFormProps> = ({
               placeholder="请输入验证码"
               maxLength={6}
               className={errors.code ? 'error' : ''}
+              data-testid="code-input"
             />
             <button
               type="button"
               onClick={handleSendCode}
               disabled={countdown > 0 || isSendingCode || !phone}
               className="send-code-btn"
+              data-testid="send-code-button"
             >
               {isSendingCode ? '发送中...' : countdown > 0 ? `${countdown}s` : '获取验证码'}
             </button>
           </div>
-          {errors.code && <div className="error-message">{errors.code}</div>}
-          {errors.sendCode && <div className="error-message">{errors.sendCode}</div>}
+          {errors.code && <div className="error-message" data-testid="error-message">{errors.code}</div>}
+          {errors.sendCode && <div className="error-message" data-testid="error-message">{errors.sendCode}</div>}
         </div>
 
-        {errors.submit && <div className="error-message">{errors.submit}</div>}
+        {errors.submit && <div className="error-message" data-testid="error-message">{errors.submit}</div>}
 
         <button
           type="submit"
           disabled={isLoading}
           className={`submit-btn ${isLoading ? 'loading' : ''}`}
+          data-testid="login-button"
         >
           {isLoading ? '登录中...' : '登录'}
         </button>
@@ -218,6 +222,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             type="button"
             onClick={onSwitchToRegister}
             className="switch-btn"
+            data-testid="switch-to-register"
           >
             立即注册
           </button>

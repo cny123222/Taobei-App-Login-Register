@@ -144,6 +144,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
     setErrors(prev => ({ ...prev, submit: undefined }));
 
     try {
+      // 检查是否同意条款
+      if (!agreeTerms) {
+        alert('请先同意服务条款');
+        return;
+      }
+
       if (onSubmit) {
         await onSubmit({ phone, code });
       }
@@ -158,7 +164,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   };
 
   return (
-    <div className="register-form">
+    <div className="register-form" data-testid="register-form">
       <h2>用户注册</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
@@ -173,9 +179,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
               placeholder="请输入手机号"
               maxLength={11}
               className={errors.phone ? 'error' : ''}
+              data-testid="phone-input"
             />
           </div>
-          {errors.phone && <div className="error-message">{errors.phone}</div>}
+          {errors.phone && <div className="error-message" data-testid="error-message">{errors.phone}</div>}
         </div>
 
         <div className="form-group">
@@ -189,33 +196,36 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
               placeholder="请输入验证码"
               maxLength={6}
               className={errors.code ? 'error' : ''}
+              data-testid="code-input"
             />
             <button
               type="button"
               onClick={handleSendCode}
               disabled={countdown > 0 || isSendingCode || !phone}
               className="send-code-btn"
+              data-testid="send-code-button"
             >
               {isSendingCode ? '发送中...' : countdown > 0 ? `${countdown}s` : '获取验证码'}
             </button>
           </div>
-          {errors.code && <div className="error-message">{errors.code}</div>}
-          {errors.sendCode && <div className="error-message">{errors.sendCode}</div>}
+          {errors.code && <div className="error-message" data-testid="error-message">{errors.code}</div>}
+          {errors.sendCode && <div className="error-message" data-testid="error-message">{errors.sendCode}</div>}
         </div>
 
-        {errors.submit && <div className="error-message">{errors.submit}</div>}
+        {errors.submit && <div className="error-message" data-testid="error-message">{errors.submit}</div>}
 
         <button
           type="submit"
-          disabled={isLoading || !agreeTerms}
-          className={`submit-btn ${isLoading ? 'loading' : ''} ${!agreeTerms ? 'disabled' : ''}`}
+          className={`submit-btn ${(!agreeTerms || isLoading) ? 'disabled' : ''}`}
+          disabled={!agreeTerms || isLoading}
+          data-testid="register-button"
         >
           {isLoading ? '注册中...' : '同意并注册'}
         </button>
 
         <div className="switch-form">
           <span>已有账号？</span>
-          <button type="button" onClick={onSwitchToLogin} className="switch-btn">
+          <button type="button" onClick={onSwitchToLogin} className="switch-btn" data-testid="switch-to-login">
             立即登录
           </button>
         </div>
@@ -226,6 +236,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
               type="checkbox"
               checked={agreeTerms}
               onChange={(e) => setAgreeTerms(e.target.checked)}
+              data-testid="terms-checkbox"
             />
             <span className="checkmark"></span>
             <span className="terms-text">

@@ -153,7 +153,7 @@ async function testCompleteRegistrationFlow() {
       })
     });
     
-    if (registerResponse.statusCode === 200) {
+    if (registerResponse.statusCode === 201) {
       const registerData = JSON.parse(registerResponse.data);
       if (registerData.success && registerData.token) {
         logSuccess(`注册成功: ${testPhone}`);
@@ -321,7 +321,7 @@ async function testAPICallChain() {
       data: JSON.stringify({ phone: testPhone, code: '123456' })
     });
     
-    if (registerResponse.statusCode === 200) {
+    if (registerResponse.statusCode === 201) {
       logSuccess('用户注册成功');
     } else {
       throw new Error('用户注册失败');

@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "message": "登录成功",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInBob25lIjoiMTM4MDAxMzgwMDEiLCJpYXQiOjE2MzQ1NjcwMDAsImV4cCI6MTYzNDY1MzQwMH0.test-jwt-token",
+    "user": {
+      "id": 1,
+      "phone": "13800138001",
+      "created_at": "2023-01-01T00:00:00.000Z",
+      "updated_at": "2023-01-01T00:00:00.000Z"
+    }
+  }
+}

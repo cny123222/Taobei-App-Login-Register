@@ -87,9 +87,16 @@ class Database {
       throw new Error('手机号不能为空');
     }
     return new Promise((resolve, reject) => {
-      this.db.run('INSERT INTO users (phone) VALUES (?)', [phone], function(err) {
-        if (err) reject(err);
-        else resolve({ id: this.lastID, phone });
+      this.db.run('INSERT INTO users (phone) VALUES (?)', [phone], (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          // 获取刚创建的用户完整信息
+          this.db.get('SELECT * FROM users WHERE phone = ?', [phone], (err, row) => {
+            if (err) reject(err);
+            else resolve(row);
+          });
+        }
       });
     });
   }
@@ -168,6 +175,72 @@ class Database {
       this.db.all(sql, params, (err, rows) => {
         if (err) reject(err);
         else resolve(rows);
+      });
+    });
+  }
+
+  // 获取验证码记录（仅用于测试）
+  async getVerificationCodes(phone) {
+    if (process.env.NODE_ENV !== 'test') {
+      throw new Error('getVerificationCodes只能在测试环境中使用');
+    }
+    
+    return new Promise((resolve, reject) => {
+      this.db.all(
+        'SELECT * FROM verification_codes WHERE phone = ? ORDER BY created_at ASC',
+        [phone],
+        (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows || []);
+        }
+      );
+    });
+  }
+
+  // 更新验证码过期时间（仅用于测试）
+  async updateVerificationCodeExpiry(id, expiresAt) {
+    if (process.env.NODE_ENV !== 'test') {
+      throw new Error('updateVerificationCodeExpiry只能在测试环境中使用');
+    }
+    
+    return new Promise((resolve, reject) => {
+      this.db.run(
+        'UPDATE verification_codes SET expires_at = ? WHERE id = ?',
+        [expiresAt.toISOString(), id],
+        (err) => {
+          if (err) reject(err);
+          else resolve();
+        }
+      );
+    });
+  }
+
+  // 清理所有表数据（仅用于测试）
+  async clearAllTables() {
+    if (process.env.NODE_ENV !== 'test') {
+      throw new Error('clearAllTables只能在测试环境中使用');
+    }
+    
+    if (!this.db || this.db.closed) {
+      return; // 数据库已关闭，无需清理
+    }
+    
+    return new Promise((resolve, reject) => {
+      this.db.serialize(() => {
+        this.db.run('DELETE FROM verification_codes', (err) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+        });
+        
+        this.db.run('DELETE FROM users', (err) => {
+          if (err) {
+            reject(err);
+            return;
+          }
+          resolve();
+        });
       });
     });
   }

@@ -14,6 +14,17 @@ beforeAll(async () => {
   }
 });
 
+// 每个测试之间清理验证码表以避免频率限制
+beforeEach(async () => {
+  const databaseManager = require('../src/models/databaseManager');
+  try {
+    const database = await databaseManager.getInstance();
+    await database.run('DELETE FROM verification_codes');
+  } catch (error) {
+    // 忽略错误，可能是表还不存在
+  }
+});
+
 // 测试完成后清理
 afterAll(async () => {
   const dbPath = process.env.DB_PATH;

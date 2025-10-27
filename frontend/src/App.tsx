@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import LoginForm from './components/LoginForm'
 import RegisterForm from './components/RegisterForm'
+import HomePage from './components/HomePage'
 
-type PageType = 'login' | 'register'
+type PageType = 'home' | 'login' | 'register'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<PageType>('login')
+  const [currentPage, setCurrentPage] = useState<PageType>('home')
+  const [successMessage, setSuccessMessage] = useState<string>('')
 
   // 发送验证码
   const handleSendCode = async (phone: string) => {
@@ -54,7 +56,8 @@ function App() {
       console.log('登录成功:', result)
       // 这里可以保存token到localStorage或进行页面跳转
       localStorage.setItem('token', result.token)
-      alert('登录成功！')
+      setSuccessMessage('登录成功')
+      setTimeout(() => setSuccessMessage(''), 3000)
     } catch (error) {
       console.error('登录失败:', error)
       throw error
@@ -81,7 +84,8 @@ function App() {
       console.log('注册成功:', result)
       // 注册成功后可以自动登录或跳转到登录页面
       localStorage.setItem('token', result.token)
-      alert('注册成功！')
+      setSuccessMessage('注册成功')
+      setTimeout(() => setSuccessMessage(''), 3000)
     } catch (error) {
       console.error('注册失败:', error)
       throw error
@@ -90,7 +94,17 @@ function App() {
 
   return (
     <div className="app">
-      {currentPage === 'login' ? (
+      {successMessage && (
+        <div className="success-message" data-testid="success-message">
+          {successMessage}
+        </div>
+      )}
+      {currentPage === 'home' ? (
+        <HomePage
+          onNavigateToLogin={() => setCurrentPage('login')}
+          onNavigateToRegister={() => setCurrentPage('register')}
+        />
+      ) : currentPage === 'login' ? (
         <LoginForm
           onSubmit={handleLogin}
           onSendCode={handleSendCode}

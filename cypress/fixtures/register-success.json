@@ -1,0 +1,13 @@
+{
+  "success": true,
+  "message": "注册成功",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInBob25lIjoiMTM4MDAxMzgwMDIiLCJpYXQiOjE2MzQ1NjcwMDAsImV4cCI6MTYzNDY1MzQwMH0.test-jwt-token-register",
+    "user": {
+      "id": 2,
+      "phone": "13800138002",
+      "created_at": "2023-01-01T00:00:00.000Z",
+      "updated_at": "2023-01-01T00:00:00.000Z"
+    }
+  }
+}

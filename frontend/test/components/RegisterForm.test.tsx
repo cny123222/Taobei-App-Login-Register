@@ -28,7 +28,7 @@ describe('RegisterForm Component Tests', () => {
       expect(screen.getByLabelText('手机号')).toBeInTheDocument()
       expect(screen.getByLabelText('验证码')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: '获取验证码' })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: '注册' })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: '同意并注册' })).toBeInTheDocument()
       expect(screen.getByText('已有账号？')).toBeInTheDocument()
       expect(screen.getByRole('button', { name: '立即登录' })).toBeInTheDocument()
     })
@@ -222,11 +222,15 @@ describe('RegisterForm Component Tests', () => {
       render(<RegisterForm onSubmit={mockOnSubmit} />)
       const phoneInput = screen.getByLabelText('手机号')
       const codeInput = screen.getByLabelText('验证码')
-      const submitBtn = screen.getByRole('button', { name: '注册' })
+      const submitBtn = screen.getByRole('button', { name: '同意并注册' })
 
-      // When: 填写完整信息并提交
+      // When: 填写完整信息、勾选同意条款并提交
       await user.type(phoneInput, '13800138001')
       await user.type(codeInput, '123456')
+      
+      const agreeCheckbox = screen.getByRole('checkbox', { name: /已阅读并同意/ })
+      await user.click(agreeCheckbox)
+      
       await user.click(submitBtn)
 
       // Then: 应该调用提交回调
@@ -240,12 +244,15 @@ describe('RegisterForm Component Tests', () => {
       // Given: 渲染注册表单
       const user = userEvent.setup()
       render(<RegisterForm onSubmit={mockOnSubmit} />)
-      const submitBtn = screen.getByRole('button', { name: '注册' })
+      const submitBtn = screen.getByRole('button', { name: '同意并注册' })
 
       // Mock alert
       const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
 
-      // When: 不填写信息直接提交
+      // When: 勾选同意条款但不填写信息直接提交
+      const agreeCheckbox = screen.getByRole('checkbox', { name: /已阅读并同意/ })
+      await user.click(agreeCheckbox)
+      
       await user.click(submitBtn)
 
       // Then: 应该显示错误提示
@@ -262,11 +269,15 @@ describe('RegisterForm Component Tests', () => {
       render(<RegisterForm onSubmit={mockOnSubmit} />)
       const phoneInput = screen.getByLabelText('手机号')
       const codeInput = screen.getByLabelText('验证码')
-      const submitBtn = screen.getByRole('button', { name: '注册' })
+      const submitBtn = screen.getByRole('button', { name: '同意并注册' })
 
-      // When: 提交表单
+      // When: 填写完整信息、勾选同意条款并提交
       await user.type(phoneInput, '13800138001')
       await user.type(codeInput, '123456')
+      
+      const agreeCheckbox = screen.getByRole('checkbox', { name: /已阅读并同意/ })
+      await user.click(agreeCheckbox)
+      
       await user.click(submitBtn)
 
       // Then: 应该显示加载状态
@@ -282,14 +293,18 @@ describe('RegisterForm Component Tests', () => {
       render(<RegisterForm onSubmit={mockOnSubmit} />)
       const phoneInput = screen.getByLabelText('手机号')
       const codeInput = screen.getByLabelText('验证码')
-      const submitBtn = screen.getByRole('button', { name: '注册' })
+      const submitBtn = screen.getByRole('button', { name: '同意并注册' })
 
       // Mock alert
       const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
 
-      // When: 提交失败
+      // When: 填写完整信息、勾选同意条款并提交失败
       await user.type(phoneInput, '13800138001')
       await user.type(codeInput, '123456')
+      
+      const agreeCheckbox = screen.getByRole('checkbox', { name: /已阅读并同意/ })
+      await user.click(agreeCheckbox)
+      
       await user.click(submitBtn)
 
       // Then: 应该显示错误提示

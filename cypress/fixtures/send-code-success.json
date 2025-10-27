@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "message": "验证码发送成功",
+  "data": {
+    "phone": "13800138001",
+    "type": "login",
+    "expires_in": 300
+  }
+}

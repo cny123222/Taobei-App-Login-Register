@@ -59,8 +59,12 @@ describe('End-to-End User Flow Tests', () => {
       await user.type(codeInput, '123456')
       expect(codeInput).toHaveValue('123456')
 
+      // Step 3.5: 用户勾选同意条款
+      const agreeCheckbox = screen.getByRole('checkbox')
+      await user.click(agreeCheckbox)
+
       // Step 4: 用户点击注册按钮
-      const registerBtn = screen.getByRole('button', { name: '注册' })
+      const registerBtn = screen.getByRole('button', { name: '同意并注册' })
       await user.click(registerBtn)
 
       // Then: 应该调用注册API
@@ -80,8 +84,11 @@ describe('End-to-End User Flow Tests', () => {
       // Mock alert
       const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
 
-      // When: 用户直接点击注册（未填写信息）
-      const registerBtn = screen.getByRole('button', { name: '注册' })
+      // When: 用户勾选同意条款但未填写信息就点击注册
+      const agreeCheckbox = screen.getByRole('checkbox', { name: /已阅读并同意/ })
+      await user.click(agreeCheckbox)
+      
+      const registerBtn = screen.getByRole('button', { name: '同意并注册' })
       await user.click(registerBtn)
 
       // Then: 应该显示错误提示
@@ -318,13 +325,17 @@ describe('End-to-End User Flow Tests', () => {
       
       render(<RegisterForm onSubmit={mockOnSubmit} />)
 
-      // When: 用户提交表单
+      // When: 用户填写表单、同意条款并提交
       const phoneInput = screen.getByLabelText('手机号')
       const codeInput = screen.getByLabelText('验证码')
-      const registerBtn = screen.getByRole('button', { name: '注册' })
+      const registerBtn = screen.getByRole('button', { name: '同意并注册' })
 
       await user.type(phoneInput, '13800138006')
       await user.type(codeInput, '123456')
+      
+      const agreeCheckbox = screen.getByRole('checkbox', { name: /已阅读并同意/ })
+      await user.click(agreeCheckbox)
+      
       await user.click(registerBtn)
 
       // Then: 应该显示加载状态
@@ -371,13 +382,17 @@ describe('End-to-End User Flow Tests', () => {
       // Mock alert
       const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {})
 
-      // When: 用户提交表单但网络失败
+      // When: 用户填写表单、同意条款并提交但网络失败
       const phoneInput = screen.getByLabelText('手机号')
       const codeInput = screen.getByLabelText('验证码')
-      const registerBtn = screen.getByRole('button', { name: '注册' })
+      const registerBtn = screen.getByRole('button', { name: '同意并注册' })
 
       await user.type(phoneInput, '13800138008')
       await user.type(codeInput, '123456')
+      
+      const agreeCheckbox = screen.getByRole('checkbox', { name: /已阅读并同意/ })
+      await user.click(agreeCheckbox)
+      
       await user.click(registerBtn)
 
       // Then: 应该显示错误提示

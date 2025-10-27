@@ -1,5 +1,29 @@
 {
+  "name": "taobei-app",
+  "version": "1.0.0",
+  "description": "淘贝应用 - 用户认证系统",
+  "scripts": {
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "cd backend && npm test -- --verbose --bail --forceExit",
+    "test:frontend": "cd frontend && npm test -- --run --reporter=verbose --bail=1",
+    "test:integration": "node integration-test.js",
+    "test:e2e": "cypress run",
+    "test:e2e:open": "cypress open",
+    "test:api": "cypress run --spec 'cypress/e2e/api-integration.cy.js'",
+    "verify": "node verify-system.js",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "test:all": "npm run verify && npm run test && npm run test:integration && npm run test:e2e"
+  },
   "dependencies": {
     "axios": "^1.12.2"
-  }
+  },
+  "devDependencies": {
+    "cypress": "^13.6.0",
+    "concurrently": "^8.2.2"
+  },
+  "keywords": ["authentication", "react", "nodejs", "testing"],
+  "author": "Taobei Team",
+  "license": "MIT"
 }

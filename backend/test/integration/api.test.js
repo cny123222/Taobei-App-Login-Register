@@ -109,7 +109,7 @@ let db;describe('Integration Tests', () => {
       // Then: 应该返回错误响应
       expect(response.body).toEqual({
         success: false,
-        message: '验证码类型不正确'
+        message: '类型参数无效'
       });
     });
   });
@@ -130,7 +130,7 @@ let db;describe('Integration Tests', () => {
       const response = await request(app)
         .post('/api/auth/register')
         .send({ phone, code })
-        .expect(200);
+        .expect(201);
 
       // Then: 应该返回成功响应和token
       expect(response.body).toEqual({
@@ -172,7 +172,7 @@ let db;describe('Integration Tests', () => {
       const response = await request(app)
         .post('/api/auth/register')
         .send({ phone, code })
-        .expect(400);
+        .expect(409);
 
       // Then: 应该返回错误响应
       expect(response.body).toEqual({
@@ -228,7 +228,8 @@ let db;describe('Integration Tests', () => {
         token: expect.any(String),
         user: {
           id: expect.any(Number),
-          phone: phone
+          phone: phone,
+          created_at: expect.any(String)
         }
       });
 
@@ -237,7 +238,7 @@ let db;describe('Integration Tests', () => {
       expect(codes[0].used).toBe(1);
     });
 
-    it('应该拒绝不存在的用户登录', async () => {
+    it('应该为不存在的用户自动创建账户并登录', async () => {
       // Given: 不存在的用户手机号，但先发送验证码
       const phone = '13800138007';
       
@@ -255,13 +256,13 @@ let db;describe('Integration Tests', () => {
       const response = await request(app)
         .post('/api/auth/login')
         .send({ phone, code })
-        .expect(400);
+        .expect(200);
 
-      // Then: 应该返回错误响应
-      expect(response.body).toEqual({
-        success: false,
-        message: '用户不存在，请先注册'
-      });
+      // Then: 应该自动创建用户并登录成功
+      expect(response.body.success).toBe(true);
+      expect(response.body.token).toBeDefined();
+      expect(response.body.user.phone).toBe(phone);
+      expect(response.body.user.created_at).toBeDefined();
     });
   });
 
@@ -285,7 +286,7 @@ let db;describe('Integration Tests', () => {
       const registerResponse = await request(app)
         .post('/api/auth/register')
         .send({ phone, code: generatedCode })
-        .expect(200);
+        .expect(201);
 
       expect(registerResponse.body.success).toBe(true);
       expect(registerResponse.body.token).toBeDefined();
