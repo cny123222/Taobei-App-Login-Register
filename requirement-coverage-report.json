@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-27T09:22:19.091Z",
+  "timestamp": "2025-10-27T12:20:11.882Z",
   "summary": {
     "totalRequirements": 25,
     "coveredRequirements": 25,
@@ -1226,7 +1226,7 @@
       "requirementId": null
     },
     {
-      "name": "获取验证码按钮应该根据手机号有效性启用/禁用",
+      "name": "获取验证码按钮应该始终可点击",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/LoginPage.test.tsx",
       "lineNumber": 119,
       "requirementId": null
@@ -1497,7 +1497,7 @@
       "requirementId": null
     },
     {
-      "name": "应该在无效手机号时禁用获取验证码按钮",
+      "name": "获取验证码按钮应该始终可点击",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
       "lineNumber": 215,
       "requirementId": null
@@ -1505,147 +1505,147 @@
     {
       "name": "用户协议功能测试",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 228,
+      "lineNumber": 231,
       "type": "describe",
       "requirementId": null
     },
     {
       "name": "应该能够勾选和取消勾选用户协议",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 229,
+      "lineNumber": 232,
       "requirementId": null
     },
     {
       "name": "应该能够点击协议链接",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 247,
+      "lineNumber": 250,
       "requirementId": null
     },
     {
       "name": "注册按钮状态测试",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 261,
+      "lineNumber": 264,
       "type": "describe",
       "requirementId": null
     },
     {
       "name": "应该在表单无效时禁用注册按钮",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 262,
+      "lineNumber": 265,
       "requirementId": null
     },
     {
       "name": "应该在所有条件满足时启用注册按钮",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 272,
+      "lineNumber": 275,
       "requirementId": null
     },
     {
       "name": "应该在未勾选协议时禁用注册按钮",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 289,
+      "lineNumber": 292,
       "requirementId": null
     },
     {
       "name": "应该在部分信息无效时禁用注册按钮",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 304,
+      "lineNumber": 307,
       "requirementId": null
     },
     {
       "name": "表单提交测试",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 324,
+      "lineNumber": 327,
       "type": "describe",
       "requirementId": null
     },
     {
       "name": "应该在有效输入时提交注册表单",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 325,
+      "lineNumber": 328,
       "requirementId": null
     },
     {
       "name": "应该阻止无效表单提交",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 346,
+      "lineNumber": 349,
       "requirementId": null
     },
     {
       "name": "错误处理测试",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 360,
+      "lineNumber": 363,
       "type": "describe",
       "requirementId": null
     },
     {
       "name": "应该显示手机号格式错误提示",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 361,
+      "lineNumber": 364,
       "requirementId": null
     },
     {
       "name": "应该显示验证码格式错误提示",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 375,
+      "lineNumber": 378,
       "requirementId": null
     },
     {
       "name": "应该显示手机号已注册错误提示",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 388,
+      "lineNumber": 391,
       "requirementId": null
     },
     {
       "name": "加载状态测试",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 409,
+      "lineNumber": 412,
       "type": "describe",
       "requirementId": null
     },
     {
       "name": "应该在注册过程中显示加载状态",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 410,
+      "lineNumber": 413,
       "requirementId": null
     },
     {
       "name": "导航功能测试",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 431,
+      "lineNumber": 434,
       "type": "describe",
       "requirementId": null
     },
     {
       "name": "应该能够导航到登录页面",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 432,
+      "lineNumber": 435,
       "requirementId": null
     },
     {
       "name": "响应式设计测试",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 446,
+      "lineNumber": 449,
       "type": "describe",
       "requirementId": null
     },
     {
       "name": "应该在不同屏幕尺寸下正确显示",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 447,
+      "lineNumber": 450,
       "requirementId": null
     },
     {
       "name": "重复注册检查测试",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 458,
+      "lineNumber": 461,
       "type": "describe",
       "requirementId": null
     },
     {
       "name": "应该检查手机号是否已注册",
       "file": "/Users/cq123222/Desktop/25-26 Fall/软件工程与项目管理/lab/taobei-app-new/frontend/test/components/RegisterPage.test.tsx",
-      "lineNumber": 459,
+      "lineNumber": 462,
       "requirementId": null
     },
     {

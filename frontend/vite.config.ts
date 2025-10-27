@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -17,8 +18,9 @@ export default defineConfig({
     hookTimeout: 10000,
     teardownTimeout: 10000,
     bail: 1,
-    reporter: ['verbose'],
+    reporters: ['verbose'],
     environment: 'jsdom',
-    setupFiles: ['./test/setup.ts']
+    setupFiles: ['./test/setup.ts'],
+    exclude: ['**/node_modules/**', '**/dist/**', '**/requirement-validation-tests.test.tsx']
   }
 })

@@ -116,15 +116,15 @@ describe('登录页面UI接口测试', () => {
       expect(phoneInput).toHaveAttribute('maxLength', '11')
     })
 
-    test('获取验证码按钮应该根据手机号有效性启用/禁用', async () => {
+    test('获取验证码按钮应该始终可点击', async () => {
       renderLoginPage()
       
       const phoneInput = screen.getByTestId('phone-input')
       const getCodeBtn = screen.getByTestId('get-code-btn')
       
-      // 无效手机号时按钮应该禁用
+      // 无效手机号时按钮应该仍然可点击（根据新需求）
       fireEvent.change(phoneInput, { target: { value: '123' } })
-      expect(getCodeBtn).toBeDisabled()
+      expect(getCodeBtn).not.toBeDisabled()
       
       // 有效手机号时按钮应该启用
       fireEvent.change(phoneInput, { target: { value: '13812345678' } })

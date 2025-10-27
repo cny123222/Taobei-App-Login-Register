@@ -32,9 +32,15 @@ api.interceptors.response.use(
   (error) => {
     // 统一错误处理
     if (error.response?.status === 401) {
-      // token过期，清除本地存储并跳转到登录页
-      localStorage.removeItem('token');
-      window.location.href = '/login';
+      // 检查是否是验证码相关的错误，如果是则不跳转
+      const isVerificationCodeError = error.config?.url?.includes('/auth/login') || 
+                                     error.config?.url?.includes('/auth/register');
+      
+      if (!isVerificationCodeError) {
+        // 只有非验证码错误的401才跳转（如token过期）
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
     }
     return Promise.reject(error);
   }

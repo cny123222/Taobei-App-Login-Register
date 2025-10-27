@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-27T09:22:07.151Z",
+  "timestamp": "2025-10-27T12:19:56.047Z",
   "matrix": [
     {
       "requirementId": "REQ-1",
@@ -135,28 +135,6 @@
           "matchScore": 0.4,
           "matchReasons": [
             "关键词匹配: 登录",
-            "关键词匹配: 验证码",
-            "关键词匹配: 手机号",
-            "关键词匹配: 按钮"
-          ]
-        },
-        {
-          "testId": "TEST-9",
-          "testName": "获取验证码按钮应该根据手机号有效性启用/禁用",
-          "testFile": "frontend/test/components/LoginPage.test.tsx",
-          "matchScore": 0.30000000000000004,
-          "matchReasons": [
-            "关键词匹配: 验证码",
-            "关键词匹配: 手机号",
-            "关键词匹配: 按钮"
-          ]
-        },
-        {
-          "testId": "TEST-16",
-          "testName": "应该在无效手机号时禁用获取验证码按钮",
-          "testFile": "frontend/test/components/RegisterPage.test.tsx",
-          "matchScore": 0.30000000000000004,
-          "matchReasons": [
             "关键词匹配: 验证码",
             "关键词匹配: 手机号",
             "关键词匹配: 按钮"
@@ -709,31 +687,9 @@
           ]
         },
         {
-          "testId": "TEST-9",
-          "testName": "获取验证码按钮应该根据手机号有效性启用/禁用",
-          "testFile": "frontend/test/components/LoginPage.test.tsx",
-          "matchScore": 0.30000000000000004,
-          "matchReasons": [
-            "关键词匹配: 验证码",
-            "关键词匹配: 手机号",
-            "关键词匹配: 按钮"
-          ]
-        },
-        {
           "testId": "TEST-15",
           "testName": "应该在手机号和验证码都有效时启用登录按钮",
           "testFile": "frontend/test/components/LoginPage.test.tsx",
-          "matchScore": 0.30000000000000004,
-          "matchReasons": [
-            "关键词匹配: 验证码",
-            "关键词匹配: 手机号",
-            "关键词匹配: 按钮"
-          ]
-        },
-        {
-          "testId": "TEST-16",
-          "testName": "应该在无效手机号时禁用获取验证码按钮",
-          "testFile": "frontend/test/components/RegisterPage.test.tsx",
           "matchScore": 0.30000000000000004,
           "matchReasons": [
             "关键词匹配: 验证码",

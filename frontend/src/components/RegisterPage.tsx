@@ -61,6 +61,7 @@ const RegisterPage: React.FC = () => {
       const errorMessage = err.response?.data?.error;
       if (errorMessage === '验证码错误') {
         setError('验证码错误');
+        // 验证码错误时不跳转，保持在注册页面
       } else {
         setError(errorMessage || '注册失败，请重试');
       }
@@ -127,7 +128,7 @@ const RegisterPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleGetVerificationCode}
-                disabled={!isPhoneValid || countdown > 0 || loading}
+                disabled={countdown > 0 || loading}
                 className="btn btn-secondary"
                 style={{ 
                   minWidth: '100px',
