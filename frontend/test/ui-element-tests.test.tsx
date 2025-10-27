@@ -113,8 +113,8 @@ describe('UI元素系统化检查', () => {
       // 检查按钮类型
       expect(getCodeBtn).toHaveAttribute('type', 'button')
       
-      // 检查初始禁用状态
-      expect(getCodeBtn).toBeDisabled()
+      // 检查按钮始终可点击（根据新需求）
+      expect(getCodeBtn).not.toBeDisabled()
       
       // 检查点击响应（输入有效手机号后）
       const phoneInput = screen.getByTestId('phone-input')
@@ -220,8 +220,8 @@ describe('UI元素系统化检查', () => {
       expect(getCodeBtn).toHaveTextContent('获取验证码')
       expect(getCodeBtn).toHaveAttribute('type', 'button')
       
-      // 测试启用/禁用逻辑
-      expect(getCodeBtn).toBeDisabled()
+      // 测试按钮始终可点击（根据新需求）
+      expect(getCodeBtn).not.toBeDisabled()
       
       const phoneInput = screen.getByTestId('phone-input')
       fireEvent.change(phoneInput, { target: { value: '13812345678' } })

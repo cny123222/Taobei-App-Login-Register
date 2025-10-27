@@ -212,16 +212,19 @@ describe('注册页面UI接口测试', () => {
       expect(getCodeBtn).toBeInTheDocument()
     })
 
-    test('应该在无效手机号时禁用获取验证码按钮', async () => {
+    test('获取验证码按钮应该始终可点击', async () => {
       renderRegisterPage()
       
       const phoneInput = screen.getByTestId('phone-input')
       const getCodeBtn = screen.getByTestId('get-code-btn')
       
-      // 输入无效手机号
+      // 输入无效手机号时按钮仍然可点击（根据新需求）
       fireEvent.change(phoneInput, { target: { value: '123' } })
+      expect(getCodeBtn).not.toBeDisabled()
       
-      expect(getCodeBtn).toBeDisabled()
+      // 输入有效手机号时按钮也可点击
+      fireEvent.change(phoneInput, { target: { value: '13812345678' } })
+      expect(getCodeBtn).not.toBeDisabled()
     })
   })
 

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-27T09:22:07.146Z",
+  "timestamp": "2025-10-27T12:19:56.042Z",
   "summary": {
     "totalRequirements": 168,
     "totalTestCases": 171,
@@ -2439,16 +2439,15 @@
       "id": "TEST-9",
       "file": "frontend/test/components/LoginPage.test.tsx",
       "describe": "手机号输入验证测试",
-      "name": "获取验证码按钮应该根据手机号有效性启用/禁用",
+      "name": "获取验证码按钮应该始终可点击",
       "type": "ui",
       "keywords": [
         "验证码",
-        "手机号",
         "按钮"
       ],
       "lineNumber": 119,
       "assertions": [
-        "expect(getCodeBtn).toBeDisabled()",
+        "expect(getCodeBtn).not.toBeDisabled()",
         "expect(getCodeBtn).not.toBeDisabled()"
       ]
     },
@@ -2891,16 +2890,16 @@
       "id": "TEST-16",
       "file": "frontend/test/components/RegisterPage.test.tsx",
       "describe": "获取验证码功能测试",
-      "name": "应该在无效手机号时禁用获取验证码按钮",
+      "name": "获取验证码按钮应该始终可点击",
       "type": "ui",
       "keywords": [
         "验证码",
-        "手机号",
         "按钮"
       ],
       "lineNumber": 215,
       "assertions": [
-        "expect(getCodeBtn).toBeDisabled()"
+        "expect(getCodeBtn).not.toBeDisabled()",
+        "expect(getCodeBtn).not.toBeDisabled()"
       ]
     },
     {
@@ -2912,7 +2911,7 @@
       "keywords": [
         "用户"
       ],
-      "lineNumber": 229,
+      "lineNumber": 232,
       "assertions": [
         "expect(agreementCheckbox).not.toBeChecked()",
         "expect(agreementCheckbox).toBeChecked()",
@@ -2928,7 +2927,7 @@
       "keywords": [
         "链接"
       ],
-      "lineNumber": 247,
+      "lineNumber": 250,
       "assertions": [
         "expect(agreementLink).toBeInTheDocument()"
       ]
@@ -2944,7 +2943,7 @@
         "按钮",
         "表单"
       ],
-      "lineNumber": 262,
+      "lineNumber": 265,
       "assertions": [
         "expect(registerBtn).toBeDisabled()"
       ]
@@ -2959,7 +2958,7 @@
         "注册",
         "按钮"
       ],
-      "lineNumber": 272,
+      "lineNumber": 275,
       "assertions": [
         "expect(registerBtn).not.toBeDisabled()"
       ]
@@ -2974,7 +2973,7 @@
         "注册",
         "按钮"
       ],
-      "lineNumber": 289,
+      "lineNumber": 292,
       "assertions": [
         "expect(registerBtn).toBeDisabled()"
       ]
@@ -2989,7 +2988,7 @@
         "注册",
         "按钮"
       ],
-      "lineNumber": 304,
+      "lineNumber": 307,
       "assertions": [
         "expect(registerBtn).toBeDisabled()",
         "expect(registerBtn).toBeDisabled()"
@@ -3005,7 +3004,7 @@
         "注册",
         "表单"
       ],
-      "lineNumber": 325,
+      "lineNumber": 328,
       "assertions": [
         "expect(registerForm).toBeInTheDocument()"
       ]
@@ -3019,7 +3018,7 @@
       "keywords": [
         "表单"
       ],
-      "lineNumber": 346,
+      "lineNumber": 349,
       "assertions": [
         "expect(registerBtn).toBeDisabled()"
       ]
@@ -3033,7 +3032,7 @@
       "keywords": [
         "手机号"
       ],
-      "lineNumber": 361,
+      "lineNumber": 364,
       "assertions": [
         "expect(phoneInput).toBeInTheDocument()"
       ]
@@ -3047,7 +3046,7 @@
       "keywords": [
         "验证码"
       ],
-      "lineNumber": 375,
+      "lineNumber": 378,
       "assertions": [
         "expect(verificationInput).toBeInTheDocument()"
       ]
@@ -3062,7 +3061,7 @@
         "注册",
         "手机号"
       ],
-      "lineNumber": 388,
+      "lineNumber": 391,
       "assertions": [
         "expect(registerForm).toBeInTheDocument()"
       ]
@@ -3076,7 +3075,7 @@
       "keywords": [
         "注册"
       ],
-      "lineNumber": 410,
+      "lineNumber": 413,
       "assertions": [
         "expect(registerBtn).toBeInTheDocument()"
       ]
@@ -3091,7 +3090,7 @@
         "登录",
         "页面"
       ],
-      "lineNumber": 432,
+      "lineNumber": 435,
       "assertions": [
         "expect(loginLink).toHaveAttribute('href', '/login')"
       ]
@@ -3103,7 +3102,7 @@
       "name": "应该在不同屏幕尺寸下正确显示",
       "type": "ui",
       "keywords": [],
-      "lineNumber": 447,
+      "lineNumber": 450,
       "assertions": [
         "expect(registerPage).toBeInTheDocument()"
       ]
@@ -3118,7 +3117,7 @@
         "注册",
         "手机号"
       ],
-      "lineNumber": 459,
+      "lineNumber": 462,
       "assertions": [
         "expect(phoneInput).toBeInTheDocument()"
       ]
@@ -3506,7 +3505,7 @@
         "expect(getCodeBtn).toBeInTheDocument()",
         "expect(getCodeBtn).toHaveTextContent('获取验证码')",
         "expect(getCodeBtn).toHaveAttribute('type', 'button')",
-        "expect(getCodeBtn).toBeDisabled()",
+        "expect(getCodeBtn).not.toBeDisabled()",
         "expect(getCodeBtn).not.toBeDisabled()"
       ]
     },
@@ -3612,7 +3611,7 @@
         "expect(getCodeBtn).toBeInTheDocument()",
         "expect(getCodeBtn).toHaveTextContent('获取验证码')",
         "expect(getCodeBtn).toHaveAttribute('type', 'button')",
-        "expect(getCodeBtn).toBeDisabled()",
+        "expect(getCodeBtn).not.toBeDisabled()",
         "expect(getCodeBtn).not.toBeDisabled()"
       ]
     },
@@ -4810,55 +4809,6 @@
         {
           "testCase": {
             "id": "TEST-9",
-            "file": "frontend/test/components/LoginPage.test.tsx",
-            "describe": "手机号输入验证测试",
-            "name": "获取验证码按钮应该根据手机号有效性启用/禁用",
-            "type": "ui",
-            "keywords": [
-              "验证码",
-              "手机号",
-              "按钮"
-            ],
-            "lineNumber": 119,
-            "assertions": [
-              "expect(getCodeBtn).toBeDisabled()",
-              "expect(getCodeBtn).not.toBeDisabled()"
-            ]
-          },
-          "matchScore": 0.30000000000000004,
-          "matchReasons": [
-            "关键词匹配: 验证码",
-            "关键词匹配: 手机号",
-            "关键词匹配: 按钮"
-          ]
-        },
-        {
-          "testCase": {
-            "id": "TEST-16",
-            "file": "frontend/test/components/RegisterPage.test.tsx",
-            "describe": "获取验证码功能测试",
-            "name": "应该在无效手机号时禁用获取验证码按钮",
-            "type": "ui",
-            "keywords": [
-              "验证码",
-              "手机号",
-              "按钮"
-            ],
-            "lineNumber": 215,
-            "assertions": [
-              "expect(getCodeBtn).toBeDisabled()"
-            ]
-          },
-          "matchScore": 0.30000000000000004,
-          "matchReasons": [
-            "关键词匹配: 验证码",
-            "关键词匹配: 手机号",
-            "关键词匹配: 按钮"
-          ]
-        },
-        {
-          "testCase": {
-            "id": "TEST-9",
             "file": "frontend/test/requirement-validation-tests.test.tsx",
             "describe": "REQ-2.2: 注册页面获取验证码需求验证",
             "name": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
@@ -5998,31 +5948,6 @@
         },
         {
           "testCase": {
-            "id": "TEST-9",
-            "file": "frontend/test/components/LoginPage.test.tsx",
-            "describe": "手机号输入验证测试",
-            "name": "获取验证码按钮应该根据手机号有效性启用/禁用",
-            "type": "ui",
-            "keywords": [
-              "验证码",
-              "手机号",
-              "按钮"
-            ],
-            "lineNumber": 119,
-            "assertions": [
-              "expect(getCodeBtn).toBeDisabled()",
-              "expect(getCodeBtn).not.toBeDisabled()"
-            ]
-          },
-          "matchScore": 0.30000000000000004,
-          "matchReasons": [
-            "关键词匹配: 验证码",
-            "关键词匹配: 手机号",
-            "关键词匹配: 按钮"
-          ]
-        },
-        {
-          "testCase": {
             "id": "TEST-15",
             "file": "frontend/test/components/LoginPage.test.tsx",
             "describe": "登录按钮状态测试",
@@ -6037,30 +5962,6 @@
             "lineNumber": 202,
             "assertions": [
               "expect(loginBtn).not.toBeDisabled()"
-            ]
-          },
-          "matchScore": 0.30000000000000004,
-          "matchReasons": [
-            "关键词匹配: 验证码",
-            "关键词匹配: 手机号",
-            "关键词匹配: 按钮"
-          ]
-        },
-        {
-          "testCase": {
-            "id": "TEST-16",
-            "file": "frontend/test/components/RegisterPage.test.tsx",
-            "describe": "获取验证码功能测试",
-            "name": "应该在无效手机号时禁用获取验证码按钮",
-            "type": "ui",
-            "keywords": [
-              "验证码",
-              "手机号",
-              "按钮"
-            ],
-            "lineNumber": 215,
-            "assertions": [
-              "expect(getCodeBtn).toBeDisabled()"
             ]
           },
           "matchScore": 0.30000000000000004,
