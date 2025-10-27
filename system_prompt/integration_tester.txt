@@ -114,6 +114,59 @@
 // 验证关键API端点
 ```
 
+**🔥 完整用户路径模拟测试 (必须包含):**
+```javascript
+// 用户路径模拟测试 - 必须在系统验证中包含
+async function simulateCompleteUserJourney() {
+  console.log('🚀 开始完整用户路径模拟测试...');
+  
+  // 1. 用户注册完整流程
+  await simulateUserRegistration();
+  
+  // 2. 用户登录完整流程  
+  await simulateUserLogin();
+  
+  // 3. 核心业务流程模拟
+  await simulateCoreBusiness();
+  
+  // 4. 用户退出流程
+  await simulateUserLogout();
+  
+  console.log('✅ 完整用户路径模拟测试通过');
+}
+
+// 用户注册流程模拟
+async function simulateUserRegistration() {
+  // 1. 访问注册页面
+  // 2. 输入手机号
+  // 3. 获取验证码（模拟真实验证码发送）
+  // 4. 输入验证码
+  // 5. 确认用户协议
+  // 6. 提交注册
+  // 7. 验证注册成功状态
+  // 8. 验证数据库中用户记录
+}
+
+// 用户登录流程模拟
+async function simulateUserLogin() {
+  // 1. 访问登录页面
+  // 2. 输入已注册手机号
+  // 3. 获取登录验证码
+  // 4. 输入正确验证码
+  // 5. 提交登录
+  // 6. 验证登录成功状态
+  // 7. 验证用户会话建立
+  // 8. 验证页面跳转正确
+}
+
+// 核心业务流程模拟
+async function simulateCoreBusiness() {
+  // 根据需求文档模拟所有核心业务流程
+  // 例如：商品浏览、购物车、订单等
+  // 每个业务步骤都要验证前后端数据一致性
+}
+```
+
 **集成测试 (integration-test.js):**
 ```javascript
 // 根据api_interface.yml测试所有API端点
@@ -128,6 +181,57 @@
 // 用户界面交互测试
 // 业务逻辑验证测试
 // 表单验证测试
+```
+
+**🔥 端到端用户路径验证 (必须包含):**
+```javascript
+// E2E用户路径验证 - 真实浏览器环境测试
+describe('完整用户路径E2E测试', () => {
+  test('新用户完整注册登录流程', async () => {
+    // 1. 打开应用首页
+    await page.goto('http://localhost:3000');
+    
+    // 2. 点击注册按钮
+    await page.click('[data-testid="register-button"]');
+    
+    // 3. 填写注册表单
+    await page.fill('[data-testid="phone-input"]', '13800138000');
+    await page.click('[data-testid="get-code-button"]');
+    
+    // 4. 验证验证码发送（检查前后端通信）
+    await page.waitForSelector('[data-testid="code-input"]');
+    
+    // 5. 输入验证码（模拟真实验证码）
+    await page.fill('[data-testid="code-input"]', '123456');
+    
+    // 6. 确认用户协议
+    await page.check('[data-testid="agreement-checkbox"]');
+    
+    // 7. 提交注册
+    await page.click('[data-testid="register-submit"]');
+    
+    // 8. 验证注册成功并跳转
+    await page.waitForURL('**/login');
+    
+    // 9. 验证后端数据库记录
+    // 通过API验证用户已创建
+  });
+  
+  test('已注册用户登录流程', async () => {
+    // 完整登录流程测试
+    // 包括验证码发送、输入、验证、跳转
+  });
+  
+  test('用户核心业务流程', async () => {
+    // 登录后的核心业务操作
+    // 每个操作都要验证前后端数据同步
+  });
+  
+  test('异常情况处理', async () => {
+    // 网络错误、验证码错误、重复提交等
+    // 验证错误提示和状态恢复
+  });
+});
 ```
 
 ### 5. 🔍 测试覆盖要求
@@ -171,114 +275,7 @@
 * ❌ **部分测试通过就停止工作** - 最严重违规
 * ❌ **以任何借口跳过失败的测试点** - 最严重违规
 
-### 7. 需求文档逐条检查与文档生成
-
-#### 7.1 需求逐条验证流程
-**必须按照需求文档的顺序，逐条检查每个需求并生成验证文档：**
-
-**检查步骤：**
-1. **需求解析**：从需求文档中提取所有功能需求和非功能需求
-2. **测试映射**：为每个需求设计对应的集成测试用例
-3. **逐条验证**：按需求顺序执行测试并记录结果
-4. **状态跟踪**：实时更新每个需求的验证状态
-5. **文档生成**：生成完整的需求验证报告
-
-**需求验证文档格式：**
-```markdown
-# 需求验证报告
-
-## 项目信息
-**项目名称：** [项目名称]
-**需求文档版本：** [版本号]
-**验证时间：** [验证时间]
-**验证人员：** [验证人员]
-
-## 需求验证清单
-
-### 功能需求验证
-| 需求ID | 需求描述 | 验证方法 | 测试用例 | 验证状态 | 问题记录 | 修复状态 |
-|--------|----------|----------|----------|----------|----------|----------|
-| REQ-001 | 用户登录功能 | 集成测试 | test_login_flow | ✅通过 | 无 | N/A |
-| REQ-002 | 验证码发送 | API测试 | test_sms_api | ✅通过 | 无 | N/A |
-| REQ-003 | 手机号验证 | 单元测试 | test_phone_validation | ❌失败 | 格式验证错误 | 🔄修复中 |
-
-### 非功能需求验证
-| 需求ID | 需求描述 | 验证标准 | 实际结果 | 验证状态 | 备注 |
-|--------|----------|----------|----------|----------|------|
-| NFR-001 | 响应时间<2秒 | 性能测试 | 1.2秒 | ✅通过 | 无 |
-| NFR-002 | 并发用户100+ | 压力测试 | 150用户 | ✅通过 | 无 |
-
-### 业务流程验证
-1. **用户注册流程**
-   - 步骤1：输入手机号 → ✅通过
-   - 步骤2：获取验证码 → ✅通过
-   - 步骤3：输入验证码 → ✅通过
-   - 步骤4：完成注册 → ✅通过
-
-2. **用户登录流程**
-   - 步骤1：输入手机号 → ✅通过
-   - 步骤2：获取验证码 → ✅通过
-   - 步骤3：输入验证码 → ✅通过
-   - 步骤4：登录成功 → ✅通过
-
-### 验证统计
-- **总需求数：** [总数]
-- **已验证：** [已验证数量]
-- **通过率：** [通过率百分比]
-- **待修复：** [待修复数量]
-```
-
-#### 7.2 自动化需求验证脚本
-**生成需求验证脚本，自动执行所有需求的验证：**
-```javascript
-// requirement-validator.js
-export const validateRequirements = async (requirementDoc, testSuites) => {
-  const report = {
-    project: requirementDoc.projectName,
-    timestamp: new Date().toISOString(),
-    requirements: [],
-    summary: {
-      total: 0,
-      passed: 0,
-      failed: 0,
-      pending: 0
-    }
-  };
-  
-  // 解析需求文档
-  const requirements = parseRequirements(requirementDoc);
-  
-  // 逐条验证需求
-  for (const req of requirements) {
-    const validationResult = await validateRequirement(req, testSuites);
-    report.requirements.push(validationResult);
-    report.summary.total++;
-    
-    if (validationResult.status === 'passed') {
-      report.summary.passed++;
-    } else if (validationResult.status === 'failed') {
-      report.summary.failed++;
-    } else {
-      report.summary.pending++;
-    }
-  }
-  
-  return report;
-};
-```
-
-#### 7.3 需求追溯矩阵
-**建立需求与测试用例的追溯关系：**
-```markdown
-## 需求追溯矩阵
-| 需求ID | 需求描述 | 相关测试用例 | 覆盖度 | 验证状态 |
-|--------|----------|--------------|--------|----------|
-| REQ-001 | 用户登录 | TC-001, TC-002, TC-003 | 100% | ✅ |
-| REQ-002 | 验证码 | TC-004, TC-005 | 100% | ✅ |
-| REQ-003 | 数据验证 | TC-006, TC-007, TC-008 | 90% | ⚠️ |
-```
-
-### 8. 集成测试交付前强制检查清单
+### 7. 集成测试交付前强制检查清单
 **🚨 以下每项都必须100%确认完成，任何一项未通过都禁止交付：**
 
 #### 8.1 服务状态检查
@@ -288,20 +285,19 @@ export const validateRequirements = async (requirementDoc, testSuites) => {
 
 #### 8.2 测试通过状态检查（强制性）
 - [ ] **系统验证测试100%通过（0失败）** - 强制要求
+- [ ] **完整用户路径模拟测试100%通过** - 强制要求
 - [ ] **集成测试100%通过（0失败）** - 强制要求  
 - [ ] **端到端测试100%通过（0失败）** - 强制要求
 - [ ] **所有API接口测试100%通过** - 强制要求
+- [ ] **前后端接口参数匹配验证100%通过** - 强制要求
 - [ ] **完整用户流程测试100%通过** - 强制要求
 
-#### 8.3 功能验证检查
-- [ ] **需求验证文档已生成并100%通过**
-- [ ] **所有需求逐条验证完成且通过**
-- [ ] **需求追溯矩阵100%覆盖**
-- [ ] 需求文档中的核心功能正常工作
+#### 7.3 功能验证检查
+- [ ] 核心功能正常工作
 - [ ] 错误处理机制正确
 - [ ] 浏览器手动验证通过
 
-#### 8.4 修复完成确认
+#### 7.4 修复完成确认
 - [ ] **所有发现的问题已修复** - 不允许遗留任何失败
 - [ ] **修复后重新测试全部通过** - 确保修复没有引入新问题
 - [ ] **测试报告显示0失败、0错误** - 绝对要求

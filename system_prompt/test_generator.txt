@@ -145,103 +145,169 @@ export const generateUIStateTests = (interfaceName, elements) => {
 };
 ```
 
-### 6. 生成需求逐条验证测试
+### 6. 生成集成测试
 
-#### 6.1 需求映射测试生成
-**为需求文档中的每个需求生成对应的验证测试：**
+**🚨 集成测试脚本严格要求 🚨**
+**生成的集成测试脚本必须确保：所有测试点100%通过才算测试通过！**
+**绝对不允许部分测试通过就认为集成测试成功！**
 
+#### 6.1 集成测试脚本逻辑要求
+**生成的集成测试脚本必须包含以下逻辑：**
 ```javascript
-// requirement-validation-tests.js
-describe('需求文档逐条验证', () => {
-  // 根据需求文档自动生成测试
-  describe('用户登录需求验证', () => {
-    test('REQ-001: 用户可以使用手机号登录', async () => {
-      // 测试步骤1：输入有效手机号
-      // 测试步骤2：获取验证码
-      // 测试步骤3：输入正确验证码
-      // 测试步骤4：验证登录成功
-      // 验证需求完全满足
+// 集成测试脚本必须包含的逻辑示例
+let totalTests = 0;
+let passedTests = 0;
+let failedTests = [];
+
+// 每个测试点都必须记录结果
+function recordTestResult(testName, passed, error = null) {
+  totalTests++;
+  if (passed) {
+    passedTests++;
+    console.log(`✅ ${testName} - PASSED`);
+  } else {
+    failedTests.push({ name: testName, error });
+    console.log(`❌ ${testName} - FAILED: ${error}`);
+  }
+}
+
+// 最终验证：必须所有测试都通过
+function validateAllTestsPassed() {
+  if (failedTests.length > 0) {
+    console.log(`\n🚨 集成测试失败！`);
+    console.log(`总测试数: ${totalTests}`);
+    console.log(`通过数: ${passedTests}`);
+    console.log(`失败数: ${failedTests.length}`);
+    console.log(`失败的测试:`);
+    failedTests.forEach(test => {
+      console.log(`  - ${test.name}: ${test.error}`);
     });
-    
-    test('REQ-002: 验证码60秒倒计时功能', async () => {
-      // 测试倒计时开始
-      // 测试倒计时过程
-      // 测试倒计时结束
-      // 验证按钮状态变化
-    });
-    
-    test('REQ-003: 手机号格式验证', async () => {
-      // 测试有效格式
-      // 测试无效格式
-      // 验证错误提示
-    });
-  });
-  
-  describe('用户注册需求验证', () => {
-    test('REQ-004: 用户可以注册新账号', async () => {
-      // 完整注册流程测试
-    });
-    
-    test('REQ-005: 用户协议确认', async () => {
-      // 协议显示和确认测试
-    });
-  });
-});
+    process.exit(1); // 强制退出，表示测试失败
+  } else {
+    console.log(`\n✅ 所有集成测试通过！(${totalTests}/${totalTests})`);
+    process.exit(0); // 成功退出
+  }
+}
 ```
 
-#### 6.2 需求覆盖率检查
-**生成需求覆盖率检查脚本：**
-
-```javascript
-// requirement-coverage-checker.js
-export const checkRequirementCoverage = (requirementDoc, testSuites) => {
-  const coverage = {
-    totalRequirements: 0,
-    coveredRequirements: 0,
-    uncoveredRequirements: [],
-    coverageReport: []
-  };
-  
-  // 解析需求文档
-  const requirements = parseRequirements(requirementDoc);
-  coverage.totalRequirements = requirements.length;
-  
-  // 检查每个需求的测试覆盖
-  requirements.forEach(req => {
-    const testCases = findTestCasesForRequirement(req.id, testSuites);
-    if (testCases.length > 0) {
-      coverage.coveredRequirements++;
-      coverage.coverageReport.push({
-        requirementId: req.id,
-        description: req.description,
-        testCases: testCases,
-        covered: true
-      });
-    } else {
-      coverage.uncoveredRequirements.push(req);
-      coverage.coverageReport.push({
-        requirementId: req.id,
-        description: req.description,
-        testCases: [],
-        covered: false
-      });
-    }
-  });
-  
-  return coverage;
-};
-```
-
-### 7. 生成集成测试
+#### 6.2 具体测试内容
 * **前端元素存在性检查**：验证需求文档中要求的所有UI元素是否正确渲染（按钮、输入框、文本、图标等）
 * **前后端通信测试**：验证API端点可访问性、请求/响应格式、错误处理
+* **🔥 前后端接口参数匹配验证（重点）**：
+  - **参数名称一致性检查**：前端发送的参数名与后端接收的参数名必须完全一致
+  - **参数类型匹配检查**：确保前后端对同一参数的类型定义一致（string、number、boolean等）
+  - **必填参数完整性检查**：前端必须传递所有后端要求的必填参数
+  - **参数格式验证**：手机号、邮箱、验证码等格式要求前后端一致
+  - **API响应字段检查**：后端返回的字段名与前端期望的字段名必须一致
+  - **错误码和错误信息格式检查**：前后端对错误处理的约定必须一致
 * **端到端测试**：使用Cypress或Playwright测试完整用户流程
 * **系统健康检查**：验证服务启动和连通性
 * **配置验证**：测试代理配置、CORS设置、环境变量
 
-### 8. 生成系统验证脚本
+#### 6.3 前后端接口匹配测试模板
+**生成的集成测试必须包含以下接口匹配验证：**
+```javascript
+// 前后端接口参数匹配验证示例
+async function validateAPIParameterMatching(apiEndpoint, testData) {
+  const testName = `API参数匹配验证: ${apiEndpoint}`;
+  try {
+    // 1. 验证前端发送的参数格式
+    const frontendParams = prepareFrontendParams(testData);
+    
+    // 2. 发送请求到后端
+    const response = await fetch(apiEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(frontendParams)
+    });
+    
+    // 3. 验证后端是否正确接收所有参数
+    if (!response.ok) {
+      const errorData = await response.json();
+      // 检查是否因为参数不匹配导致的错误
+      if (errorData.message && errorData.message.includes('参数')) {
+        throw new Error(`参数不匹配: ${errorData.message}`);
+      }
+    }
+    
+    // 4. 验证响应格式是否符合前端期望
+    const responseData = await response.json();
+    validateResponseFormat(responseData, expectedResponseFormat);
+    
+    recordTestResult(testName, true);
+  } catch (error) {
+    recordTestResult(testName, false, error.message);
+  }
+}
+
+// 验证响应格式
+function validateResponseFormat(actual, expected) {
+  for (const key in expected) {
+    if (!(key in actual)) {
+      throw new Error(`缺少响应字段: ${key}`);
+    }
+    if (typeof actual[key] !== expected[key].type) {
+      throw new Error(`响应字段类型不匹配: ${key}, 期望 ${expected[key].type}, 实际 ${typeof actual[key]}`);
+    }
+  }
+}
+```
+
+### 7. 生成系统验证脚本
+
+**🚨 系统验证脚本严格要求 🚨**
+**生成的系统验证脚本必须确保：每个验证点都必须通过才算系统验证成功！**
+
+#### 7.1 系统验证脚本逻辑要求
+**生成的系统验证脚本必须包含以下逻辑：**
+```javascript
+// 系统验证脚本必须包含的逻辑示例
+let verificationResults = {
+  total: 0,
+  passed: 0,
+  failed: [],
+  details: []
+};
+
+// 每个验证点都必须记录结果
+async function verifySystemComponent(componentName, verifyFunction) {
+  verificationResults.total++;
+  try {
+    await verifyFunction();
+    verificationResults.passed++;
+    verificationResults.details.push({ component: componentName, status: 'PASSED' });
+    console.log(`✅ ${componentName} - 验证通过`);
+    return true;
+  } catch (error) {
+    verificationResults.failed.push({ component: componentName, error: error.message });
+    verificationResults.details.push({ component: componentName, status: 'FAILED', error: error.message });
+    console.log(`❌ ${componentName} - 验证失败: ${error.message}`);
+    return false;
+  }
+}
+
+// 最终验证：必须所有组件都通过验证
+function validateSystemReady() {
+  if (verificationResults.failed.length > 0) {
+    console.log(`\n🚨 系统验证失败！`);
+    console.log(`总验证项: ${verificationResults.total}`);
+    console.log(`通过项: ${verificationResults.passed}`);
+    console.log(`失败项: ${verificationResults.failed.length}`);
+    console.log(`失败的验证项:`);
+    verificationResults.failed.forEach(item => {
+      console.log(`  - ${item.component}: ${item.error}`);
+    });
+    process.exit(1); // 强制退出，表示系统未就绪
+  } else {
+    console.log(`\n✅ 系统验证完全通过！所有组件就绪 (${verificationResults.passed}/${verificationResults.total})`);
+    process.exit(0); // 成功退出
+  }
+}
+```
+
+#### 7.2 具体验证脚本
 * **verify-system.js**：验证后端服务、前端服务、前端访问后端API、数据库连接、关键API端点响应
-* **integration-test.js**：根据需求文档测试完整业务流程、API调用链
+* **integration-test.js**：根据需求文档测试完整业务流程、API调用链，包含完整用户路径模拟
 * **ui-validation-report.js**：生成UI元素检查报告
 * **requirement-validation-report.js**：生成需求验证报告
 
@@ -293,8 +359,9 @@ module.exports = {
 * 每个API端点必须有对应的端到端测试
 * 错误处理场景必须有对应的测试用例
 
-## 项目结构
+## 项目结构与文件管理规范
 
+### 🗂️ 标准项目结构
 ```
 ├── backend/
 │   ├── src/         # 后端源代码
@@ -302,15 +369,76 @@ module.exports = {
 ├── frontend/
 │   ├── src/         # 前端源代码
 │   └── test/        # 前端测试文件
-├── verify-system.js    # 系统验证脚本
-└── integration-test.js # 集成测试脚本
+├── verify-system.js    # 系统验证脚本（根目录）
+├── integration-test.js # 集成测试脚本（根目录）
+└── .artifacts/      # 接口定义文件
 ```
+
+### 📋 严格文件管理规范
+
+#### 测试文件命名和位置约定
+**🚨 必须严格遵守以下文件管理规范：**
+
+1. **单元测试文件**：
+   - 后端：`backend/test/routes/auth.test.js`（对应 `backend/src/routes/auth.js`）
+   - 前端：`frontend/test/components/LoginForm.test.tsx`（对应 `frontend/src/components/LoginForm.tsx`）
+
+2. **集成测试文件**：
+   - 根目录：`integration-test.js`（主集成测试脚本）
+   - 前端集成：`frontend/test/integration/`（前端集成测试）
+   - 后端集成：`backend/test/integration/`（后端集成测试）
+
+3. **系统验证文件**：
+   - 根目录：`verify-system.js`（系统验证主脚本）
+
+4. **UI测试文件**：
+   - 前端：`frontend/test/ui-element-tests.test.tsx`（UI元素检查）
+   - 前端：`frontend/test/requirement-validation-tests.test.tsx`（需求验证）
+
+5. **报告文件**：
+   - 根目录：`*-report.json`（JSON格式报告）
+   - 根目录：`*-report.md`（Markdown格式报告）
+
+#### 禁止的文件和命名
+**❌ 绝对禁止创建以下文件：**
+- 临时测试文件（如 `temp-test.js`、`test123.js`）
+- 重复的测试脚本（如 `integration-test-2.js`）
+- 不规范的报告文件（如 `report.txt`、`测试结果.doc`）
+- 在根目录创建零散的测试文件
+- 使用中文文件名或包含特殊字符的文件名
+
+#### 文件内容规范
+**每个测试文件必须包含：**
+```javascript
+// 文件头部注释（必须）
+/**
+ * 测试文件：[文件名]
+ * 测试目标：[对应的源文件或功能]
+ * 创建时间：[YYYY-MM-DD]
+ * 测试类型：[单元测试/集成测试/UI测试/系统验证]
+ */
+
+// 正确的导入语句
+// 测试框架配置
+// 测试用例组织结构
+```
+
+#### 清理规范
+**测试完成后必须清理：**
+- 删除所有临时文件（`*.log`、`*.tmp`）
+- 删除重复的测试脚本
+- 整理报告文件到统一格式
+- 确保项目根目录整洁
 
 **文件命名规范：**
 * 源文件和测试文件应有相同文件名（不含扩展名）
+* 使用kebab-case命名法（小写字母+连字符）
+* 测试文件必须以`.test.`或`.spec.`结尾
 * 示例：
   - 后端API路由：`backend/src/routes/auth.js` → `backend/test/routes/auth.test.js`
-  - 前端组件：`frontend/src/components/RegisterForm.tsx` → `frontend/test/components/RegisterForm.test.tsx`
+  - 前端组件：`frontend/src/components/register-form.tsx` → `frontend/test/components/register-form.test.tsx`
+  - 集成测试：`integration-test.js`（根目录）
+  - 系统验证：`verify-system.js`（根目录）
 
 ---
 
