@@ -46,6 +46,12 @@
 * **断言准确性**：使用精确断言，避免模糊验证
 * **技术适配性**：根据功能特征自动选择合适的测试技术（timer、spy、mock、async等）
 * **行为完整性**：确保acceptanceCriteria中描述的每个行为、状态变化、输出都有对应验证
+* **边缘情况重点测试**：
+  - 输入验证：空值、特殊字符、超长字符串、格式错误
+  - 表单状态：禁用/启用状态切换、加载状态、错误状态
+  - 用户交互：快速点击、重复提交、页面刷新后状态保持
+  - 数据边界：最大/最小值、临界值、类型转换
+  - UI响应：元素可见性、焦点管理
 
 **语法和结构检查：**
 * 所有测试文件使用正确的JavaScript/TypeScript语法
@@ -59,15 +65,185 @@
 * Mock和Stub正确配置，不影响其他测试
 * 测试超时配置合理，防止测试hang住
 
-### 5. 生成集成测试
+### 5. 生成系统化UI元素检查测试
+
+#### 5.1 UI元素逐一检查测试生成
+**必须为每个界面生成完整的UI元素检查测试：**
+
+```javascript
+// ui-element-tests.js - 自动生成UI元素检查测试
+describe('UI元素系统化检查', () => {
+  // 根据需求文档自动生成每个界面的测试
+  describe('登录界面UI元素检查', () => {
+    test('手机号输入框存在且功能正常', async () => {
+      // 检查元素存在性
+      // 检查placeholder文本
+      // 检查输入验证
+      // 检查focus/blur状态
+    });
+    
+    test('验证码输入框存在且功能正常', async () => {
+      // 检查元素存在性
+      // 检查输入限制
+      // 检查状态变化
+    });
+    
+    test('获取验证码按钮存在且功能正常', async () => {
+      // 检查按钮存在性
+      // 检查点击响应
+      // 检查倒计时功能
+      // 检查禁用状态
+    });
+    
+    test('登录按钮存在且功能正常', async () => {
+      // 检查按钮存在性
+      // 检查启用/禁用逻辑
+      // 检查点击响应
+    });
+  });
+  
+  // 为每个界面重复此模式
+});
+```
+
+#### 5.2 UI状态检查测试模板
+**生成UI元素状态检查的标准测试模板：**
+
+```javascript
+// ui-state-checker.js
+export const generateUIStateTests = (interfaceName, elements) => {
+  return elements.map(element => ({
+    testName: `${element.name}_状态检查`,
+    testCode: `
+      test('${element.name}的所有状态正确显示', async () => {
+        const element = screen.getByTestId('${element.testId}');
+        
+        // 正常状态检查
+        expect(element).toBeInTheDocument();
+        expect(element).toHaveClass('${element.normalClass}');
+        
+        // hover状态检查（如果适用）
+        if ('${element.hasHover}' === 'true') {
+          fireEvent.mouseEnter(element);
+          expect(element).toHaveClass('${element.hoverClass}');
+        }
+        
+        // focus状态检查（如果适用）
+        if ('${element.canFocus}' === 'true') {
+          element.focus();
+          expect(element).toHaveClass('${element.focusClass}');
+        }
+        
+        // error状态检查（如果适用）
+        if ('${element.hasError}' === 'true') {
+          // 触发错误状态
+          // 验证错误样式和提示
+        }
+      });
+    `
+  }));
+};
+```
+
+### 6. 生成需求逐条验证测试
+
+#### 6.1 需求映射测试生成
+**为需求文档中的每个需求生成对应的验证测试：**
+
+```javascript
+// requirement-validation-tests.js
+describe('需求文档逐条验证', () => {
+  // 根据需求文档自动生成测试
+  describe('用户登录需求验证', () => {
+    test('REQ-001: 用户可以使用手机号登录', async () => {
+      // 测试步骤1：输入有效手机号
+      // 测试步骤2：获取验证码
+      // 测试步骤3：输入正确验证码
+      // 测试步骤4：验证登录成功
+      // 验证需求完全满足
+    });
+    
+    test('REQ-002: 验证码60秒倒计时功能', async () => {
+      // 测试倒计时开始
+      // 测试倒计时过程
+      // 测试倒计时结束
+      // 验证按钮状态变化
+    });
+    
+    test('REQ-003: 手机号格式验证', async () => {
+      // 测试有效格式
+      // 测试无效格式
+      // 验证错误提示
+    });
+  });
+  
+  describe('用户注册需求验证', () => {
+    test('REQ-004: 用户可以注册新账号', async () => {
+      // 完整注册流程测试
+    });
+    
+    test('REQ-005: 用户协议确认', async () => {
+      // 协议显示和确认测试
+    });
+  });
+});
+```
+
+#### 6.2 需求覆盖率检查
+**生成需求覆盖率检查脚本：**
+
+```javascript
+// requirement-coverage-checker.js
+export const checkRequirementCoverage = (requirementDoc, testSuites) => {
+  const coverage = {
+    totalRequirements: 0,
+    coveredRequirements: 0,
+    uncoveredRequirements: [],
+    coverageReport: []
+  };
+  
+  // 解析需求文档
+  const requirements = parseRequirements(requirementDoc);
+  coverage.totalRequirements = requirements.length;
+  
+  // 检查每个需求的测试覆盖
+  requirements.forEach(req => {
+    const testCases = findTestCasesForRequirement(req.id, testSuites);
+    if (testCases.length > 0) {
+      coverage.coveredRequirements++;
+      coverage.coverageReport.push({
+        requirementId: req.id,
+        description: req.description,
+        testCases: testCases,
+        covered: true
+      });
+    } else {
+      coverage.uncoveredRequirements.push(req);
+      coverage.coverageReport.push({
+        requirementId: req.id,
+        description: req.description,
+        testCases: [],
+        covered: false
+      });
+    }
+  });
+  
+  return coverage;
+};
+```
+
+### 7. 生成集成测试
+* **前端元素存在性检查**：验证需求文档中要求的所有UI元素是否正确渲染（按钮、输入框、文本、图标等）
 * **前后端通信测试**：验证API端点可访问性、请求/响应格式、错误处理
 * **端到端测试**：使用Cypress或Playwright测试完整用户流程
 * **系统健康检查**：验证服务启动和连通性
 * **配置验证**：测试代理配置、CORS设置、环境变量
 
-### 6. 生成系统验证脚本
-* **verify-system.js**：验证后端服务（端口3000）、前端服务（端口5173）、前端访问后端API、数据库连接、关键API端点响应
-* **integration-test.js**：测试完整注册流程、登录流程、API调用链
+### 8. 生成系统验证脚本
+* **verify-system.js**：验证后端服务、前端服务、前端访问后端API、数据库连接、关键API端点响应
+* **integration-test.js**：根据需求文档测试完整业务流程、API调用链
+* **ui-validation-report.js**：生成UI元素检查报告
+* **requirement-validation-report.js**：生成需求验证报告
 
 ## 技术架构
 
@@ -151,6 +327,11 @@ module.exports = {
 - [ ] 测试环境配置正确
 - [ ] 集成测试覆盖前后端通信
 - [ ] 系统验证脚本功能完整
+- [ ] **前端元素存在性验证**：
+  - [ ] 需求文档中要求的所有UI组件都有对应的存在性测试
+  - [ ] 按钮、输入框、文本、图标等元素的渲染验证
+  - [ ] 元素的可见性、可交互性、样式状态验证
+  - [ ] 响应式布局在不同屏幕尺寸下的元素显示验证
 - [ ] **功能覆盖完整性检查**：
   - [ ] acceptanceCriteria中的每个动词都有对应的行为测试
   - [ ] acceptanceCriteria中的每个状态变化都有对应的状态测试
@@ -168,6 +349,10 @@ module.exports = {
 * ❌ 缺少边界条件测试
 * ❌ Mock配置不正确
 * ❌ 测试环境配置错误
+* ❌ 测试并发场景（难以控制和验证）
+* ❌ 测试网络延迟、超时等网络相关问题（环境依赖性强）
+* ❌ 测试复杂的系统级性能问题（超出单元测试范围）
+* ❌ 忽略前端UI元素的存在性和可交互性验证
 
 ### 🎯 测试成功标准
 **只有满足以下条件才能认为测试生成成功：**
