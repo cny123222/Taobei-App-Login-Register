@@ -1,0 +1,44 @@
+name: Quick Test
+
+on:
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  quick-test:
+    runs-on: ubuntu-latest
+    name: 🚀 Quick Test
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: 📦 Install root dependencies
+      run: npm ci
+      
+    - name: 📦 Install backend dependencies
+      run: |
+        cd backend
+        npm ci
+        
+    - name: 📦 Install frontend dependencies
+      run: |
+        cd frontend
+        npm ci
+        
+    - name: 🧪 Run backend tests
+      run: |
+        cd backend
+        npm test
+        
+    - name: 🧪 Run frontend tests
+      run: |
+        cd frontend
+        npm test
+        
+    - name: ✅ Test completed
+      run: echo "All tests passed successfully!"

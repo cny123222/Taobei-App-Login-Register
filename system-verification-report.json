@@ -1,5 +1,5 @@
 {
-  "timestamp": "2025-10-27T13:13:01.920Z",
+  "timestamp": "2025-10-27T13:29:28.761Z",
   "summary": {
     "totalChecks": 40,
     "passedChecks": 36,
@@ -13,280 +13,280 @@
       "test": "File: backend/src/app.js",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.887Z"
+      "timestamp": "2025-10-27T13:29:28.730Z"
     },
     {
       "category": "Project Structure",
       "test": "File: backend/src/database.js",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.887Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Project Structure",
       "test": "File: backend/src/routes/auth.js",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.887Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Project Structure",
       "test": "File: backend/package.json",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.887Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Project Structure",
       "test": "File: frontend/src/App.tsx",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Project Structure",
       "test": "File: frontend/src/main.tsx",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Project Structure",
       "test": "File: frontend/src/components/LoginPage.tsx",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Project Structure",
       "test": "File: frontend/src/components/RegisterPage.tsx",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Project Structure",
       "test": "File: frontend/src/components/HomePage.tsx",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Project Structure",
       "test": "File: frontend/package.json",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Project Structure",
       "test": "File: frontend/vite.config.ts",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Project Structure",
       "test": "File: frontend/index.html",
       "status": "PASSED",
       "details": "文件存在",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Project Structure",
       "test": "Overall Structure",
       "status": "PASSED",
       "details": "所有必需文件都存在",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.731Z"
     },
     {
       "category": "Dependencies",
       "test": "Backend Dependencies",
       "status": "PASSED",
       "details": "node_modules存在",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Dependencies",
       "test": "Frontend Dependencies",
       "status": "PASSED",
       "details": "node_modules存在",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Dependencies",
       "test": "Backend: express",
       "status": "PASSED",
       "details": "版本: ^4.18.2",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Dependencies",
       "test": "Backend: cors",
       "status": "PASSED",
       "details": "版本: ^2.8.5",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Dependencies",
       "test": "Backend: sqlite3",
       "status": "PASSED",
       "details": "版本: ^5.1.6",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Dependencies",
       "test": "Backend: bcryptjs",
       "status": "PASSED",
       "details": "版本: ^2.4.3",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Dependencies",
       "test": "Backend: jsonwebtoken",
       "status": "PASSED",
       "details": "版本: ^9.0.2",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Dependencies",
       "test": "Frontend: react",
       "status": "PASSED",
       "details": "版本: ^18.2.0",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Dependencies",
       "test": "Frontend: react-dom",
       "status": "PASSED",
       "details": "版本: ^18.2.0",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Dependencies",
       "test": "Frontend: react-router-dom",
       "status": "PASSED",
       "details": "版本: ^6.15.0",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Dependencies",
       "test": "Frontend: axios",
       "status": "PASSED",
       "details": "版本: ^1.5.0",
-      "timestamp": "2025-10-27T13:13:01.888Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Configuration",
       "test": "Vite Proxy Config",
       "status": "PASSED",
       "details": "API代理配置正确",
-      "timestamp": "2025-10-27T13:13:01.889Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Configuration",
       "test": "Frontend Port Config",
       "status": "PASSED",
       "details": "前端端口配置正确",
-      "timestamp": "2025-10-27T13:13:01.889Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Configuration",
       "test": "CORS Config",
       "status": "PASSED",
       "details": "CORS配置存在",
-      "timestamp": "2025-10-27T13:13:01.889Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Configuration",
       "test": "Backend Port Config",
       "status": "PASSED",
       "details": "后端端口配置正确",
-      "timestamp": "2025-10-27T13:13:01.889Z"
+      "timestamp": "2025-10-27T13:29:28.732Z"
     },
     {
       "category": "Backend Service",
       "test": "Service Startup",
       "status": "PASSED",
       "details": "后端服务已运行",
-      "timestamp": "2025-10-27T13:13:01.904Z"
+      "timestamp": "2025-10-27T13:29:28.746Z"
     },
     {
       "category": "Backend Service",
       "test": "Health Check",
       "status": "PASSED",
       "details": "状态码: 200",
-      "timestamp": "2025-10-27T13:13:01.905Z"
+      "timestamp": "2025-10-27T13:29:28.747Z"
     },
     {
       "category": "Frontend Service",
       "test": "Service Startup",
       "status": "PASSED",
       "details": "前端服务已运行",
-      "timestamp": "2025-10-27T13:13:01.907Z"
+      "timestamp": "2025-10-27T13:29:28.749Z"
     },
     {
       "category": "Frontend Service",
       "test": "Home Page Access",
       "status": "WARNING",
       "details": "状态码: 404, 可能是SPA路由",
-      "timestamp": "2025-10-27T13:13:01.908Z"
+      "timestamp": "2025-10-27T13:29:28.750Z"
     },
     {
       "category": "Database",
       "test": "Connection Test",
       "status": "WARNING",
       "details": "数据库测试端点不存在，无法直接验证",
-      "timestamp": "2025-10-27T13:13:01.909Z"
+      "timestamp": "2025-10-27T13:29:28.750Z"
     },
     {
       "category": "Database",
       "test": "Database File",
       "status": "WARNING",
       "details": "数据库文件不存在，将在首次运行时创建",
-      "timestamp": "2025-10-27T13:13:01.909Z"
+      "timestamp": "2025-10-27T13:29:28.750Z"
     },
     {
       "category": "API Endpoints",
       "test": "Get Verification Code",
       "status": "PASSED",
       "details": "状态码: 200",
-      "timestamp": "2025-10-27T13:13:01.911Z"
+      "timestamp": "2025-10-27T13:29:28.753Z"
     },
     {
       "category": "API Endpoints",
       "test": "Login",
       "status": "PASSED",
       "details": "状态码: 401",
-      "timestamp": "2025-10-27T13:13:01.912Z"
+      "timestamp": "2025-10-27T13:29:28.754Z"
     },
     {
       "category": "API Endpoints",
       "test": "Register",
       "status": "PASSED",
       "details": "状态码: 401",
-      "timestamp": "2025-10-27T13:13:01.914Z"
+      "timestamp": "2025-10-27T13:29:28.755Z"
     },
     {
       "category": "Frontend-Backend",
       "test": "Proxy Communication",
       "status": "PASSED",
       "details": "代理工作正常，状态码: 200",
-      "timestamp": "2025-10-27T13:13:01.917Z"
+      "timestamp": "2025-10-27T13:29:28.758Z"
     },
     {
       "category": "Frontend-Backend",
       "test": "CORS Configuration",
       "status": "PASSED",
       "details": "CORS配置正确",
-      "timestamp": "2025-10-27T13:13:01.918Z"
+      "timestamp": "2025-10-27T13:29:28.759Z"
     },
     {
       "category": "UI Elements",
       "test": "Frontend Accessibility",
       "status": "WARNING",
       "details": "状态码: 404, SPA应用可能正常",
-      "timestamp": "2025-10-27T13:13:01.919Z"
+      "timestamp": "2025-10-27T13:29:28.760Z"
     }
   ]
 }

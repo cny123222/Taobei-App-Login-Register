@@ -1,0 +1,237 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main, develop ]
+
+env:
+  NODE_VERSION: '18'
+  BACKEND_PORT: 3001
+  FRONTEND_PORT: 4173
+
+jobs:
+  # Backend Tests
+  backend-tests:
+    runs-on: ubuntu-latest
+    name: 🔧 Backend Tests
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+        
+    - name: 📦 Install backend dependencies
+      run: |
+        cd backend
+        npm ci
+        
+    - name: 🧪 Run backend tests
+      run: |
+        cd backend
+        npm test
+        
+    - name: 📊 Generate backend coverage
+      run: |
+        cd backend
+        npm run test:coverage || echo "Coverage not available"
+        
+    - name: 📤 Upload backend test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: backend-test-results
+        path: |
+          backend/coverage/
+          backend/test-results.xml
+
+  # Frontend Tests  
+  frontend-tests:
+    runs-on: ubuntu-latest
+    name: 🎨 Frontend Tests
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+        
+    - name: 📦 Install frontend dependencies
+      run: |
+        cd frontend
+        npm ci
+        
+    - name: 🧪 Run frontend tests
+      run: |
+        cd frontend
+        npm test
+        
+    - name: 📊 Generate frontend coverage
+      run: |
+        cd frontend
+        npm run test:coverage || echo "Coverage not available"
+        
+    - name: 📤 Upload frontend test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: frontend-test-results
+        path: |
+          frontend/coverage/
+          frontend/test-results.xml
+
+  # Integration Tests
+  integration-tests:
+    runs-on: ubuntu-latest
+    name: 🔗 Integration Tests
+    needs: [backend-tests, frontend-tests]
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: 📦 Install all dependencies
+      run: |
+        npm ci
+        cd backend && npm ci
+        cd ../frontend && npm ci
+        
+    - name: 🚀 Start backend server
+      run: |
+        cd backend
+        npm start &
+        echo $! > backend.pid
+        
+    - name: ⏳ Wait for backend to be ready
+      run: |
+        npx wait-on http://localhost:${{ env.BACKEND_PORT }}/api/health --timeout 60000
+        
+    - name: 🏗️ Build frontend
+      run: |
+        cd frontend
+        npm run build
+        
+    - name: 🌐 Start frontend server
+      run: |
+        cd frontend
+        npm run preview &
+        echo $! > frontend.pid
+        
+    - name: ⏳ Wait for frontend to be ready
+      run: |
+        npx wait-on http://localhost:${{ env.FRONTEND_PORT }} --timeout 60000
+        
+    - name: 🧪 Run integration tests
+      run: |
+        npm run test:integration
+        
+    - name: 🔍 Run system verification
+      run: |
+        npm run test:system
+        
+    - name: 🛑 Stop servers
+      if: always()
+      run: |
+        if [ -f backend/backend.pid ]; then kill $(cat backend/backend.pid) || true; fi
+        if [ -f frontend/frontend.pid ]; then kill $(cat frontend/frontend.pid) || true; fi
+        
+    - name: 📤 Upload integration test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: integration-test-results
+        path: |
+          integration-test-report.json
+          system-verification-report.json
+
+  # Build Verification
+  build-verification:
+    runs-on: ubuntu-latest
+    name: 🏗️ Build Verification
+    needs: [backend-tests, frontend-tests]
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: 📦 Install dependencies
+      run: |
+        cd backend && npm ci
+        cd ../frontend && npm ci
+        
+    - name: 🏗️ Build frontend
+      run: |
+        cd frontend
+        npm run build
+        
+    - name: ✅ Verify build artifacts
+      run: |
+        if [ ! -d "frontend/dist" ]; then
+          echo "❌ Frontend build failed - dist directory not found"
+          exit 1
+        fi
+        echo "✅ Frontend build successful"
+        
+    - name: 📤 Upload build artifacts
+      uses: actions/upload-artifact@v4
+      if: success()
+      with:
+        name: build-artifacts
+        path: frontend/dist/
+
+  # Summary Report
+  test-summary:
+    runs-on: ubuntu-latest
+    name: 📋 Test Summary
+    needs: [backend-tests, frontend-tests, integration-tests, build-verification]
+    if: always()
+    
+    steps:
+    - name: 📥 Download all artifacts
+      uses: actions/download-artifact@v4
+      
+    - name: 📊 Generate test summary
+      run: |
+        echo "# 🧪 Test Summary Report" > test-summary.md
+        echo "" >> test-summary.md
+        echo "## 📈 Test Results" >> test-summary.md
+        echo "- Backend Tests: ${{ needs.backend-tests.result }}" >> test-summary.md
+        echo "- Frontend Tests: ${{ needs.frontend-tests.result }}" >> test-summary.md
+        echo "- Integration Tests: ${{ needs.integration-tests.result }}" >> test-summary.md
+        echo "- Build Verification: ${{ needs.build-verification.result }}" >> test-summary.md
+        echo "" >> test-summary.md
+        echo "## 🔗 Artifacts" >> test-summary.md
+        echo "- Backend test results and coverage" >> test-summary.md
+        echo "- Frontend test results and coverage" >> test-summary.md
+        echo "- Integration test reports" >> test-summary.md
+        echo "- Build artifacts (if successful)" >> test-summary.md
+        
+    - name: 📤 Upload test summary
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-summary
+        path: test-summary.md

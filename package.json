@@ -10,6 +10,8 @@
     "test": "npm run test:backend && npm run test:frontend",
     "test:backend": "cd backend && npm test",
     "test:frontend": "cd frontend && npm test",
+    "test:integration": "node integration-test.js",
+    "test:system": "node verify-system.js",
     "build": "npm run build:backend && npm run build:frontend",
     "build:backend": "cd backend && npm run build",
     "build:frontend": "cd frontend && npm run build",
@@ -35,7 +37,8 @@
   "devDependencies": {
     "axios": "^1.6.2",
     "chalk": "^4.1.2",
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "wait-on": "^7.2.0"
   },
   "dependencies": {
     "axios": "^1.6.2",
