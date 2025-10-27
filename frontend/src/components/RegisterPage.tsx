@@ -61,6 +61,7 @@ const RegisterPage: React.FC = () => {
       const errorMessage = err.response?.data?.error;
       if (errorMessage === '验证码错误') {
         setError('验证码错误');
+        // 验证码错误时不跳转，保持在注册页面
       } else {
         setError(errorMessage || '注册失败，请重试');
       }

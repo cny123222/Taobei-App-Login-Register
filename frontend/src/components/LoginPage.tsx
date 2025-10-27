@@ -54,7 +54,7 @@ const LoginPage: React.FC = () => {
       if (response.data.token) {
         localStorage.setItem('token', response.data.token);
         setSuccess(response.data.message || '登录成功');
-        navigate('/');
+        setTimeout(() => navigate('/'), 1500);
       }
     } catch (err: any) {
       const errorMessage = err.response?.data?.error;
