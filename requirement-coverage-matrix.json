@@ -1,0 +1,5077 @@
+{
+  "timestamp": "2025-10-27T06:22:51.726Z",
+  "matrix": [
+    {
+      "requirementId": "REQ-1",
+      "requirementType": "auth",
+      "requirementDescription": ".  用户登录",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-2",
+      "requirementType": "auth",
+      "requirementDescription": ".1 登录界面",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-3",
+      "requirementType": "functional",
+      "requirementDescription": ".1.1 界面布局从上到下包含：",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-4",
+      "requirementType": "functional",
+      "requirementDescription": "手机号输入区域：左侧默认显示\"+86\"，右侧为手机号输入框（占位符文本：\"请输入手机号\"）",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-5",
+      "requirementType": "validation",
+      "requirementDescription": "验证码输入区域：左侧为验证码输入框（占位符文本：\"请输入验证码\"），右侧为\"获取验证码\"按钮",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-6",
+      "requirementType": "auth",
+      "requirementDescription": "\"登录\"按钮：全宽度，橙色",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-7",
+      "requirementType": "auth",
+      "requirementDescription": "底部导航区域：包含\"忘记账号\"和\"免费注册\"链接，点击\"免费注册\"链接跳转到注册页面",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-8",
+      "requirementType": "validation",
+      "requirementDescription": ".2 用户发起获取验证码请求",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-9",
+      "requirementType": "validation",
+      "requirementDescription": ".2.1 校验用户输入的手机号码格式是否正确",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-15",
+          "testName": "应该在手机号和验证码都有效时启用登录按钮",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-10",
+      "requirementType": "validation",
+      "requirementDescription": ".2.2 生成验证码",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-15",
+          "testName": "应该在手机号和验证码都有效时启用登录按钮",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 按钮"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "获取验证码按钮应该根据手机号有效性启用/禁用",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 按钮"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "应该在无效手机号时禁用获取验证码按钮",
+          "testFile": "frontend/test/components/RegisterPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 按钮"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-11",
+      "requirementType": "auth",
+      "requirementDescription": ".3 用户提交登录信息",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-12",
+      "requirementType": "auth",
+      "requirementDescription": ".3.1 校验手机号是否已注册",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该在手机号和验证码都有效时启用登录按钮",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "REQ-1.3.1: 使用未注册手机号登录的错误处理",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "REQ-1.4.1: 从登录页面跳转到注册页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "REQ-2.2.2: 注册页面成功获取验证码的完整流程",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "REQ-2.3.1: 使用已注册手机号进行注册时直接登录",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "REQ-2.4.1: 从注册页面返回登录页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少auth测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-13",
+      "requirementType": "validation",
+      "requirementDescription": ".3.2 校验验证码是否正确",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该在手机号和验证码都有效时启用登录按钮",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "REQ-1.3.1: 使用未注册手机号登录的错误处理",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "REQ-1.4.1: 从登录页面跳转到注册页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "REQ-2.2.2: 注册页面成功获取验证码的完整流程",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "REQ-2.3.1: 使用已注册手机号进行注册时直接登录",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "REQ-2.4.1: 从注册页面返回登录页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-14",
+      "requirementType": "auth",
+      "requirementDescription": ".3.3 系统完成登录流程",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该在手机号和验证码都有效时启用登录按钮",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "REQ-1.3.1: 使用未注册手机号登录的错误处理",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "REQ-1.4.1: 从登录页面跳转到注册页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "REQ-2.2.2: 注册页面成功获取验证码的完整流程",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "REQ-2.3.1: 使用已注册手机号进行注册时直接登录",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "REQ-2.4.1: 从注册页面返回登录页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少auth测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-15",
+      "requirementType": "functional",
+      "requirementDescription": ".4 页面导航功能",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-16",
+      "requirementType": "auth",
+      "requirementDescription": ".4.1 登录页面到注册页面的跳转",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-7",
+          "testName": "REQ-1.4.1: 从登录页面跳转到注册页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.35000000000000003,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该不显示登录注册链接",
+          "testFile": "frontend/test/components/HomePage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 链接"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "REQ-2.4.1: 从注册页面返回登录页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少auth测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-17",
+      "requirementType": "auth",
+      "requirementDescription": ".  用户注册",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-18",
+      "requirementType": "auth",
+      "requirementDescription": ".1 注册界面",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-19",
+      "requirementType": "functional",
+      "requirementDescription": ".1.1 界面布局从上到下包含：",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-20",
+      "requirementType": "functional",
+      "requirementDescription": "手机号码输入区域：左侧默认显示\"中国大陆 +86\"，右侧为手机号输入框（占位符文本：\"请输入你的手机号码\"）",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-21",
+      "requirementType": "validation",
+      "requirementDescription": "验证码输入区域：左侧为验证码输入框（占位符文本：\"请输入校验码\"），右侧为\"获取验证码\"按钮",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-22",
+      "requirementType": "auth",
+      "requirementDescription": "\"同意并注册\"按钮：全宽度，橙色",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-23",
+      "requirementType": "auth",
+      "requirementDescription": "-“已有账号？立即登录”链接：“立即登录”为橙色链接",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-24",
+      "requirementType": "functional",
+      "requirementDescription": "协议同意区域：包含勾选框和协议链接文本\"同意《淘贝用户协议》\"",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-25",
+      "requirementType": "validation",
+      "requirementDescription": ".2 用户发起获取验证码请求",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-26",
+      "requirementType": "validation",
+      "requirementDescription": ".2.1 校验用户输入的手机号码格式是否正确",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "REQ-2.2.2: 注册页面成功获取验证码的完整流程",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 页面"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-27",
+      "requirementType": "validation",
+      "requirementDescription": ".2.2 生成验证码",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "获取验证码按钮应该根据手机号有效性启用/禁用",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 按钮"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该在手机号和验证码都有效时启用登录按钮",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 按钮"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "应该在无效手机号时禁用获取验证码按钮",
+          "testFile": "frontend/test/components/RegisterPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 按钮"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "REQ-2.2.2: 注册页面成功获取验证码的完整流程",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "REQ-2.3.2: 未同意用户协议时注册按钮不可点击",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 用户",
+            "关键词匹配: 按钮"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "REQ-2.3.2: 同意用户协议时注册按钮变为可点击",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 用户",
+            "关键词匹配: 按钮"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-28",
+      "requirementType": "auth",
+      "requirementDescription": ".3 用户提交注册信息",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-29",
+      "requirementType": "auth",
+      "requirementDescription": ".3.1 校验手机号是否已被注册",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该在手机号和验证码都有效时启用登录按钮",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "REQ-1.3.1: 使用未注册手机号登录的错误处理",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "REQ-1.4.1: 从登录页面跳转到注册页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "REQ-2.2.2: 注册页面成功获取验证码的完整流程",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "REQ-2.3.1: 使用已注册手机号进行注册时直接登录",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "REQ-2.4.1: 从注册页面返回登录页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少auth测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-30",
+      "requirementType": "validation",
+      "requirementDescription": ".3.2 校验用户是否同意用户协议",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-12",
+          "testName": "REQ-2.3.2: 未同意用户协议时注册按钮不可点击",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 用户",
+            "关键词匹配: 按钮"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "REQ-2.3.2: 同意用户协议时注册按钮变为可点击",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 用户",
+            "关键词匹配: 按钮"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-31",
+      "requirementType": "validation",
+      "requirementDescription": ".3.3 校验验证码是否正确",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该在手机号和验证码都有效时启用登录按钮",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "REQ-1.3.1: 使用未注册手机号登录的错误处理",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "REQ-1.4.1: 从登录页面跳转到注册页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "REQ-2.2.2: 注册页面成功获取验证码的完整流程",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "REQ-2.3.1: 使用已注册手机号进行注册时直接登录",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "REQ-2.4.1: 从注册页面返回登录页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-32",
+      "requirementType": "auth",
+      "requirementDescription": ".3.3 系统完成注册流程",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该在手机号和验证码都有效时启用登录按钮",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "REQ-1.3.1: 使用未注册手机号登录的错误处理",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "REQ-1.4.1: 从登录页面跳转到注册页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "REQ-2.2.2: 注册页面成功获取验证码的完整流程",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "REQ-2.3.1: 使用已注册手机号进行注册时直接登录",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "REQ-2.4.1: 从注册页面返回登录页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少auth测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-33",
+      "requirementType": "functional",
+      "requirementDescription": ".4 页面导航功能",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-34",
+      "requirementType": "auth",
+      "requirementDescription": ".4.1 注册页面返回登录页面",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-16",
+          "testName": "REQ-2.4.1: 从注册页面返回登录页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.35000000000000003,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该不显示登录注册链接",
+          "testFile": "frontend/test/components/HomePage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 链接"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "REQ-1.4.1: 从登录页面跳转到注册页面",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少auth测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-35",
+      "requirementType": "functional",
+      "requirementDescription": ". 首页",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-36",
+      "requirementType": "functional",
+      "requirementDescription": ".1 首页布局",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-37",
+      "requirementType": "functional",
+      "requirementDescription": ".1.1 首页需要包含以下元素：",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-38",
+      "requirementType": "functional",
+      "requirementDescription": "品牌logo：橙色”淘贝”文字",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少unit测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-39",
+      "requirementType": "auth",
+      "requirementDescription": "登录链接：“亲，请登录”文字，点击后跳转登录页面",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "REQ-40",
+      "requirementType": "auth",
+      "requirementDescription": "注册链接：“免费注册”文字，点击后跳转注册页面",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少auth测试",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-41",
+      "requirementType": "api",
+      "requirementDescription": "id 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-42",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-2",
+          "testName": "应该拒绝无效的手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-3",
+          "testName": "应该处理缺少手机号参数",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "应该生成6位数字验证码",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-5",
+          "testName": "应该设置验证码5分钟过期时间",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-8",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "应该检查验证码是否过期",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "应该确保验证码只能使用一次",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户自动创建账号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-17",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-18",
+          "testName": "应该要求用户同意协议",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-19",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-21",
+          "testName": "应该创建新用户记录",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该在手机号和验证码都有效时启用登录按钮",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-43",
+      "requirementType": "api",
+      "requirementDescription": "properties 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-44",
+      "requirementType": "api",
+      "requirementDescription": "type 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-45",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-46",
+      "requirementType": "api",
+      "requirementDescription": "type 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-47",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-48",
+      "requirementType": "api",
+      "requirementDescription": "state 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-49",
+      "requirementType": "api",
+      "requirementDescription": "dependencies 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-50",
+      "requirementType": "api",
+      "requirementDescription": "acceptanceCriteria 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "验收标准覆盖不足: 0/1",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-51",
+      "requirementType": "api",
+      "requirementDescription": "changeLog 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-52",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-53",
+      "requirementType": "api",
+      "requirementDescription": "id 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-54",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "REQ-2.2.1: 注册页面手机号格式无效时不发送验证码",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号",
+            "关键词匹配: 页面"
+          ]
+        },
+        {
+          "testId": "TEST-2",
+          "testName": "应该拒绝无效的手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-3",
+          "testName": "应该处理缺少手机号参数",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "应该生成6位数字验证码",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-5",
+          "testName": "应该设置验证码5分钟过期时间",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-8",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "应该检查验证码是否过期",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "应该确保验证码只能使用一次",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户自动创建账号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-17",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-18",
+          "testName": "应该要求用户同意协议",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-19",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-21",
+          "testName": "应该创建新用户记录",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "REQ-2.2.2: 注册页面成功获取验证码的完整流程",
+          "testFile": "frontend/test/requirement-validation-tests.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 注册",
+            "关键词匹配: 验证码",
+            "关键词匹配: 页面"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-55",
+      "requirementType": "api",
+      "requirementDescription": "properties 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-56",
+      "requirementType": "api",
+      "requirementDescription": "type 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-57",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-58",
+      "requirementType": "api",
+      "requirementDescription": "type 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-59",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-60",
+      "requirementType": "api",
+      "requirementDescription": "state 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-61",
+      "requirementType": "api",
+      "requirementDescription": "dependencies 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-62",
+      "requirementType": "api",
+      "requirementDescription": "acceptanceCriteria 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "验收标准覆盖不足: 0/1",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-63",
+      "requirementType": "api",
+      "requirementDescription": "changeLog 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-64",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-65",
+      "requirementType": "api",
+      "requirementDescription": "id 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-66",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-67",
+      "requirementType": "api",
+      "requirementDescription": "properties 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-68",
+      "requirementType": "api",
+      "requirementDescription": "type 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-69",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-70",
+      "requirementType": "api",
+      "requirementDescription": "type 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-71",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-72",
+      "requirementType": "api",
+      "requirementDescription": "type 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-73",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户自动创建账号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-18",
+          "testName": "应该要求用户同意协议",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-21",
+          "testName": "应该创建新用户记录",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-74",
+      "requirementType": "api",
+      "requirementDescription": "state 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-75",
+      "requirementType": "api",
+      "requirementDescription": "dependencies 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-76",
+      "requirementType": "api",
+      "requirementDescription": "acceptanceCriteria 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "验收标准覆盖不足: 0/1",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-77",
+      "requirementType": "api",
+      "requirementDescription": "changeLog 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-78",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-79",
+      "requirementType": "api",
+      "requirementDescription": "id 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-80",
+      "requirementType": "api",
+      "requirementDescription": "route 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-2",
+          "testName": "应该拒绝无效的手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-3",
+          "testName": "应该处理缺少手机号参数",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "应该生成6位数字验证码",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-5",
+          "testName": "应该设置验证码5分钟过期时间",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-8",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "应该检查验证码是否过期",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "应该确保验证码只能使用一次",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户自动创建账号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-14",
+          "testName": "应该生成JWT令牌",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-17",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-18",
+          "testName": "应该要求用户同意协议",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-19",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-21",
+          "testName": "应该创建新用户记录",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-22",
+          "testName": "应该生成JWT令牌",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-81",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-2",
+          "testName": "应该拒绝无效的手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-3",
+          "testName": "应该处理缺少手机号参数",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "应该生成6位数字验证码",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-5",
+          "testName": "应该设置验证码5分钟过期时间",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-8",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "应该检查验证码是否过期",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "应该确保验证码只能使用一次",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-17",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-19",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-82",
+      "requirementType": "api",
+      "requirementDescription": "input 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-83",
+      "requirementType": "api",
+      "requirementDescription": "type 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-84",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-85",
+      "requirementType": "api",
+      "requirementDescription": "phoneNumber 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-86",
+      "requirementType": "api",
+      "requirementDescription": "output 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-87",
+      "requirementType": "api",
+      "requirementDescription": "success 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-88",
+      "requirementType": "api",
+      "requirementDescription": "statusCode 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-89",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-90",
+      "requirementType": "api",
+      "requirementDescription": "error 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-91",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-92",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-93",
+      "requirementType": "api",
+      "requirementDescription": "dependencies 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-94",
+      "requirementType": "api",
+      "requirementDescription": "acceptanceCriteria 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "验收标准覆盖不足: 0/1",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-95",
+      "requirementType": "api",
+      "requirementDescription": "changeLog 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-96",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-97",
+      "requirementType": "api",
+      "requirementDescription": "id 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-98",
+      "requirementType": "api",
+      "requirementDescription": "route 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-8",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "应该检查验证码是否过期",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "应该确保验证码只能使用一次",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户自动创建账号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-14",
+          "testName": "应该生成JWT令牌",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-2",
+          "testName": "应该拒绝无效的手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-3",
+          "testName": "应该处理缺少手机号参数",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "应该生成6位数字验证码",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-5",
+          "testName": "应该设置验证码5分钟过期时间",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-17",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-18",
+          "testName": "应该要求用户同意协议",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-19",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-21",
+          "testName": "应该创建新用户记录",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-22",
+          "testName": "应该生成JWT令牌",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-99",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 登录",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-2",
+          "testName": "应该拒绝无效的手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-3",
+          "testName": "应该处理缺少手机号参数",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "应该生成6位数字验证码",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-5",
+          "testName": "应该设置验证码5分钟过期时间",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-8",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "应该检查验证码是否过期",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "应该确保验证码只能使用一次",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户自动创建账号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-17",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-18",
+          "testName": "应该要求用户同意协议",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-19",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-21",
+          "testName": "应该创建新用户记录",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该在手机号和验证码都有效时启用登录按钮",
+          "testFile": "frontend/test/components/LoginPage.test.tsx",
+          "matchScore": 0.30000000000000004,
+          "matchReasons": [
+            "关键词匹配: 登录",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-100",
+      "requirementType": "api",
+      "requirementDescription": "input 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-101",
+      "requirementType": "api",
+      "requirementDescription": "type 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-102",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-103",
+      "requirementType": "api",
+      "requirementDescription": "phoneNumber 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-104",
+      "requirementType": "api",
+      "requirementDescription": "verificationCode 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-105",
+      "requirementType": "api",
+      "requirementDescription": "output 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-106",
+      "requirementType": "api",
+      "requirementDescription": "success 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-107",
+      "requirementType": "api",
+      "requirementDescription": "statusCode 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-108",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-109",
+      "requirementType": "api",
+      "requirementDescription": "error 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-110",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-111",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-112",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-113",
+      "requirementType": "api",
+      "requirementDescription": "dependencies 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-114",
+      "requirementType": "api",
+      "requirementDescription": "acceptanceCriteria 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "验收标准覆盖不足: 0/1",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-115",
+      "requirementType": "api",
+      "requirementDescription": "changeLog 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-116",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-117",
+      "requirementType": "api",
+      "requirementDescription": "id 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-118",
+      "requirementType": "api",
+      "requirementDescription": "route 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-17",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-18",
+          "testName": "应该要求用户同意协议",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-19",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-21",
+          "testName": "应该创建新用户记录",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-22",
+          "testName": "应该生成JWT令牌",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-2",
+          "testName": "应该拒绝无效的手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-3",
+          "testName": "应该处理缺少手机号参数",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "应该生成6位数字验证码",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-5",
+          "testName": "应该设置验证码5分钟过期时间",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-8",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "应该检查验证码是否过期",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "应该确保验证码只能使用一次",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户自动创建账号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        },
+        {
+          "testId": "TEST-14",
+          "testName": "应该生成JWT令牌",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.35,
+          "matchReasons": [
+            "类型匹配: api"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-119",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "应该生成6位数字验证码",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-5",
+          "testName": "应该设置验证码5分钟过期时间",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "应该检查验证码是否过期",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "应该确保验证码只能使用一次",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户自动创建账号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-17",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-18",
+          "testName": "应该要求用户同意协议",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-19",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 注册"
+          ]
+        },
+        {
+          "testId": "TEST-21",
+          "testName": "应该创建新用户记录",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-120",
+      "requirementType": "api",
+      "requirementDescription": "input 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-121",
+      "requirementType": "api",
+      "requirementDescription": "type 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-122",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-123",
+      "requirementType": "api",
+      "requirementDescription": "phoneNumber 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-124",
+      "requirementType": "api",
+      "requirementDescription": "verificationCode 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-125",
+      "requirementType": "api",
+      "requirementDescription": "agreeToTerms 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-126",
+      "requirementType": "api",
+      "requirementDescription": "output 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-127",
+      "requirementType": "api",
+      "requirementDescription": "success 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-128",
+      "requirementType": "api",
+      "requirementDescription": "statusCode 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-129",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-130",
+      "requirementType": "api",
+      "requirementDescription": "error 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-131",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-132",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-133",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-134",
+      "requirementType": "api",
+      "requirementDescription": "body 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-135",
+      "requirementType": "api",
+      "requirementDescription": "dependencies 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-136",
+      "requirementType": "api",
+      "requirementDescription": "acceptanceCriteria 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "验收标准覆盖不足: 0/1",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-137",
+      "requirementType": "api",
+      "requirementDescription": "changeLog 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-138",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-139",
+      "requirementType": "api",
+      "requirementDescription": "id 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-140",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-2",
+          "testName": "应该拒绝无效的手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-3",
+          "testName": "应该处理缺少手机号参数",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-8",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户自动创建账号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-18",
+          "testName": "应该要求用户同意协议",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-21",
+          "testName": "应该创建新用户记录",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-141",
+      "requirementType": "api",
+      "requirementDescription": "dependencies 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-142",
+      "requirementType": "api",
+      "requirementDescription": "acceptanceCriteria 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "验收标准覆盖不足: 0/1",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-143",
+      "requirementType": "api",
+      "requirementDescription": "changeLog 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-144",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-145",
+      "requirementType": "api",
+      "requirementDescription": "id 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-146",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-7",
+          "testName": "应该成功登录有效用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-13",
+          "testName": "应该为新用户自动创建账号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-15",
+          "testName": "应该成功注册新用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-18",
+          "testName": "应该要求用户同意协议",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-21",
+          "testName": "应该创建新用户记录",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        },
+        {
+          "testId": "TEST-23",
+          "testName": "应该自动登录新注册用户",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 用户"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-147",
+      "requirementType": "api",
+      "requirementDescription": "dependencies 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-148",
+      "requirementType": "api",
+      "requirementDescription": "acceptanceCriteria 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "验收标准覆盖不足: 0/1",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-149",
+      "requirementType": "api",
+      "requirementDescription": "changeLog 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-150",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-151",
+      "requirementType": "api",
+      "requirementDescription": "id 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-152",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "应该生成6位数字验证码",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-5",
+          "testName": "应该设置验证码5分钟过期时间",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "应该检查验证码是否过期",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "应该确保验证码只能使用一次",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-17",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-19",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-153",
+      "requirementType": "api",
+      "requirementDescription": "dependencies 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-154",
+      "requirementType": "api",
+      "requirementDescription": "acceptanceCriteria 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "验收标准覆盖不足: 0/1",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-155",
+      "requirementType": "api",
+      "requirementDescription": "changeLog 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-156",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-157",
+      "requirementType": "api",
+      "requirementDescription": "id 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-158",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.5,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-2",
+          "testName": "应该拒绝无效的手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-3",
+          "testName": "应该处理缺少手机号参数",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "应该生成6位数字验证码",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-5",
+          "testName": "应该设置验证码5分钟过期时间",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-8",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "应该检查验证码是否过期",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "应该确保验证码只能使用一次",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-16",
+          "testName": "应该验证手机号格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        },
+        {
+          "testId": "TEST-17",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-19",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-20",
+          "testName": "应该检查手机号是否已注册",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 手机号"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-159",
+      "requirementType": "api",
+      "requirementDescription": "dependencies 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-160",
+      "requirementType": "api",
+      "requirementDescription": "acceptanceCriteria 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "验收标准覆盖不足: 0/1",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-161",
+      "requirementType": "api",
+      "requirementDescription": "changeLog 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-162",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-163",
+      "requirementType": "api",
+      "requirementDescription": "id 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-164",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "MINIMAL",
+      "testCases": [
+        {
+          "testId": "TEST-1",
+          "testName": "应该成功发送验证码给有效手机号",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-4",
+          "testName": "应该生成6位数字验证码",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-5",
+          "testName": "应该设置验证码5分钟过期时间",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-6",
+          "testName": "应该限制同一手机号的验证码发送频率",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-9",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-10",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-11",
+          "testName": "应该检查验证码是否过期",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-12",
+          "testName": "应该确保验证码只能使用一次",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-17",
+          "testName": "应该验证验证码格式",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        },
+        {
+          "testId": "TEST-19",
+          "testName": "应该验证验证码的正确性",
+          "testFile": "backend/test/routes/auth.test.js",
+          "matchScore": 0.4,
+          "matchReasons": [
+            "类型匹配: api",
+            "关键词匹配: 验证码"
+          ]
+        }
+      ],
+      "gaps": [
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-165",
+      "requirementType": "api",
+      "requirementDescription": "dependencies 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-166",
+      "requirementType": "api",
+      "requirementDescription": "acceptanceCriteria 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "验收标准覆盖不足: 0/1",
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-167",
+      "requirementType": "api",
+      "requirementDescription": "changeLog 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    },
+    {
+      "requirementId": "API-168",
+      "requirementType": "api",
+      "requirementDescription": "description 接口实现",
+      "coverageLevel": "NONE",
+      "testCases": [],
+      "gaps": [
+        "缺少api测试",
+        "缺少integration测试"
+      ]
+    }
+  ]
+}

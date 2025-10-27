@@ -1,0 +1,123 @@
+{
+  "timestamp": "2025-10-27T07:47:18.346Z",
+  "summary": {
+    "total": 16,
+    "passed": 13,
+    "warning": 2,
+    "failed": 1
+  },
+  "results": [
+    {
+      "category": "Health Check",
+      "test": "Backend Service",
+      "status": "PASSED",
+      "details": "后端服务响应正常",
+      "timestamp": "2025-10-27T07:47:17.312Z"
+    },
+    {
+      "category": "Health Check",
+      "test": "Frontend Service",
+      "status": "WARNING",
+      "details": "状态码: 404",
+      "timestamp": "2025-10-27T07:47:17.314Z"
+    },
+    {
+      "category": "API Tests",
+      "test": "Verification Code - Valid Phone",
+      "status": "PASSED",
+      "details": "状态码: 200, 消息: 验证码已发送",
+      "timestamp": "2025-10-27T07:47:17.318Z"
+    },
+    {
+      "category": "API Tests",
+      "test": "Verification Code - Invalid Phone",
+      "status": "PASSED",
+      "details": "正确返回400错误: 请输入正确的手机号码",
+      "timestamp": "2025-10-27T07:47:17.319Z"
+    },
+    {
+      "category": "API Tests",
+      "test": "Login - Invalid Code",
+      "status": "PASSED",
+      "details": "正确返回401错误: 验证码错误",
+      "timestamp": "2025-10-27T07:47:17.321Z"
+    },
+    {
+      "category": "API Tests",
+      "test": "Login - Invalid Phone",
+      "status": "PASSED",
+      "details": "正确返回400错误: 请输入正确的手机号码",
+      "timestamp": "2025-10-27T07:47:17.323Z"
+    },
+    {
+      "category": "API Tests",
+      "test": "Register - Invalid Code",
+      "status": "PASSED",
+      "details": "正确返回401错误: 验证码错误",
+      "timestamp": "2025-10-27T07:47:17.324Z"
+    },
+    {
+      "category": "API Tests",
+      "test": "Register - Terms Not Agreed",
+      "status": "PASSED",
+      "details": "正确返回400错误: 请同意用户协议",
+      "timestamp": "2025-10-27T07:47:17.325Z"
+    },
+    {
+      "category": "Communication Tests",
+      "test": "CORS Configuration",
+      "status": "PASSED",
+      "details": "CORS预检请求成功",
+      "timestamp": "2025-10-27T07:47:17.328Z"
+    },
+    {
+      "category": "Communication Tests",
+      "test": "JSON Data Transfer",
+      "status": "PASSED",
+      "details": "JSON数据传输正常",
+      "timestamp": "2025-10-27T07:47:17.330Z"
+    },
+    {
+      "category": "E2E Tests",
+      "test": "Registration Flow",
+      "status": "PASSED",
+      "details": "注册流程验证正确：错误验证码被正确拒绝",
+      "timestamp": "2025-10-27T07:47:17.333Z"
+    },
+    {
+      "category": "E2E Tests",
+      "test": "Login Flow",
+      "status": "PASSED",
+      "details": "登录流程验证正确：错误验证码被正确拒绝",
+      "timestamp": "2025-10-27T07:47:17.336Z"
+    },
+    {
+      "category": "Data Consistency",
+      "test": "Rate Limiting",
+      "status": "WARNING",
+      "details": "频率限制可能未生效，状态码: 200",
+      "timestamp": "2025-10-27T07:47:18.341Z"
+    },
+    {
+      "category": "Error Handling",
+      "test": "Missing Parameters",
+      "status": "PASSED",
+      "details": "缺少参数时正确返回400错误",
+      "timestamp": "2025-10-27T07:47:18.343Z"
+    },
+    {
+      "category": "Error Handling",
+      "test": "Invalid JSON",
+      "status": "FAILED",
+      "details": "应返回400错误，实际状态码: 500",
+      "timestamp": "2025-10-27T07:47:18.344Z"
+    },
+    {
+      "category": "Performance Tests",
+      "test": "API Response Time",
+      "status": "PASSED",
+      "details": "响应时间: 2ms (< 2000ms)",
+      "timestamp": "2025-10-27T07:47:18.346Z"
+    }
+  ]
+}

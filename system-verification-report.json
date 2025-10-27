@@ -1,0 +1,95 @@
+{
+  "timestamp": "2025-10-27T07:38:13.881Z",
+  "summary": {
+    "total": 12,
+    "passed": 9,
+    "warning": 2,
+    "failed": 1
+  },
+  "results": [
+    {
+      "category": "Project Structure",
+      "test": "backend/src/app.js",
+      "status": "PASSED",
+      "details": "文件存在",
+      "timestamp": "2025-10-27T07:38:13.847Z"
+    },
+    {
+      "category": "Project Structure",
+      "test": "backend/package.json",
+      "status": "PASSED",
+      "details": "文件存在",
+      "timestamp": "2025-10-27T07:38:13.848Z"
+    },
+    {
+      "category": "Project Structure",
+      "test": "frontend/src/App.tsx",
+      "status": "PASSED",
+      "details": "文件存在",
+      "timestamp": "2025-10-27T07:38:13.848Z"
+    },
+    {
+      "category": "Project Structure",
+      "test": "frontend/package.json",
+      "status": "PASSED",
+      "details": "文件存在",
+      "timestamp": "2025-10-27T07:38:13.848Z"
+    },
+    {
+      "category": "Project Structure",
+      "test": ".artifacts/api_interface.yml",
+      "status": "PASSED",
+      "details": "文件存在",
+      "timestamp": "2025-10-27T07:38:13.849Z"
+    },
+    {
+      "category": "Backend Service",
+      "test": "Health Check",
+      "status": "WARNING",
+      "details": "状态码: 404",
+      "timestamp": "2025-10-27T07:38:13.863Z"
+    },
+    {
+      "category": "Frontend Service",
+      "test": "Home Page Access",
+      "status": "WARNING",
+      "details": "状态码: 404",
+      "timestamp": "2025-10-27T07:38:13.867Z"
+    },
+    {
+      "category": "Database",
+      "test": "Connection",
+      "status": "FAILED",
+      "details": "Request failed with status code 404",
+      "timestamp": "2025-10-27T07:38:13.870Z"
+    },
+    {
+      "category": "API Endpoints",
+      "test": "Verification Code API",
+      "status": "PASSED",
+      "details": "状态码: 200, 响应: {\"message\":\"验证码已发送\",\"expiresIn\":60}",
+      "timestamp": "2025-10-27T07:38:13.877Z"
+    },
+    {
+      "category": "API Endpoints",
+      "test": "Login API",
+      "status": "PASSED",
+      "details": "状态码: 401, 响应: {\"error\":\"验证码错误\"}",
+      "timestamp": "2025-10-27T07:38:13.879Z"
+    },
+    {
+      "category": "API Endpoints",
+      "test": "Register API",
+      "status": "PASSED",
+      "details": "状态码: 401, 响应: {\"error\":\"验证码错误\"}",
+      "timestamp": "2025-10-27T07:38:13.880Z"
+    },
+    {
+      "category": "Frontend-Backend Communication",
+      "test": "CORS Configuration",
+      "status": "PASSED",
+      "details": "CORS预检请求成功",
+      "timestamp": "2025-10-27T07:38:13.881Z"
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "testSuite": "End-to-End Tests",
+  "timestamp": "2025-10-27T07:47:18.464Z",
+  "summary": {
+    "total": 20,
+    "passed": 16,
+    "failed": 4,
+    "warnings": 0
+  },
+  "successRate": "80.0%",
+  "testResults": [
+    {
+      "category": "Service Check",
+      "testName": "Backend Service",
+      "status": "PASSED",
+      "details": "后端服务可访问，状态码: 200",
+      "timestamp": "2025-10-27T07:47:18.435Z"
+    },
+    {
+      "category": "Service Check",
+      "testName": "Frontend Service",
+      "status": "FAILED",
+      "details": "前端服务异常，状态码: 404",
+      "timestamp": "2025-10-27T07:47:18.438Z"
+    },
+    {
+      "category": "Registration Flow",
+      "testName": "Get Verification Code",
+      "status": "PASSED",
+      "details": "验证码获取成功",
+      "timestamp": "2025-10-27T07:47:18.441Z"
+    },
+    {
+      "category": "Registration Flow",
+      "testName": "Invalid Code Rejection",
+      "status": "PASSED",
+      "details": "错误验证码被正确拒绝",
+      "timestamp": "2025-10-27T07:47:18.443Z"
+    },
+    {
+      "category": "Registration Flow",
+      "testName": "Required Field Validation",
+      "status": "PASSED",
+      "details": "必填字段验证正确",
+      "timestamp": "2025-10-27T07:47:18.444Z"
+    },
+    {
+      "category": "Login Flow",
+      "testName": "Get Verification Code",
+      "status": "PASSED",
+      "details": "验证码获取成功",
+      "timestamp": "2025-10-27T07:47:18.446Z"
+    },
+    {
+      "category": "Login Flow",
+      "testName": "Invalid Code Rejection",
+      "status": "PASSED",
+      "details": "错误验证码被正确拒绝",
+      "timestamp": "2025-10-27T07:47:18.448Z"
+    },
+    {
+      "category": "Login Flow",
+      "testName": "Phone Format Validation",
+      "status": "PASSED",
+      "details": "手机号格式验证正确",
+      "timestamp": "2025-10-27T07:47:18.449Z"
+    },
+    {
+      "category": "UI Interaction",
+      "testName": "Home Page Access",
+      "status": "FAILED",
+      "details": "首页访问失败，状态码: 404",
+      "timestamp": "2025-10-27T07:47:18.452Z"
+    },
+    {
+      "category": "UI Interaction",
+      "testName": "Login Page Access",
+      "status": "FAILED",
+      "details": "登录页面访问失败，状态码: 404",
+      "timestamp": "2025-10-27T07:47:18.453Z"
+    },
+    {
+      "category": "UI Interaction",
+      "testName": "Register Page Access",
+      "status": "FAILED",
+      "details": "注册页面访问失败，状态码: 404",
+      "timestamp": "2025-10-27T07:47:18.454Z"
+    },
+    {
+      "category": "Error Handling",
+      "testName": "Invalid JSON",
+      "status": "PASSED",
+      "details": "无效JSON被正确处理，状态码: 500",
+      "timestamp": "2025-10-27T07:47:18.456Z"
+    },
+    {
+      "category": "Error Handling",
+      "testName": "Missing Parameters",
+      "status": "PASSED",
+      "details": "缺失参数被正确处理",
+      "timestamp": "2025-10-27T07:47:18.457Z"
+    },
+    {
+      "category": "Error Handling",
+      "testName": "Long Input",
+      "status": "PASSED",
+      "details": "超长输入被正确处理",
+      "timestamp": "2025-10-27T07:47:18.458Z"
+    },
+    {
+      "category": "Boundary Test",
+      "testName": "Special Characters",
+      "status": "PASSED",
+      "details": "特殊字符被正确处理",
+      "timestamp": "2025-10-27T07:47:18.458Z"
+    },
+    {
+      "category": "Boundary Test",
+      "testName": "Null Values",
+      "status": "PASSED",
+      "details": "空值被正确处理",
+      "timestamp": "2025-10-27T07:47:18.459Z"
+    },
+    {
+      "category": "Business Logic",
+      "testName": "Code Rate Limiting",
+      "status": "PASSED",
+      "details": "验证码重复获取处理正确，状态码: 200",
+      "timestamp": "2025-10-27T07:47:18.462Z"
+    },
+    {
+      "category": "Business Logic",
+      "testName": "Phone Validation - 过短手机号",
+      "status": "PASSED",
+      "details": "手机号格式验证正确",
+      "timestamp": "2025-10-27T07:47:18.463Z"
+    },
+    {
+      "category": "Business Logic",
+      "testName": "Phone Validation - 过长手机号",
+      "status": "PASSED",
+      "details": "手机号格式验证正确",
+      "timestamp": "2025-10-27T07:47:18.463Z"
+    },
+    {
+      "category": "Business Logic",
+      "testName": "Phone Validation - 非数字手机号",
+      "status": "PASSED",
+      "details": "手机号格式验证正确",
+      "timestamp": "2025-10-27T07:47:18.464Z"
+    }
+  ],
+  "recommendations": [
+    "🔴 修复失败的测试用例，确保核心功能正常工作"
+  ]
+}
