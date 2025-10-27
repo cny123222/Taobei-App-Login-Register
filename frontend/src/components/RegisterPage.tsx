@@ -128,7 +128,7 @@ const RegisterPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleGetVerificationCode}
-                disabled={!isPhoneValid || countdown > 0 || loading}
+                disabled={countdown > 0 || loading}
                 className="btn btn-secondary"
                 style={{ 
                   minWidth: '100px',
